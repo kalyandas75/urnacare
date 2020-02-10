@@ -1,11 +1,10 @@
-package fr.cooptalent.neodrive.controller;
+package fr.cooptalent.neodrive.endpoints;
 
 import fr.cooptalent.neodrive.domain.User;
 import fr.cooptalent.neodrive.dto.KeyAndPasswordDTO;
 import fr.cooptalent.neodrive.dto.ManagedUserDTO;
 import fr.cooptalent.neodrive.dto.PasswordChangeDTO;
 import fr.cooptalent.neodrive.dto.UserDTO;
-import fr.cooptalent.neodrive.errors.*;
 import fr.cooptalent.neodrive.errors.EmailAlreadyUsedException;
 import fr.cooptalent.neodrive.errors.EmailNotFoundException;
 import fr.cooptalent.neodrive.errors.InternalServerErrorException;
@@ -29,9 +28,9 @@ import java.util.Optional;
  */
 @RestController
 @RequestMapping("/api")
-public class AccountResource {
+public class AccountController {
 
-    private final Logger log = LoggerFactory.getLogger(AccountResource.class);
+    private final Logger log = LoggerFactory.getLogger(AccountController.class);
 
     private final UserRepository userRepository;
 
@@ -40,7 +39,7 @@ public class AccountResource {
     private final MailService mailService;
 
 
-    public AccountResource(UserRepository userRepository, UserService userService, MailService mailService) {
+    public AccountController(UserRepository userRepository, UserService userService, MailService mailService) {
 
         this.userRepository = userRepository;
         this.userService = userService;

@@ -1,4 +1,4 @@
-package fr.cooptalent.neodrive.controller;
+package fr.cooptalent.neodrive.endpoints;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import fr.cooptalent.neodrive.dto.LoginDTO;

@@ -1,4 +1,4 @@
-package fr.cooptalent.neodrive.controller;
+package fr.cooptalent.neodrive.endpoints;
 
 import fr.cooptalent.neodrive.config.Constants;
 import fr.cooptalent.neodrive.domain.User;
@@ -31,9 +31,9 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
-public class UserResource {
+public class UserController {
 
-    private final Logger log = LoggerFactory.getLogger(UserResource.class);
+    private final Logger log = LoggerFactory.getLogger(UserController.class);
 
     private final UserService userService;
 
@@ -42,7 +42,7 @@ public class UserResource {
     private final MailService mailService;
 
 
-    public UserResource(UserService userService, UserRepository userRepository, MailService mailService) {
+    public UserController(UserService userService, UserRepository userRepository, MailService mailService) {
 
         this.userService = userService;
         this.userRepository = userRepository;

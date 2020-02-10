@@ -1,7 +1,7 @@
-package fr.cooptalent.neodrive.controller;
+package fr.cooptalent.neodrive.endpoints;
 
-import fr.cooptalent.neodrive.domain.Country;
-import fr.cooptalent.neodrive.repository.CountryRepository;
+import fr.cooptalent.neodrive.domain.State;
+import fr.cooptalent.neodrive.repository.StateRepository;
 import fr.cooptalent.neodrive.util.PaginationUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,18 +18,18 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-public class CountryController {
-    private final Logger log = LoggerFactory.getLogger(CountryController.class);
-    private final CountryRepository stateRepository;
+public class StateController {
+    private final Logger log = LoggerFactory.getLogger(StateController.class);
+    private final StateRepository stateRepository;
 
-    public CountryController(CountryRepository stateRepository) {
+    public StateController(StateRepository stateRepository) {
         this.stateRepository = stateRepository;
     }
 
-    @GetMapping("/countries")
-    public ResponseEntity<List<Country>> getAll(Pageable pageable) {
-        final Page<Country> page = this.stateRepository.findAll(pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/countries");
+    @GetMapping("/states")
+    public ResponseEntity<List<State>> getAll(Pageable pageable) {
+        final Page<State> page = this.stateRepository.findAll(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/states");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 }

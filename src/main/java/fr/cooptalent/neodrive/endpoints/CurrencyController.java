@@ -1,4 +1,4 @@
-package fr.cooptalent.neodrive.controller;
+package fr.cooptalent.neodrive.endpoints;
 
 import fr.cooptalent.neodrive.domain.Currency;
 import fr.cooptalent.neodrive.repository.CurrencyRepository;
