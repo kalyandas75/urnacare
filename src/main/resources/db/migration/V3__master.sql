@@ -1,0 +1,16 @@
+CREATE TABLE state (
+	name VARCHAR(50) NOT NULL,
+	PRIMARY KEY (name)
+);
+
+CREATE TABLE currency (
+	code VARCHAR(50) NOT NULL,
+	symbol VARCHAR(50),
+	name VARCHAR(50) NOT NULL,
+	PRIMARY KEY (code)
+);
+
+CREATE TABLE country (
+	name VARCHAR(50) NOT NULL,
+	PRIMARY KEY (name)
+);

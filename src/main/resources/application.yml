@@ -1,0 +1,43 @@
+spring:
+  application:
+    name: neobooster
+  profiles:
+    active: dev
+  jpa:
+    open-in-view: false
+    properties:
+      hibernate.jdbc.time_zone: UTC
+    hibernate:
+      ddl-auto: validate
+      naming:
+        physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+        implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+  messages:
+    basename: i18n/messages
+  mvc:
+    favicon:
+      enabled: false
+    thymeleaf:
+      mode: HTML
+logging:
+  level:
+    root: DEBUG
+    fr.cooptalent.neodrive: DEBUG
+application:
+    mail:
+      from: neodrive@localhost
+    async:
+      core-pool-size: 2
+      max-pool-size: 50
+      queue-capacity: 10000
+    swagger:
+        default-include-pattern: /api/.*
+        title: Neobooster API
+        description: Neobooster API documentation
+        version: 0.0.1
+        terms-of-service-url:
+        contact-name: Abderrahmane HASSANI
+        contact-url: www.cooptalent.fr
+        contact-email: contact@cooptalent.fr
+        license:
+        license-url:
