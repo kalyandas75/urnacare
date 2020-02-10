@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>fr.cooptalent</groupId>
-	<artifactId>neobooster</artifactId>
+	<artifactId>neodrive</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>neobooster</name>
-	<description>Neobooster Application - Backend</description>
+	<name>neodrive</name>
+	<description>neodrive Application - Backend</description>
 
 	<properties>
 		<java.version>1.8</java.version>
