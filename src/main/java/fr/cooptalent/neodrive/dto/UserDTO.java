@@ -1,28 +1,16 @@
 package fr.cooptalent.neodrive.dto;
 
-import fr.cooptalent.neodrive.config.Constants;
-import fr.cooptalent.neodrive.domain.Authority;
-import fr.cooptalent.neodrive.domain.User;
-
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import java.time.Instant;
+import java.time.LocalDate;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * A DTO representing a user, with his authorities.
  */
-public class UserDTO {
+public class UserDTO extends AbstractAuditingDTO {
 
     private Long id;
-
-    @NotBlank
-    @Pattern(regexp = Constants.LOGIN_REGEX)
-    @Size(min = 1, max = 50)
-    private String login;
 
     @Size(max = 50)
     private String firstName;
@@ -40,41 +28,48 @@ public class UserDTO {
     @Size(max = 256)
     private String imageUrl;
 
+    private Boolean newsletterSubscription = false;
+
+    @Size(max = 15)
+    private String phoneNumber;
+
+    private LocalDate birthDate;
+
+    @Size(max = 100)
+    private String birthPlace;
+
+    @Size(max = 50)
+    private String nationalityCode;
+
+    @Size(max = 100)
+    private String nationalityName;
+
+    @Size(max = 50)
+    private String permitNumber;
+
+    @Size(max = 50)
+    private String permitCountryCode;
+
+    @Size(max = 100)
+    private String permitCountryName;
+
+    private LocalDate permitDate;
+
+    @Size(max = 50)
+    private String iban;
+
+    @Size(max = 50)
+    private String bic;
+
     private boolean activated = false;
 
     @Size(min = 2, max = 6)
     private String langKey;
 
-    private String createdBy;
-
-    private Instant createdDate;
-
-    private String lastModifiedBy;
-
-    private Instant lastModifiedDate;
-
     private Set<String> authorities;
 
     public UserDTO() {
         // Empty constructor needed for Jackson.
-    }
-
-    public UserDTO(User user) {
-        this.id = user.getId();
-        this.login = user.getLogin();
-        this.firstName = user.getFirstName();
-        this.lastName = user.getLastName();
-        this.email = user.getEmail();
-        this.activated = user.getActivated();
-        this.imageUrl = user.getImageUrl();
-        this.langKey = user.getLangKey();
-        this.createdBy = user.getCreatedBy();
-        this.createdDate = user.getCreatedDate();
-        this.lastModifiedBy = user.getLastModifiedBy();
-        this.lastModifiedDate = user.getLastModifiedDate();
-        this.authorities = user.getAuthorities().stream()
-                .map(Authority::getName)
-                .collect(Collectors.toSet());
     }
 
     public Long getId() {
@@ -83,14 +78,6 @@ public class UserDTO {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
     }
 
     public String getFirstName() {
@@ -149,36 +136,100 @@ public class UserDTO {
         this.langKey = langKey;
     }
 
-    public String getCreatedBy() {
-        return createdBy;
+    public Boolean isNewsletterSubscription() {
+        return newsletterSubscription;
     }
 
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
+    public void setNewsletterSubscription(Boolean newsletterSubscription) {
+        this.newsletterSubscription = newsletterSubscription;
     }
 
-    public Instant getCreatedDate() {
-        return createdDate;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setCreatedDate(Instant createdDate) {
-        this.createdDate = createdDate;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
-    public String getLastModifiedBy() {
-        return lastModifiedBy;
+    public LocalDate getBirthDate() {
+        return birthDate;
     }
 
-    public void setLastModifiedBy(String lastModifiedBy) {
-        this.lastModifiedBy = lastModifiedBy;
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
     }
 
-    public Instant getLastModifiedDate() {
-        return lastModifiedDate;
+    public String getBirthPlace() {
+        return birthPlace;
     }
 
-    public void setLastModifiedDate(Instant lastModifiedDate) {
-        this.lastModifiedDate = lastModifiedDate;
+    public void setBirthPlace(String birthPlace) {
+        this.birthPlace = birthPlace;
+    }
+
+    public String getNationalityCode() {
+        return nationalityCode;
+    }
+
+    public void setNationalityCode(String nationalityCode) {
+        this.nationalityCode = nationalityCode;
+    }
+
+    public String getNationalityName() {
+        return nationalityName;
+    }
+
+    public void setNationalityName(String nationalityName) {
+        this.nationalityName = nationalityName;
+    }
+
+    public String getPermitNumber() {
+        return permitNumber;
+    }
+
+    public void setPermitNumber(String permitNumber) {
+        this.permitNumber = permitNumber;
+    }
+
+    public LocalDate getPermitDate() {
+        return permitDate;
+    }
+
+    public void setPermitDate(LocalDate permitDate) {
+        this.permitDate = permitDate;
+    }
+
+    public String getIban() {
+        return iban;
+    }
+
+    public void setIban(String iban) {
+        this.iban = iban;
+    }
+
+    public String getBic() {
+        return bic;
+    }
+
+    public void setBic(String bic) {
+        this.bic = bic;
+    }
+
+    public String getPermitCountryCode() {
+        return permitCountryCode;
+    }
+
+    public void setPermitCountryCode(String permitCountryCode) {
+        this.permitCountryCode = permitCountryCode;
+    }
+
+    public String getPermitCountryName() {
+        return permitCountryName;
+    }
+
+    public void setPermitCountryName(String permitCountryName) {
+        this.permitCountryName = permitCountryName;
     }
 
     public Set<String> getAuthorities() {
@@ -193,18 +244,25 @@ public class UserDTO {
     public String toString() {
         return "UserDTO{" +
                 "id=" + id +
-                ", login='" + login + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", title='" + title + '\'' +
                 ", email='" + email + '\'' +
                 ", imageUrl='" + imageUrl + '\'' +
+                ", newsletterSubscription=" + newsletterSubscription +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", birthDate=" + birthDate +
+                ", birthPlace='" + birthPlace + '\'' +
+                ", nationalityCode='" + nationalityCode + '\'' +
+                ", nationalityName='" + nationalityName + '\'' +
+                ", permitNumber='" + permitNumber + '\'' +
+                ", permitCountryCode='" + permitCountryCode + '\'' +
+                ", permitCountryName='" + permitCountryName + '\'' +
+                ", permitDate=" + permitDate +
+                ", iban='" + iban + '\'' +
+                ", bic='" + bic + '\'' +
                 ", activated=" + activated +
                 ", langKey='" + langKey + '\'' +
-                ", createdBy='" + createdBy + '\'' +
-                ", createdDate=" + createdDate +
-                ", lastModifiedBy='" + lastModifiedBy + '\'' +
-                ", lastModifiedDate=" + lastModifiedDate +
                 ", authorities=" + authorities +
                 '}';
     }

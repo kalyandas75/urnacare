@@ -1,8 +1,6 @@
 package fr.cooptalent.neodrive.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import fr.cooptalent.neodrive.config.Constants;
-import org.apache.commons.lang3.StringUtils;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -10,12 +8,11 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.HashSet;
-import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
 
@@ -23,7 +20,7 @@ import java.util.Set;
  * A user.
  */
 @Entity
-@Table(name = "nb_user")
+@Table(name = "nd_user")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class User extends AbstractAuditingEntity implements Serializable {
 
@@ -33,12 +30,6 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
     @SequenceGenerator(name = "sequenceGenerator")
     private Long id;
-
-    @NotNull
-    @Pattern(regexp = Constants.LOGIN_REGEX)
-    @Size(min = 1, max = 50)
-    @Column(length = 50, unique = true, nullable = false)
-    private String login;
 
     @JsonIgnore
     @NotNull
@@ -62,6 +53,38 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @Size(min = 5, max = 254)
     @Column(length = 254, unique = true)
     private String email;
+
+    @Column(nullable = true)
+    private Boolean newsletterSubscription = false;
+
+    @Column(length = 15)
+    private String phoneNumber;
+
+    @Column()
+    private LocalDate birthDate;
+
+    @Column(length = 100)
+    private String birthPlace;
+
+    @ManyToOne
+    @JoinColumn(name = "nationality_code")
+    private Country nationality;
+
+    @Column(length = 50)
+    private String permitNumber;
+
+    @ManyToOne
+    @JoinColumn(name = "permit_country_code")
+    private Country permitCountry;
+
+    @Column
+    private LocalDate permitDate;
+
+    @Column(length = 50)
+    private String iban;
+
+    @Column(length = 50)
+    private String bic;
 
     @NotNull
     @Column(nullable = false)
@@ -91,7 +114,7 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @JsonIgnore
     @ManyToMany
     @JoinTable(
-            name = "nb_user_authority",
+            name = "nd_user_authority",
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "name")})
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
@@ -106,15 +129,6 @@ public class User extends AbstractAuditingEntity implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getLogin() {
-        return login;
-    }
-
-    // Lowercase the login before saving it in database
-    public void setLogin(String login) {
-        this.login = StringUtils.lowerCase(login, Locale.ENGLISH);
     }
 
     public String getPassword() {
@@ -213,6 +227,85 @@ public class User extends AbstractAuditingEntity implements Serializable {
         this.authorities = authorities;
     }
 
+    public Boolean isNewsletterSubscription() {
+        return newsletterSubscription;
+    }
+
+    public void setNewsletterSubscription(Boolean newsletterSubscription) {
+        this.newsletterSubscription = newsletterSubscription;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public LocalDate getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public String getBirthPlace() {
+        return birthPlace;
+    }
+
+    public void setBirthPlace(String birthPlace) {
+        this.birthPlace = birthPlace;
+    }
+
+    public Country getNationality() {
+        return nationality;
+    }
+
+    public void setNationality(Country nationality) {
+        this.nationality = nationality;
+    }
+
+    public String getPermitNumber() {
+        return permitNumber;
+    }
+
+    public void setPermitNumber(String permitNumber) {
+        this.permitNumber = permitNumber;
+    }
+
+    public Country getPermitCountry() {
+        return permitCountry;
+    }
+
+    public void setPermitCountry(Country permitCountry) {
+        this.permitCountry = permitCountry;
+    }
+
+    public LocalDate getPermitDate() {
+        return permitDate;
+    }
+
+    public void setPermitDate(LocalDate permitDate) {
+        this.permitDate = permitDate;
+    }
+
+    public String getIban() {
+        return iban;
+    }
+
+    public void setIban(String iban) {
+        this.iban = iban;
+    }
+
+    public String getBic() {
+        return bic;
+    }
+
+    public void setBic(String bic) {
+        this.bic = bic;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -236,12 +329,21 @@ public class User extends AbstractAuditingEntity implements Serializable {
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", title='" + title + '\'' +
                 ", email='" + email + '\'' +
+                ", newsletterSubscription=" + newsletterSubscription +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", birthDate=" + birthDate +
+                ", birthPlace='" + birthPlace + '\'' +
+                ", nationality=" + nationality +
+                ", permitNumber='" + permitNumber + '\'' +
+                ", permitCountry=" + permitCountry +
+                ", permitDate=" + permitDate +
+                ", iban='" + iban + '\'' +
+                ", bic='" + bic + '\'' +
                 ", activated=" + activated +
                 ", langKey='" + langKey + '\'' +
                 ", imageUrl='" + imageUrl + '\'' +
@@ -249,6 +351,6 @@ public class User extends AbstractAuditingEntity implements Serializable {
                 ", resetKey='" + resetKey + '\'' +
                 ", resetDate=" + resetDate +
                 ", authorities=" + authorities +
-                "} " + super.toString();
+                '}';
     }
 }

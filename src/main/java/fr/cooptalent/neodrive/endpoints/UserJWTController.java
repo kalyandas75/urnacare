@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import fr.cooptalent.neodrive.dto.LoginDTO;
 import fr.cooptalent.neodrive.dto.UserDTO;
 import fr.cooptalent.neodrive.errors.InternalServerErrorException;
+import fr.cooptalent.neodrive.mapper.UserMapper;
 import fr.cooptalent.neodrive.security.jwt.JWTFilter;
 import fr.cooptalent.neodrive.security.jwt.TokenProvider;
 import fr.cooptalent.neodrive.service.UserService;
@@ -34,17 +35,22 @@ public class UserJWTController {
 
     private final UserService userService;
 
-    public UserJWTController(TokenProvider tokenProvider, AuthenticationManager authenticationManager, UserService userService) {
+    private final UserMapper userMapper;
+
+    public UserJWTController(TokenProvider tokenProvider, AuthenticationManager authenticationManager
+            , UserService userService,
+                             UserMapper userMapper) {
         this.tokenProvider = tokenProvider;
         this.authenticationManager = authenticationManager;
         this.userService = userService;
+        this.userMapper = userMapper;
     }
 
     @PostMapping("/authenticate")
     public ResponseEntity<JWTToken> authorize(@Valid @RequestBody LoginDTO loginDTO) {
 
         UsernamePasswordAuthenticationToken authenticationToken =
-            new UsernamePasswordAuthenticationToken(loginDTO.getUsername(), loginDTO.getPassword());
+            new UsernamePasswordAuthenticationToken(loginDTO.getEmail(), loginDTO.getPassword());
 
         Authentication authentication = this.authenticationManager.authenticate(authenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -53,7 +59,7 @@ public class UserJWTController {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(JWTFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
         UserDTO account = userService.getUserWithAuthorities()
-                .map(UserDTO::new)
+                .map(u -> userMapper.toDto(u))
                 .orElseThrow(() -> new InternalServerErrorException("User could not be found"));
         return new ResponseEntity<>(new JWTToken(jwt, account), httpHeaders, HttpStatus.OK);
     }

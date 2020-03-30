@@ -11,7 +11,18 @@ import java.io.Serializable;
 public class Country implements Serializable {
     @Id
     @Column(length = 50)
+    private String code;
+
+    @Column(length = 100)
     private String name;
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
 
     public String getName() {
         return name;
@@ -24,7 +35,8 @@ public class Country implements Serializable {
     @Override
     public String toString() {
         return "Country{" +
-                "name='" + name + '\'' +
+                "code='" + code + '\'' +
+                ", name='" + name + '\'' +
                 '}';
     }
 }

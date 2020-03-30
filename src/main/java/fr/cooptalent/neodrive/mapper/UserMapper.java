@@ -3,82 +3,40 @@ package fr.cooptalent.neodrive.mapper;
 import fr.cooptalent.neodrive.domain.Authority;
 import fr.cooptalent.neodrive.domain.User;
 import fr.cooptalent.neodrive.dto.UserDTO;
-import org.springframework.stereotype.Service;
+import org.mapstruct.IterableMapping;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
-import java.util.stream.Collectors;
 
-/**
- * Mapper for the entity User and its DTO called UserDTO.
- *
- * Normal mappers are generated using MapStruct, this one is hand-coded as MapStruct
- * support is still in beta, and requires a manual step with an IDE.
- */
-@Service
-public class UserMapper {
+@Mapper(componentModel = "spring")
+public abstract class UserMapper implements EntityMapper<UserDTO, User> {
+    @Mappings({
+            @Mapping(target = "nationalityCode", source = "entity.nationality.code"),
+            @Mapping(target = "nationalityName", source = "entity.nationality.name"),
+            @Mapping(target = "permitCountryCode", source = "entity.permitCountry.code"),
+            @Mapping(target = "permitCountryName", source = "entity.permitCountry.name")
+    })
+    public abstract UserDTO toDto(User entity);
+    @Mappings({
+            @Mapping(target = "nationality.code", source = "dto.nationalityCode"),
+            @Mapping(target = "permitCountry.code", source = "dto.permitCountryCode")
+    })
+    public abstract User toEntity(UserDTO dto);
+    @IterableMapping(elementTargetType = String.class)
+    protected abstract Set<String> mapAuthoritiesToSet(Set<Authority> authorities);
 
-    public List<UserDTO> usersToUserDTOs(List<User> users) {
-        return users.stream()
-            .filter(Objects::nonNull)
-            .map(this::userToUserDTO)
-            .collect(Collectors.toList());
+    protected String mapAuthorityToString(Authority authority) {
+        return authority.getName();
     }
 
-    public UserDTO userToUserDTO(User user) {
-        return new UserDTO(user);
-    }
+    protected abstract Set<Authority> mapStringToSet(Set<String> authorities);
 
-    public List<User> userDTOsToUsers(List<UserDTO> userDTOs) {
-        return userDTOs.stream()
-            .filter(Objects::nonNull)
-            .map(this::userDTOToUser)
-            .collect(Collectors.toList());
-    }
-
-    public User userDTOToUser(UserDTO userDTO) {
-        if (userDTO == null) {
-            return null;
-        } else {
-            User user = new User();
-            user.setId(userDTO.getId());
-            user.setLogin(userDTO.getLogin());
-            user.setFirstName(userDTO.getFirstName());
-            user.setLastName(userDTO.getLastName());
-            user.setTitle(userDTO.getTitle());
-            user.setEmail(userDTO.getEmail());
-            user.setImageUrl(userDTO.getImageUrl());
-            user.setActivated(userDTO.isActivated());
-            user.setLangKey(userDTO.getLangKey());
-            Set<Authority> authorities = this.authoritiesFromStrings(userDTO.getAuthorities());
-            user.setAuthorities(authorities);
-            return user;
-        }
-    }
-
-
-    private Set<Authority> authoritiesFromStrings(Set<String> authoritiesAsString) {
-        Set<Authority> authorities = new HashSet<>();
-
-        if(authoritiesAsString != null){
-            authorities = authoritiesAsString.stream().map(string -> {
-                Authority auth = new Authority();
-                auth.setName(string);
-                return auth;
-            }).collect(Collectors.toSet());
-        }
-
-        return authorities;
-    }
-
-    public User userFromId(Long id) {
-        if (id == null) {
-            return null;
-        }
-        User user = new User();
-        user.setId(id);
-        return user;
+    protected Authority mapStringToAuthority(String authorityString) {
+        Authority authority = new Authority();
+        authority.setName(authorityString);
+        return authority;
     }
 }

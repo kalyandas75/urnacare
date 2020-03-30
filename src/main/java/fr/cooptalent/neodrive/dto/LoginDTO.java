@@ -3,6 +3,9 @@ package fr.cooptalent.neodrive.dto;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import static fr.cooptalent.neodrive.dto.UserRegistrationDTO.PASSWORD_MAX_LENGTH;
+import static fr.cooptalent.neodrive.dto.UserRegistrationDTO.PASSWORD_MIN_LENGTH;
+
 /**
  * View Model object for storing a user's credentials.
  */
@@ -10,20 +13,20 @@ public class LoginDTO {
 
     @NotNull
     @Size(min = 1, max = 50)
-    private String username;
+    private String email;
 
     @NotNull
-    @Size(min = ManagedUserDTO.PASSWORD_MIN_LENGTH, max = ManagedUserDTO.PASSWORD_MAX_LENGTH)
+    @Size(min = PASSWORD_MIN_LENGTH, max = PASSWORD_MAX_LENGTH)
     private String password;
 
     private Boolean rememberMe;
 
-    public String getUsername() {
-        return username;
+    public String getEmail() {
+        return email;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {
@@ -45,8 +48,9 @@ public class LoginDTO {
     @Override
     public String toString() {
         return "LoginDTO{" +
-            "username='" + username + '\'' +
-            ", rememberMe=" + rememberMe +
-            '}';
+                "email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", rememberMe=" + rememberMe +
+                '}';
     }
 }

@@ -1,8 +1,8 @@
 spring:
   application:
-    name: neobooster
+    name: neodrive
   profiles:
-    active: dev
+    active: local
   jpa:
     open-in-view: false
     properties:

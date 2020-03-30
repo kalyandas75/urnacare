@@ -1,6 +1,7 @@
 CREATE TABLE state (
-	name VARCHAR(50) NOT NULL,
-	PRIMARY KEY (name)
+    code VARCHAR(50) NOT NULL,
+	name VARCHAR(100) NOT NULL,
+	PRIMARY KEY (code)
 );
 
 CREATE TABLE currency (
@@ -11,6 +12,7 @@ CREATE TABLE currency (
 );
 
 CREATE TABLE country (
-	name VARCHAR(50) NOT NULL,
-	PRIMARY KEY (name)
+    code VARCHAR(50) NOT NULL,
+	name VARCHAR(100) NOT NULL,
+	PRIMARY KEY (code)
 );

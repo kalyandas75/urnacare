@@ -1,0 +1,1 @@
+docker build . -t cooptalent/neodrive-backend

@@ -2,21 +2,22 @@ package fr.cooptalent.neodrive.endpoints;
 
 import fr.cooptalent.neodrive.domain.User;
 import fr.cooptalent.neodrive.dto.KeyAndPasswordDTO;
-import fr.cooptalent.neodrive.dto.ManagedUserDTO;
 import fr.cooptalent.neodrive.dto.PasswordChangeDTO;
 import fr.cooptalent.neodrive.dto.UserDTO;
+import fr.cooptalent.neodrive.dto.UserRegistrationDTO;
 import fr.cooptalent.neodrive.errors.EmailAlreadyUsedException;
 import fr.cooptalent.neodrive.errors.EmailNotFoundException;
 import fr.cooptalent.neodrive.errors.InternalServerErrorException;
 import fr.cooptalent.neodrive.errors.InvalidPasswordException;
+import fr.cooptalent.neodrive.mapper.UserMapper;
 import fr.cooptalent.neodrive.repository.UserRepository;
 import fr.cooptalent.neodrive.security.SecurityUtils;
 import fr.cooptalent.neodrive.service.MailService;
 import fr.cooptalent.neodrive.service.UserService;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -38,28 +39,31 @@ public class AccountController {
 
     private final MailService mailService;
 
+    private final UserMapper userMapper;
 
-    public AccountController(UserRepository userRepository, UserService userService, MailService mailService) {
+
+    public AccountController(UserRepository userRepository, UserService userService, MailService mailService, UserMapper userMapper) {
 
         this.userRepository = userRepository;
         this.userService = userService;
         this.mailService = mailService;
+        this.userMapper = userMapper;
     }
 
     /**
      * POST  /register : register the user.
      *
-     * @param managedUserVM the managed user View Model
+     * @param registrationDTO the managed user View Model
      * @throws InvalidPasswordException 400 (Bad Request) if the password is incorrect
      * @throws EmailAlreadyUsedException 400 (Bad Request) if the email is already used
      */
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public void registerAccount(@Valid @RequestBody ManagedUserDTO managedUserVM) {
-        if (!checkPasswordLength(managedUserVM.getPassword())) {
+    public void registerAccount(@Valid @RequestBody UserRegistrationDTO registrationDTO) {
+        if (!checkPasswordLength(registrationDTO.getPassword())) {
             throw new InvalidPasswordException();
         }
-        User user = userService.registerUser(managedUserVM, managedUserVM.getPassword());
+        User user = userService.registerUser(registrationDTO);
         mailService.sendActivationEmail(user);
     }
 
@@ -98,7 +102,7 @@ public class AccountController {
     @GetMapping("/account")
     public UserDTO getAccount() {
         return userService.getUserWithAuthorities()
-            .map(UserDTO::new)
+            .map(u -> this.userMapper.toDto(u))
             .orElseThrow(() -> new InternalServerErrorException("User could not be found"));
     }
 
@@ -109,6 +113,7 @@ public class AccountController {
      * @throws EmailAlreadyUsedException 400 (Bad Request) if the email is already used
      * @throws RuntimeException 500 (Internal Server Error) if the user login wasn't found
      */
+    /*
     @PostMapping("/account")
     public void saveAccount(@Valid @RequestBody UserDTO userDTO) {
         final String userLogin = SecurityUtils.getCurrentUserLogin().orElseThrow(() -> new InternalServerErrorException("Current user login not found"));
@@ -116,12 +121,10 @@ public class AccountController {
         if (existingUser.isPresent() && (!existingUser.get().getLogin().equalsIgnoreCase(userLogin))) {
             throw new EmailAlreadyUsedException();
         }
-        Optional<User> user = userRepository.findOneByLogin(userLogin);
-        if (!user.isPresent()) {
-            throw new InternalServerErrorException("User could not be found");
-        }
         userService.updateUser(userDTO.getFirstName(), userDTO.getLastName(), userDTO.getEmail());
     }
+
+     */
 
     /**
      * POST  /account/change-password : changes the current user's password
@@ -173,7 +176,7 @@ public class AccountController {
 
     private static boolean checkPasswordLength(String password) {
         return !StringUtils.isEmpty(password) &&
-            password.length() >= ManagedUserDTO.PASSWORD_MIN_LENGTH &&
-            password.length() <= ManagedUserDTO.PASSWORD_MAX_LENGTH;
+            password.length() >= UserRegistrationDTO.PASSWORD_MIN_LENGTH &&
+            password.length() <= UserRegistrationDTO.PASSWORD_MAX_LENGTH;
     }
 }
