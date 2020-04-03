@@ -1,4 +1,4 @@
-package fr.cooptalent.neodrive.domain;
+package fr.cooptalent.neodrive.domain.referential;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
