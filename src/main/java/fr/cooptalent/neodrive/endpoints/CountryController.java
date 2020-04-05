@@ -1,6 +1,6 @@
 package fr.cooptalent.neodrive.endpoints;
 
-import fr.cooptalent.neodrive.domain.Country;
+import fr.cooptalent.neodrive.domain.referential.Country;
 import fr.cooptalent.neodrive.repository.CountryRepository;
 import fr.cooptalent.neodrive.util.PaginationUtil;
 import org.slf4j.Logger;

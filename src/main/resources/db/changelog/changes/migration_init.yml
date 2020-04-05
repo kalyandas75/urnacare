@@ -1,0 +1,275 @@
+databaseChangeLog:
+- changeSet:
+    id: 1585930015248-1
+    author: DELL (generated)
+    changes:
+    - createSequence:
+        sequenceName: hibernate_sequence
+- changeSet:
+    id: 1585930015248-2
+    author: DELL (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: code
+            type: VARCHAR(50)
+        - column:
+            name: name
+            type: VARCHAR(100)
+        tableName: country
+- changeSet:
+    id: 1585930015248-3
+    author: DELL (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: code
+            type: VARCHAR(255)
+        - column:
+            name: name
+            type: VARCHAR(255)
+        - column:
+            name: symbol
+            type: VARCHAR(255)
+        tableName: currency
+- changeSet:
+    id: 1585930015248-4
+    author: DELL (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: name
+            type: VARCHAR(50)
+        tableName: nd_authority
+- changeSet:
+    id: 1585930015248-5
+    author: DELL (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              primaryKey: true
+              primaryKeyName: nd_userPK
+            name: id
+            type: BIGINT
+        - column:
+            constraints:
+              nullable: false
+            name: created_by
+            type: VARCHAR(50)
+        - column:
+            name: created_date
+            type: BYTEA
+        - column:
+            name: last_modified_by
+            type: VARCHAR(50)
+        - column:
+            name: last_modified_date
+            type: BYTEA
+        - column:
+            constraints:
+              nullable: false
+            name: activated
+            type: BOOLEAN
+        - column:
+            name: activation_key
+            type: VARCHAR(20)
+        - column:
+            name: bic
+            type: VARCHAR(50)
+        - column:
+            name: birth_date
+            type: BYTEA
+        - column:
+            name: birth_place
+            type: VARCHAR(100)
+        - column:
+            name: email
+            type: VARCHAR(254)
+        - column:
+            name: first_name
+            type: VARCHAR(50)
+        - column:
+            name: iban
+            type: VARCHAR(50)
+        - column:
+            name: image_url
+            type: VARCHAR(256)
+        - column:
+            name: lang_key
+            type: VARCHAR(6)
+        - column:
+            name: last_name
+            type: VARCHAR(50)
+        - column:
+            name: newsletter_subscription
+            type: BOOLEAN
+        - column:
+            constraints:
+              nullable: false
+            name: password_hash
+            type: VARCHAR(60)
+        - column:
+            name: permit_date
+            type: BYTEA
+        - column:
+            name: permit_number
+            type: VARCHAR(50)
+        - column:
+            name: phone_number
+            type: VARCHAR(15)
+        - column:
+            name: reset_date
+            type: BYTEA
+        - column:
+            name: reset_key
+            type: VARCHAR(20)
+        - column:
+            name: title
+            type: VARCHAR(50)
+        - column:
+            name: nationality_code
+            type: VARCHAR(50)
+        - column:
+            name: permit_country_code
+            type: VARCHAR(50)
+        tableName: nd_user
+- changeSet:
+    id: 1585930015248-6
+    author: DELL (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: user_id
+            type: BIGINT
+        - column:
+            constraints:
+              nullable: false
+            name: authority_name
+            type: VARCHAR(50)
+        tableName: nd_user_authority
+- changeSet:
+    id: 1585930015248-7
+    author: DELL (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: code
+            type: VARCHAR(50)
+        - column:
+            name: name
+            type: VARCHAR(100)
+        tableName: state
+- changeSet:
+    id: 1585930015248-8
+    author: DELL (generated)
+    changes:
+    - addPrimaryKey:
+        columnNames: user_id, authority_name
+        tableName: nd_user_authority
+- changeSet:
+    id: 1585930015248-9
+    author: DELL (generated)
+    changes:
+    - addPrimaryKey:
+        columnNames: code
+        constraintName: countryPK
+        tableName: country
+- changeSet:
+    id: 1585930015248-10
+    author: DELL (generated)
+    changes:
+    - addPrimaryKey:
+        columnNames: code
+        constraintName: currencyPK
+        tableName: currency
+- changeSet:
+    id: 1585930015248-11
+    author: DELL (generated)
+    changes:
+    - addPrimaryKey:
+        columnNames: name
+        constraintName: nd_authorityPK
+        tableName: nd_authority
+- changeSet:
+    id: 1585930015248-12
+    author: DELL (generated)
+    changes:
+    - addPrimaryKey:
+        columnNames: code
+        constraintName: statePK
+        tableName: state
+- changeSet:
+    id: 1585930015248-13
+    author: DELL (generated)
+    changes:
+    - addUniqueConstraint:
+        columnNames: email
+        constraintName: UC_ND_USEREMAIL_COL
+        tableName: nd_user
+- changeSet:
+    id: 1585930015248-14
+    author: DELL (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: user_id
+        baseTableName: nd_user_authority
+        constraintName: FK117792wmeiewywxk3a4daig3r
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: nd_user
+- changeSet:
+    id: 1585930015248-15
+    author: DELL (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: authority_name
+        baseTableName: nd_user_authority
+        constraintName: FK2s19xxmco7fwkq8gjal37tkxj
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: name
+        referencedTableName: nd_authority
+- changeSet:
+    id: 1585930015248-16
+    author: DELL (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: nationality_code
+        baseTableName: nd_user
+        constraintName: FK7qixhbqkqxj3lfvkxfqnlujl9
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: code
+        referencedTableName: country
+- changeSet:
+    id: 1585930015248-17
+    author: DELL (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: permit_country_code
+        baseTableName: nd_user
+        constraintName: FKavmsawgh36kcw3jvs18usxr6j
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: code
+        referencedTableName: country
+

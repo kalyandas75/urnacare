@@ -1,6 +1,7 @@
 package fr.cooptalent.neodrive.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import fr.cooptalent.neodrive.domain.referential.Country;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
