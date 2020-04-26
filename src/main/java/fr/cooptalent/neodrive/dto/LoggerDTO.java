@@ -1,10 +1,12 @@
 package fr.cooptalent.neodrive.dto;
 
 import ch.qos.logback.classic.Logger;
+import lombok.Data;
 
 /**
  * View Model object for storing a Logback logger.
  */
+@Data
 public class LoggerDTO {
 
     private String name;
@@ -20,27 +22,4 @@ public class LoggerDTO {
         // Empty public constructor used by Jackson.
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getLevel() {
-        return level;
-    }
-
-    public void setLevel(String level) {
-        this.level = level;
-    }
-
-    @Override
-    public String toString() {
-        return "LoggerDTO{" +
-            "name='" + name + '\'' +
-            ", level='" + level + '\'' +
-            '}';
-    }
 }

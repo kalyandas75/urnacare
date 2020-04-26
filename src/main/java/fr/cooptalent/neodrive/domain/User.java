@@ -2,9 +2,11 @@ package fr.cooptalent.neodrive.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import fr.cooptalent.neodrive.domain.referential.Country;
+import lombok.*;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -13,24 +15,25 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.Instant;
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 /**
  * A user.
  */
+
 @Entity
 @Table(name = "nd_user")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@Data
 public class User extends AbstractAuditingEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
-    @SequenceGenerator(name = "sequenceGenerator")
-    private Long id;
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @Column(name = "id", updatable = false, nullable = false)
+    private UUID id;
 
     @JsonIgnore
     @NotNull
@@ -61,7 +64,7 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @Column(length = 15)
     private String phoneNumber;
 
-    @Column()
+    @Column(columnDefinition = "DATE")
     private LocalDate birthDate;
 
     @Column(length = 100)
@@ -78,7 +81,7 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @JoinColumn(name = "permit_country_code")
     private Country permitCountry;
 
-    @Column
+    @Column(columnDefinition = "DATE")
     private LocalDate permitDate;
 
     @Column(length = 50)
@@ -109,7 +112,7 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @JsonIgnore
     private String resetKey;
 
-    @Column(name = "reset_date")
+    @Column(name = "reset_date", columnDefinition = "TIMESTAMP")
     private Instant resetDate = null;
 
     @JsonIgnore
@@ -122,236 +125,31 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @BatchSize(size = 20)
     private Set<Authority> authorities = new HashSet<>();
 
+    @OneToMany(mappedBy = "transmitter")
+    private List<Message> messagesSent;
 
+    @OneToMany(mappedBy = "receiver")
+    private List<Message> messagesReceived;
 
-    public Long getId() {
-        return id;
-    }
+    @OneToMany(mappedBy = "owner")
+    private List<BankCard> bankCards;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    @OneToMany(mappedBy = "user")
+    private List<Photo> photos;
 
-    public String getPassword() {
-        return password;
-    }
+    @OneToMany(mappedBy = "user")
+    private List<Vehicle> vehicles;
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+    @OneToMany(mappedBy = "user")
+    private List<Announcement> announcements;
 
-    public String getFirstName() {
-        return firstName;
-    }
+    @ManyToMany(mappedBy = "tenants")
+    private List<Rental> rentals;
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
+    @OneToMany(mappedBy = "tenant")
+    private List<Payment> tenantPayments;
 
-    public String getLastName() {
-        return lastName;
-    }
+    @OneToMany(mappedBy = "owner")
+    private List<Payment> ownerPayments;
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
-    public boolean getActivated() {
-        return activated;
-    }
-
-    public void setActivated(boolean activated) {
-        this.activated = activated;
-    }
-
-    public String getActivationKey() {
-        return activationKey;
-    }
-
-    public void setActivationKey(String activationKey) {
-        this.activationKey = activationKey;
-    }
-
-    public String getResetKey() {
-        return resetKey;
-    }
-
-    public void setResetKey(String resetKey) {
-        this.resetKey = resetKey;
-    }
-
-    public Instant getResetDate() {
-        return resetDate;
-    }
-
-    public void setResetDate(Instant resetDate) {
-        this.resetDate = resetDate;
-    }
-
-    public String getLangKey() {
-        return langKey;
-    }
-
-    public void setLangKey(String langKey) {
-        this.langKey = langKey;
-    }
-
-    public Set<Authority> getAuthorities() {
-        return authorities;
-    }
-
-    public void setAuthorities(Set<Authority> authorities) {
-        this.authorities = authorities;
-    }
-
-    public Boolean isNewsletterSubscription() {
-        return newsletterSubscription;
-    }
-
-    public void setNewsletterSubscription(Boolean newsletterSubscription) {
-        this.newsletterSubscription = newsletterSubscription;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public LocalDate getBirthDate() {
-        return birthDate;
-    }
-
-    public void setBirthDate(LocalDate birthDate) {
-        this.birthDate = birthDate;
-    }
-
-    public String getBirthPlace() {
-        return birthPlace;
-    }
-
-    public void setBirthPlace(String birthPlace) {
-        this.birthPlace = birthPlace;
-    }
-
-    public Country getNationality() {
-        return nationality;
-    }
-
-    public void setNationality(Country nationality) {
-        this.nationality = nationality;
-    }
-
-    public String getPermitNumber() {
-        return permitNumber;
-    }
-
-    public void setPermitNumber(String permitNumber) {
-        this.permitNumber = permitNumber;
-    }
-
-    public Country getPermitCountry() {
-        return permitCountry;
-    }
-
-    public void setPermitCountry(Country permitCountry) {
-        this.permitCountry = permitCountry;
-    }
-
-    public LocalDate getPermitDate() {
-        return permitDate;
-    }
-
-    public void setPermitDate(LocalDate permitDate) {
-        this.permitDate = permitDate;
-    }
-
-    public String getIban() {
-        return iban;
-    }
-
-    public void setIban(String iban) {
-        this.iban = iban;
-    }
-
-    public String getBic() {
-        return bic;
-    }
-
-    public void setBic(String bic) {
-        this.bic = bic;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-
-        User user = (User) o;
-        return !(user.getId() == null || getId() == null) && Objects.equals(getId(), user.getId());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(getId());
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", password='" + password + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", title='" + title + '\'' +
-                ", email='" + email + '\'' +
-                ", newsletterSubscription=" + newsletterSubscription +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", birthDate=" + birthDate +
-                ", birthPlace='" + birthPlace + '\'' +
-                ", nationality=" + nationality +
-                ", permitNumber='" + permitNumber + '\'' +
-                ", permitCountry=" + permitCountry +
-                ", permitDate=" + permitDate +
-                ", iban='" + iban + '\'' +
-                ", bic='" + bic + '\'' +
-                ", activated=" + activated +
-                ", langKey='" + langKey + '\'' +
-                ", imageUrl='" + imageUrl + '\'' +
-                ", activationKey='" + activationKey + '\'' +
-                ", resetKey='" + resetKey + '\'' +
-                ", resetDate=" + resetDate +
-                ", authorities=" + authorities +
-                '}';
-    }
 }

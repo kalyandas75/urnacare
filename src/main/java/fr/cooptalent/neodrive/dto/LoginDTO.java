@@ -1,5 +1,7 @@
 package fr.cooptalent.neodrive.dto;
 
+import lombok.Data;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -9,6 +11,7 @@ import static fr.cooptalent.neodrive.dto.UserRegistrationDTO.PASSWORD_MIN_LENGTH
 /**
  * View Model object for storing a user's credentials.
  */
+@Data
 public class LoginDTO {
 
     @NotNull
@@ -21,36 +24,11 @@ public class LoginDTO {
 
     private Boolean rememberMe;
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public Boolean isRememberMe() {
         return rememberMe;
     }
 
     public void setRememberMe(Boolean rememberMe) {
         this.rememberMe = rememberMe;
-    }
-
-    @Override
-    public String toString() {
-        return "LoginDTO{" +
-                "email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", rememberMe=" + rememberMe +
-                '}';
     }
 }

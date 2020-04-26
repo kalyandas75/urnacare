@@ -1,35 +1,35 @@
 package fr.cooptalent.neodrive.domain.referential;
 
 import fr.cooptalent.neodrive.domain.RecoveryPointReference;
-import fr.cooptalent.neodrive.domain.User;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name = "nd_country")
+@Table(name = "nd_street")
 @Data
-public class Country implements Serializable {
+public class Street implements Serializable {
 
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     @Column(name = "id", updatable = false, nullable = false)
-    private UUID code;
+    private UUID id;
 
     @Column(name = "label")
-    private String name;
+    private String label;
 
-    @NotNull
-    @OneToMany(mappedBy = "country")
-    private List<City> cities;
+    @ManyToOne
+    private City city;
 
-    @OneToMany(mappedBy = "country")
+    @OneToMany(mappedBy = "street")
+    private List<Station> stations;
+
+    @OneToMany(mappedBy = "street")
     private List<RecoveryPointReference> recoveryPointReferences;
 
 }
