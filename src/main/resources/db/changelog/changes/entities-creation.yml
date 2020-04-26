@@ -1,0 +1,1494 @@
+databaseChangeLog:
+- changeSet:
+    id: 1587736802832-1
+    author: DELL (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: id
+            type: UUID
+        - column:
+            name: announcement_description
+            type: VARCHAR(255)
+        - column:
+            name: daily_price
+            type: INT
+        - column:
+            name: max_distance
+            type: INT
+        - column:
+            name: max_duration
+            type: INT
+        - column:
+            name: min_distance
+            type: INT
+        - column:
+            name: min_duration
+            type: INT
+        - column:
+            name: user_id
+            type: UUID
+        - column:
+            name: vehicle_id
+            type: UUID
+        tableName: nd_announcement
+- changeSet:
+    id: 1587736802832-2
+    author: DELL (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: id
+            type: UUID
+        - column:
+            name: announcement_id
+            type: UUID
+        tableName: nd_announcement_adress
+- changeSet:
+    id: 1587736802832-3
+    author: DELL (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: name
+            type: VARCHAR(50)
+        tableName: nd_authority
+- changeSet:
+    id: 1587736802832-4
+    author: DELL (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: id
+            type: UUID
+        - column:
+            name: end_date
+            type: TIMESTAMP WITHOUT TIME ZONE
+        - column:
+            name: start_date
+            type: TIMESTAMP WITHOUT TIME ZONE
+        - column:
+            name: status
+            type: VARCHAR(255)
+        - column:
+            name: announcement_id
+            type: UUID
+        tableName: nd_availability
+- changeSet:
+    id: 1587736802832-5
+    author: DELL (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: id
+            type: UUID
+        - column:
+            name: cryptogram
+            type: INT
+        - column:
+            name: full_name
+            type: VARCHAR(255)
+        - column:
+            name: number
+            type: BIGINT
+        - column:
+            name: validity_date
+            type: TIMESTAMP WITHOUT TIME ZONE
+        - column:
+            name: owner_id
+            type: UUID
+        tableName: nd_bank_card
+- changeSet:
+    id: 1587736802832-6
+    author: DELL (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: id
+            type: UUID
+        - column:
+            name: label
+            type: VARCHAR(255)
+        tableName: nd_brand
+- changeSet:
+    id: 1587736802832-7
+    author: DELL (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: id
+            type: UUID
+        - column:
+            name: label
+            type: VARCHAR(255)
+        - column:
+            name: country_id
+            type: UUID
+        tableName: nd_city
+- changeSet:
+    id: 1587736802832-8
+    author: DELL (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: id
+            type: UUID
+        - column:
+            name: label
+            type: VARCHAR(255)
+        tableName: nd_country
+- changeSet:
+    id: 1587736802832-9
+    author: DELL (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: id
+            type: UUID
+        - column:
+            name: label
+            type: VARCHAR(255)
+        tableName: nd_equipment
+- changeSet:
+    id: 1587736802832-10
+    author: DELL (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: id
+            type: UUID
+        - column:
+            name: label
+            type: VARCHAR(255)
+        tableName: nd_further_information
+- changeSet:
+    id: 1587736802832-11
+    author: DELL (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: further_informations_id
+            type: UUID
+        - column:
+            constraints:
+              nullable: false
+            name: vehicles_id
+            type: UUID
+        tableName: nd_further_information_vehicles
+- changeSet:
+    id: 1587736802832-12
+    author: DELL (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: id
+            type: UUID
+        - column:
+            name: end_date
+            type: TIMESTAMP WITHOUT TIME ZONE
+        - column:
+            name: label
+            type: VARCHAR(255)
+        - column:
+            name: start_date
+            type: TIMESTAMP WITHOUT TIME ZONE
+        - column:
+            name: vehicle_id
+            type: UUID
+        tableName: nd_insurance
+- changeSet:
+    id: 1587736802832-13
+    author: DELL (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: id
+            type: UUID
+        - column:
+            name: content
+            type: VARCHAR(255)
+        - column:
+            name: date
+            type: TIMESTAMP WITHOUT TIME ZONE
+        - column:
+            name: receiver_id
+            type: UUID
+        - column:
+            name: transmitter_id
+            type: UUID
+        tableName: nd_message
+- changeSet:
+    id: 1587736802832-14
+    author: DELL (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: id
+            type: UUID
+        - column:
+            name: energy
+            type: VARCHAR(255)
+        - column:
+            name: gear_box_type
+            type: VARCHAR(255)
+        - column:
+            name: label
+            type: VARCHAR(255)
+        - column:
+            name: number_of_doors
+            type: INT
+        - column:
+            name: number_of_seats
+            type: INT
+        - column:
+            name: year
+            type: BYTEA
+        - column:
+            name: brand_id
+            type: UUID
+        tableName: nd_model
+- changeSet:
+    id: 1587736802832-15
+    author: DELL (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: models_id
+            type: UUID
+        - column:
+            constraints:
+              nullable: false
+            name: equipments_id
+            type: UUID
+        tableName: nd_model_equipments
+- changeSet:
+    id: 1587736802832-16
+    author: DELL (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: models_id
+            type: UUID
+        - column:
+            constraints:
+              nullable: false
+            name: types_id
+            type: UUID
+        tableName: nd_model_types
+- changeSet:
+    id: 1587736802832-17
+    author: DELL (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: id
+            type: UUID
+        - column:
+            name: label
+            type: VARCHAR(255)
+        tableName: nd_option_reference
+- changeSet:
+    id: 1587736802832-18
+    author: DELL (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: option_references_id
+            type: UUID
+        - column:
+            constraints:
+              nullable: false
+            name: vehicles_id
+            type: UUID
+        tableName: nd_option_reference_vehicles
+- changeSet:
+    id: 1587736802832-19
+    author: DELL (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: id
+            type: UUID
+        - column:
+            name: status
+            type: VARCHAR(255)
+        - column:
+            name: owner_id
+            type: UUID
+        - column:
+            name: rental_id
+            type: UUID
+        - column:
+            name: tenant_id
+            type: UUID
+        tableName: nd_payment
+- changeSet:
+    id: 1587736802832-20
+    author: DELL (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: id
+            type: UUID
+        - column:
+            name: label
+            type: VARCHAR(255)
+        - column:
+            name: number
+            type: INT
+        - column:
+            name: user_id
+            type: UUID
+        - column:
+            name: vehicle_id
+            type: UUID
+        tableName: nd_photo
+- changeSet:
+    id: 1587736802832-21
+    author: DELL (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: id
+            type: UUID
+        - column:
+            name: label
+            type: VARCHAR(255)
+        - column:
+            name: number
+            type: BIGINT
+        - column:
+            name: x_coordinate
+            type: INT
+        - column:
+            name: y_coordinate
+            type: INT
+        - column:
+            name: announcement_address_id
+            type: UUID
+        - column:
+            name: city_id
+            type: UUID
+        - column:
+            name: country_id
+            type: UUID
+        - column:
+            name: street_id
+            type: UUID
+        tableName: nd_recovery_point_reference
+- changeSet:
+    id: 1587736802832-22
+    author: DELL (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: id
+            type: UUID
+        - column:
+            name: distance
+            type: INT
+        - column:
+            name: end_date
+            type: TIMESTAMP WITHOUT TIME ZONE
+        - column:
+            name: score
+            type: INT
+        - column:
+            name: start_date
+            type: TIMESTAMP WITHOUT TIME ZONE
+        - column:
+            name: status
+            type: VARCHAR(255)
+        - column:
+            name: total_price
+            type: INT
+        - column:
+            name: announcement_id
+            type: UUID
+        - column:
+            name: payment_id
+            type: UUID
+        tableName: nd_rental
+- changeSet:
+    id: 1587736802832-23
+    author: DELL (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: rentals_id
+            type: UUID
+        - column:
+            constraints:
+              nullable: false
+            name: tenants_id
+            type: UUID
+        tableName: nd_rental_tenants
+- changeSet:
+    id: 1587736802832-24
+    author: DELL (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: id
+            type: UUID
+        - column:
+            name: label
+            type: VARCHAR(255)
+        - column:
+            name: city_id
+            type: UUID
+        - column:
+            name: street_id
+            type: UUID
+        tableName: nd_station
+- changeSet:
+    id: 1587736802832-25
+    author: DELL (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: id
+            type: UUID
+        - column:
+            name: label
+            type: VARCHAR(255)
+        - column:
+            name: city_id
+            type: UUID
+        tableName: nd_street
+- changeSet:
+    id: 1587736802832-26
+    author: DELL (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: id
+            type: UUID
+        - column:
+            name: label
+            type: VARCHAR(255)
+        - column:
+            name: price_per_km
+            type: INT
+        tableName: nd_type
+- changeSet:
+    id: 1587736802832-27
+    author: DELL (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: type_id
+            type: UUID
+        - column:
+            constraints:
+              nullable: false
+            name: vehicles_id
+            type: UUID
+        tableName: nd_type_vehicles
+- changeSet:
+    id: 1587736802832-28
+    author: DELL (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: id
+            type: UUID
+        - column:
+            constraints:
+              nullable: false
+            name: created_by
+            type: VARCHAR(50)
+        - column:
+            name: created_date
+            type: TIMESTAMP WITHOUT TIME ZONE
+        - column:
+            name: last_modified_by
+            type: VARCHAR(50)
+        - column:
+            name: last_modified_date
+            type: TIMESTAMP WITHOUT TIME ZONE
+        - column:
+            constraints:
+              nullable: false
+            name: activated
+            type: BOOLEAN
+        - column:
+            name: activation_key
+            type: VARCHAR(20)
+        - column:
+            name: bic
+            type: VARCHAR(50)
+        - column:
+            name: birth_date
+            type: date
+        - column:
+            name: birth_place
+            type: VARCHAR(100)
+        - column:
+            name: email
+            type: VARCHAR(254)
+        - column:
+            name: first_name
+            type: VARCHAR(50)
+        - column:
+            name: iban
+            type: VARCHAR(50)
+        - column:
+            name: image_url
+            type: VARCHAR(256)
+        - column:
+            name: lang_key
+            type: VARCHAR(6)
+        - column:
+            name: last_name
+            type: VARCHAR(50)
+        - column:
+            name: newsletter_subscription
+            type: BOOLEAN
+        - column:
+            constraints:
+              nullable: false
+            name: password_hash
+            type: VARCHAR(60)
+        - column:
+            name: permit_date
+            type: date
+        - column:
+            name: permit_number
+            type: VARCHAR(50)
+        - column:
+            name: phone_number
+            type: VARCHAR(15)
+        - column:
+            name: reset_date
+            type: TIMESTAMP WITHOUT TIME ZONE
+        - column:
+            name: reset_key
+            type: VARCHAR(20)
+        - column:
+            name: title
+            type: VARCHAR(50)
+        - column:
+            name: nationality_code
+            type: UUID
+        - column:
+            name: permit_country_code
+            type: UUID
+        tableName: nd_user
+- changeSet:
+    id: 1587736802832-29
+    author: DELL (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: user_id
+            type: UUID
+        - column:
+            constraints:
+              nullable: false
+            name: authority_name
+            type: VARCHAR(50)
+        tableName: nd_user_authority
+- changeSet:
+    id: 1587736802832-30
+    author: DELL (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: id
+            type: UUID
+        - column:
+            name: mileage
+            type: INT
+        - column:
+            name: vehicle_description
+            type: VARCHAR(255)
+        - column:
+            name: brand_id
+            type: UUID
+        - column:
+            name: model_id
+            type: UUID
+        - column:
+            name: type_id
+            type: UUID
+        - column:
+            name: user_id
+            type: UUID
+        tableName: nd_vehicle
+- changeSet:
+    id: 1587736802832-31
+    author: DELL (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: vehicles_id
+            type: UUID
+        - column:
+            constraints:
+              nullable: false
+            name: equipments_id
+            type: UUID
+        tableName: nd_vehicle_equipments
+- changeSet:
+    id: 1587736802832-32
+    author: DELL (generated)
+    changes:
+    - addPrimaryKey:
+        columnNames: user_id, authority_name
+        tableName: nd_user_authority
+- changeSet:
+    id: 1587736802832-33
+    author: DELL (generated)
+    changes:
+    - addPrimaryKey:
+        columnNames: id
+        constraintName: nd_announcementPK
+        tableName: nd_announcement
+- changeSet:
+    id: 1587736802832-34
+    author: DELL (generated)
+    changes:
+    - addPrimaryKey:
+        columnNames: id
+        constraintName: nd_announcement_adressPK
+        tableName: nd_announcement_adress
+- changeSet:
+    id: 1587736802832-35
+    author: DELL (generated)
+    changes:
+    - addPrimaryKey:
+        columnNames: name
+        constraintName: nd_authorityPK
+        tableName: nd_authority
+- changeSet:
+    id: 1587736802832-36
+    author: DELL (generated)
+    changes:
+    - addPrimaryKey:
+        columnNames: id
+        constraintName: nd_availabilityPK
+        tableName: nd_availability
+- changeSet:
+    id: 1587736802832-37
+    author: DELL (generated)
+    changes:
+    - addPrimaryKey:
+        columnNames: id
+        constraintName: nd_bank_cardPK
+        tableName: nd_bank_card
+- changeSet:
+    id: 1587736802832-38
+    author: DELL (generated)
+    changes:
+    - addPrimaryKey:
+        columnNames: id
+        constraintName: nd_brandPK
+        tableName: nd_brand
+- changeSet:
+    id: 1587736802832-39
+    author: DELL (generated)
+    changes:
+    - addPrimaryKey:
+        columnNames: id
+        constraintName: nd_cityPK
+        tableName: nd_city
+- changeSet:
+    id: 1587736802832-40
+    author: DELL (generated)
+    changes:
+    - addPrimaryKey:
+        columnNames: id
+        constraintName: nd_countryPK
+        tableName: nd_country
+- changeSet:
+    id: 1587736802832-41
+    author: DELL (generated)
+    changes:
+    - addPrimaryKey:
+        columnNames: id
+        constraintName: nd_equipmentPK
+        tableName: nd_equipment
+- changeSet:
+    id: 1587736802832-42
+    author: DELL (generated)
+    changes:
+    - addPrimaryKey:
+        columnNames: id
+        constraintName: nd_further_informationPK
+        tableName: nd_further_information
+- changeSet:
+    id: 1587736802832-43
+    author: DELL (generated)
+    changes:
+    - addPrimaryKey:
+        columnNames: id
+        constraintName: nd_insurancePK
+        tableName: nd_insurance
+- changeSet:
+    id: 1587736802832-44
+    author: DELL (generated)
+    changes:
+    - addPrimaryKey:
+        columnNames: id
+        constraintName: nd_messagePK
+        tableName: nd_message
+- changeSet:
+    id: 1587736802832-45
+    author: DELL (generated)
+    changes:
+    - addPrimaryKey:
+        columnNames: id
+        constraintName: nd_modelPK
+        tableName: nd_model
+- changeSet:
+    id: 1587736802832-46
+    author: DELL (generated)
+    changes:
+    - addPrimaryKey:
+        columnNames: id
+        constraintName: nd_option_referencePK
+        tableName: nd_option_reference
+- changeSet:
+    id: 1587736802832-47
+    author: DELL (generated)
+    changes:
+    - addPrimaryKey:
+        columnNames: id
+        constraintName: nd_paymentPK
+        tableName: nd_payment
+- changeSet:
+    id: 1587736802832-48
+    author: DELL (generated)
+    changes:
+    - addPrimaryKey:
+        columnNames: id
+        constraintName: nd_photoPK
+        tableName: nd_photo
+- changeSet:
+    id: 1587736802832-49
+    author: DELL (generated)
+    changes:
+    - addPrimaryKey:
+        columnNames: id
+        constraintName: nd_recovery_point_referencePK
+        tableName: nd_recovery_point_reference
+- changeSet:
+    id: 1587736802832-50
+    author: DELL (generated)
+    changes:
+    - addPrimaryKey:
+        columnNames: id
+        constraintName: nd_rentalPK
+        tableName: nd_rental
+- changeSet:
+    id: 1587736802832-51
+    author: DELL (generated)
+    changes:
+    - addPrimaryKey:
+        columnNames: id
+        constraintName: nd_stationPK
+        tableName: nd_station
+- changeSet:
+    id: 1587736802832-52
+    author: DELL (generated)
+    changes:
+    - addPrimaryKey:
+        columnNames: id
+        constraintName: nd_streetPK
+        tableName: nd_street
+- changeSet:
+    id: 1587736802832-53
+    author: DELL (generated)
+    changes:
+    - addPrimaryKey:
+        columnNames: id
+        constraintName: nd_typePK
+        tableName: nd_type
+- changeSet:
+    id: 1587736802832-54
+    author: DELL (generated)
+    changes:
+    - addPrimaryKey:
+        columnNames: id
+        constraintName: nd_userPK
+        tableName: nd_user
+- changeSet:
+    id: 1587736802832-55
+    author: DELL (generated)
+    changes:
+    - addPrimaryKey:
+        columnNames: id
+        constraintName: nd_vehiclePK
+        tableName: nd_vehicle
+- changeSet:
+    id: 1587736802832-56
+    author: DELL (generated)
+    changes:
+    - addUniqueConstraint:
+        columnNames: email
+        constraintName: UC_ND_USEREMAIL_COL
+        tableName: nd_user
+- changeSet:
+    id: 1587736802832-57
+    author: DELL (generated)
+    changes:
+    - addUniqueConstraint:
+        columnNames: vehicles_id
+        constraintName: UK_fja43f4yu2yc9d8h5an4asn6f
+        tableName: nd_type_vehicles
+- changeSet:
+    id: 1587736802832-58
+    author: DELL (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: user_id
+        baseTableName: nd_user_authority
+        constraintName: FK117792wmeiewywxk3a4daig3r
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: nd_user
+- changeSet:
+    id: 1587736802832-59
+    author: DELL (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: authority_name
+        baseTableName: nd_user_authority
+        constraintName: FK2s19xxmco7fwkq8gjal37tkxj
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: name
+        referencedTableName: nd_authority
+- changeSet:
+    id: 1587736802832-60
+    author: DELL (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: announcement_id
+        baseTableName: nd_rental
+        constraintName: FK2xnruv8b7vthj7q3jpjopift6
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: nd_announcement
+- changeSet:
+    id: 1587736802832-61
+    author: DELL (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: owner_id
+        baseTableName: nd_bank_card
+        constraintName: FK3cs5utp8bc5dmu0n760r3vb71
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: nd_user
+- changeSet:
+    id: 1587736802832-62
+    author: DELL (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: street_id
+        baseTableName: nd_recovery_point_reference
+        constraintName: FK3hicxrm6lkm90cba4q2x6bol5
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: nd_street
+- changeSet:
+    id: 1587736802832-63
+    author: DELL (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: brand_id
+        baseTableName: nd_vehicle
+        constraintName: FK3x1o84krxp7929clpwntbm2it
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: nd_brand
+- changeSet:
+    id: 1587736802832-64
+    author: DELL (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: city_id
+        baseTableName: nd_station
+        constraintName: FK403t8b9ikpnx2escdvif1mkoe
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: nd_city
+- changeSet:
+    id: 1587736802832-65
+    author: DELL (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: types_id
+        baseTableName: nd_model_types
+        constraintName: FK474f5cdhdcj2pvwps78dyd1bn
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: nd_type
+- changeSet:
+    id: 1587736802832-66
+    author: DELL (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: announcement_id
+        baseTableName: nd_announcement_adress
+        constraintName: FK5r6ewf6k1e3nqo65xs7vwsfft
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: nd_announcement
+- changeSet:
+    id: 1587736802832-67
+    author: DELL (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: vehicle_id
+        baseTableName: nd_insurance
+        constraintName: FK5uw4f1itl444riredwee06ws3
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: nd_vehicle
+- changeSet:
+    id: 1587736802832-68
+    author: DELL (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: owner_id
+        baseTableName: nd_payment
+        constraintName: FK6npqke3n0ngcldtn1s7e7cmdy
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: nd_user
+- changeSet:
+    id: 1587736802832-69
+    author: DELL (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: vehicles_id
+        baseTableName: nd_further_information_vehicles
+        constraintName: FK709nbyym0u0tpmel6d7f3ep6b
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: nd_vehicle
+- changeSet:
+    id: 1587736802832-70
+    author: DELL (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: permit_country_code
+        baseTableName: nd_user
+        constraintName: FK7bqv1mfnm354ouxo8tobx6o6m
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: nd_country
+- changeSet:
+    id: 1587736802832-71
+    author: DELL (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: rentals_id
+        baseTableName: nd_rental_tenants
+        constraintName: FK8gxv1qik1ruq7r78rgch23hl2
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: nd_rental
+- changeSet:
+    id: 1587736802832-72
+    author: DELL (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: type_id
+        baseTableName: nd_type_vehicles
+        constraintName: FK8p1pbonilitimsy5er2tcegiu
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: nd_type
+- changeSet:
+    id: 1587736802832-73
+    author: DELL (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: vehicles_id
+        baseTableName: nd_option_reference_vehicles
+        constraintName: FK8rkggn1m0dftlnt3emqywc53t
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: nd_vehicle
+- changeSet:
+    id: 1587736802832-74
+    author: DELL (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: nationality_code
+        baseTableName: nd_user
+        constraintName: FKb030fj1lmqpypbhv0b331wv16
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: nd_country
+- changeSet:
+    id: 1587736802832-75
+    author: DELL (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: equipments_id
+        baseTableName: nd_vehicle_equipments
+        constraintName: FKb36yho9r5x5u46x2gqhm4ribs
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: nd_equipment
+- changeSet:
+    id: 1587736802832-76
+    author: DELL (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: country_id
+        baseTableName: nd_recovery_point_reference
+        constraintName: FKbir9k1004vdtkyt9xgya68uxd
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: nd_country
+- changeSet:
+    id: 1587736802832-77
+    author: DELL (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: model_id
+        baseTableName: nd_vehicle
+        constraintName: FKbp2ug33q3o5m0pj1flsuhpf8h
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: nd_model
+- changeSet:
+    id: 1587736802832-78
+    author: DELL (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: vehicle_id
+        baseTableName: nd_announcement
+        constraintName: FKcr12ajo0ncx04qt4s5blcdh0t
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: nd_vehicle
+- changeSet:
+    id: 1587736802832-79
+    author: DELL (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: option_references_id
+        baseTableName: nd_option_reference_vehicles
+        constraintName: FKd6g66diindrsrwu6is814t99a
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: nd_option_reference
+- changeSet:
+    id: 1587736802832-80
+    author: DELL (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: vehicle_id
+        baseTableName: nd_photo
+        constraintName: FKe83jve2dv4080rmyc9lov7dhk
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: nd_vehicle
+- changeSet:
+    id: 1587736802832-81
+    author: DELL (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: further_informations_id
+        baseTableName: nd_further_information_vehicles
+        constraintName: FKf2swpi5ir006ycsqqbdytrqhm
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: nd_further_information
+- changeSet:
+    id: 1587736802832-82
+    author: DELL (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: vehicles_id
+        baseTableName: nd_type_vehicles
+        constraintName: FKf9q9uosrxfs6jlru4fnnpnq9g
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: nd_vehicle
+- changeSet:
+    id: 1587736802832-83
+    author: DELL (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: rental_id
+        baseTableName: nd_payment
+        constraintName: FKfc5ejpji7navxul5w99psgmyc
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: nd_rental
+- changeSet:
+    id: 1587736802832-84
+    author: DELL (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: announcement_id
+        baseTableName: nd_availability
+        constraintName: FKfekxr5jkr779wqtqp0npodiqo
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: nd_announcement
+- changeSet:
+    id: 1587736802832-85
+    author: DELL (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: payment_id
+        baseTableName: nd_rental
+        constraintName: FKff6xpi8mtjtwuym6s6rrpl0l6
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: nd_payment
+- changeSet:
+    id: 1587736802832-86
+    author: DELL (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: city_id
+        baseTableName: nd_street
+        constraintName: FKi313vmgf4qdo4vwxnt9qg07wq
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: nd_city
+- changeSet:
+    id: 1587736802832-87
+    author: DELL (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: country_id
+        baseTableName: nd_city
+        constraintName: FKio2r2kb5dgbbibh3a32wx2qkc
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: nd_country
+- changeSet:
+    id: 1587736802832-88
+    author: DELL (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: type_id
+        baseTableName: nd_vehicle
+        constraintName: FKivuu8rebnkw0639rsltxueaas
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: nd_type
+- changeSet:
+    id: 1587736802832-89
+    author: DELL (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: receiver_id
+        baseTableName: nd_message
+        constraintName: FKk7nmdouhllwirqa33xbcpn65f
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: nd_user
+- changeSet:
+    id: 1587736802832-90
+    author: DELL (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: tenants_id
+        baseTableName: nd_rental_tenants
+        constraintName: FKkn3k5n93x71spqh2rcphfydm5
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: nd_user
+- changeSet:
+    id: 1587736802832-91
+    author: DELL (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: announcement_address_id
+        baseTableName: nd_recovery_point_reference
+        constraintName: FKl9schsv71fukgsoyptux9jbr4
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: nd_announcement_adress
+- changeSet:
+    id: 1587736802832-92
+    author: DELL (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: user_id
+        baseTableName: nd_vehicle
+        constraintName: FKmt4lsksnn6r5p88rs5v3p1p8n
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: nd_user
+- changeSet:
+    id: 1587736802832-93
+    author: DELL (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: models_id
+        baseTableName: nd_model_types
+        constraintName: FKnl1teyv82msufhdugybmfv0x5
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: nd_model
+- changeSet:
+    id: 1587736802832-94
+    author: DELL (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: vehicles_id
+        baseTableName: nd_vehicle_equipments
+        constraintName: FKoqc7frbv543uepjs5r8yvwqib
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: nd_vehicle
+- changeSet:
+    id: 1587736802832-95
+    author: DELL (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: user_id
+        baseTableName: nd_announcement
+        constraintName: FKot6t0djeaifwwmd3xbq9pm9fq
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: nd_user
+- changeSet:
+    id: 1587736802832-96
+    author: DELL (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: city_id
+        baseTableName: nd_recovery_point_reference
+        constraintName: FKpmkokywwrx9pag5nmh5qo7ij9
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: nd_city
+- changeSet:
+    id: 1587736802832-97
+    author: DELL (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: brand_id
+        baseTableName: nd_model
+        constraintName: FKr3x9fnqn6pg5pmq1hhimckuks
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: nd_brand
+- changeSet:
+    id: 1587736802832-98
+    author: DELL (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: street_id
+        baseTableName: nd_station
+        constraintName: FKr855lwd1u0qrk9rqpcfj4qs40
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: nd_street
+- changeSet:
+    id: 1587736802832-99
+    author: DELL (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: user_id
+        baseTableName: nd_photo
+        constraintName: FKs0aildld0ua3yrsbwe55yegvo
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: nd_user
+- changeSet:
+    id: 1587736802832-100
+    author: DELL (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: tenant_id
+        baseTableName: nd_payment
+        constraintName: FKs3memd02abl57o33o3fo8o9xy
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: nd_user
+- changeSet:
+    id: 1587736802832-101
+    author: DELL (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: equipments_id
+        baseTableName: nd_model_equipments
+        constraintName: FKt10fr6eufmyxhr87kbegn86of
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: nd_equipment
+- changeSet:
+    id: 1587736802832-102
+    author: DELL (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: models_id
+        baseTableName: nd_model_equipments
+        constraintName: FKt99r6vgcg4kadqtixkv82mj4n
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: nd_model
+- changeSet:
+    id: 1587736802832-103
+    author: DELL (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: transmitter_id
+        baseTableName: nd_message
+        constraintName: FKw3ehag3a4f8s4cf74lip5uqn
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: nd_user
+- changeSet:
+    id: 1587736806468-103
+    author: DELL (generated)
+    changes:
+        - sql:
+              dbms: postgresql
+              endDelimiter: \nGO
+              splitStatements: true
+              sql: insert into nd_authority (name) values ('ROLE_USER')
+              stripComments: true

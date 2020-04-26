@@ -1,8 +1,6 @@
 spring:
-  liquibase:
-    enabled: true
-    change-log: classpath:db/changelog/db.changelog-master.yml
   datasource:
+    #type: com.mchange.v2.c3p0.ComboPooledDataSource
     type: com.zaxxer.hikari.HikariDataSource
     url: jdbc:postgresql://localhost:5432/neodrive
     username: postgres
@@ -14,6 +12,11 @@ spring:
         prepStmtCacheSize: 250
         prepStmtCacheSqlLimit: 2048
         useServerPrepStmts: true
+    #c3p0:
+    #  initialPoolSize: 10
+    #  maxPoolSize: 10
+    #  maxStatements: 20
+    #  maxIdleTime: 20000
   jpa:
     database: POSTGRESQL
     show-sql: true
@@ -30,6 +33,9 @@ spring:
       hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: validate
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/db.changelog-master.yml
   mail:
     host: smtp.gmail.com
     port: 587
