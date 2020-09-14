@@ -1,0 +1,44 @@
+<div class="content" style="padding-left: 30px;">
+    <div class=" row">
+        <div class="col-md-6 offset-md-3">
+            <div class="card">
+                <div class=" card-header">
+                    <h2>Login</h2>
+                </div>
+                <div class="card-body">
+                    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                        <div class="form-group">
+                          <label for="email">Email</label>
+                          <input type="email" class="form-control" id="email" placeholder="Enter email" formControlName="email"
+                          [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
+                          <div *ngIf="submitted && f.email.invalid" class= "invalid-feedback">
+                            <div *ngIf="f.email.errors.required">Email is required</div>
+                            <div *ngIf="f.email.errors.email">Invalid email</div>
+                          </div>
+                          <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                        </div>
+                        <div class="form-group">
+                          <label for="password">Password</label>
+                          <input type="password" class="form-control" id="password" placeholder="Password" formControlName="password"
+                          [ngClass]="{ 'is-invalid': submitted && f.password.errors }">
+                          <div *ngIf="submitted && f.password.invalid" class= "invalid-feedback">
+                            <div *ngIf="f.password.errors.required">Password is required</div>
+                          </div>
+                        </div>
+                        <div class="form-group form-check">
+                          <input type="checkbox" class="form-check-input" id="rememberMe" formControlName="rememberMe">
+                          <label class="form-check-label" for="rememberMe">Remember me</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary" [disabled]="loading">Submit</button>
+                      </form>
+                </div>
+                <div class="card-footer">
+                    <a [routerLink]="'/register'">New User? Register</a>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>

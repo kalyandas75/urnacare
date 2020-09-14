@@ -1,1 +1,1 @@
-docker build . -t cooptalent/neodrive-backend
+docker build . -t technakriti/urnacare

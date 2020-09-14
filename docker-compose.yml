@@ -12,14 +12,14 @@ services:
     environment:
       - POSTGRES_PASSWORD=local123
       - POSTGRES_USER=postgres
-      - POSTGRES_DB=neodrive
+      - POSTGRES_DB=urnacare
     restart: unless-stopped
     networks:
       - neodrive-net
   # APP*****************************************
   neodrive:
-    image: cooptalent/neodrive-backend
-    container_name: neodrive-backend
+    image: technakriti/urnacare
+    container_name: urnacare
     expose:
       - 8080
     ports:
@@ -30,7 +30,7 @@ services:
     links:
       - postgres
     networks:
-      - neodrive-net
+      - urnacare-net
 volumes:
   postgres-data: {}
 

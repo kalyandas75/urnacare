@@ -1,0 +1,22 @@
+<div class="logo">
+  <a href="https://www.creative-tim.com?ref=bda-sidebar-logo" class="simple-text logo-mini">
+    <div class="logo-img">
+      <img src="./assets/img/angular2-logo-white.png" />
+    </div>
+  </a>
+  <a href="/" class="simple-text logo-normal">
+    Urnacare
+  </a>
+</div>
+<div class="sidebar-wrapper">
+  <ul class="nav">
+    <li routerLinkActive="active" 
+    *appHasAnyAuthority="['ROLE_ADMIN', 'ROLE_CUSTOMER_SUPPORT']"
+    class="nav-item">
+      <a routerLink="/ingredients">
+        <i class="tim-icons icon-notes"></i>
+        <p>Ingredients</p>
+      </a>
+    </li>
+  </ul>
+</div>

@@ -1,8 +1,8 @@
 spring:
   application:
-    name: neodrive
+    name: urnacare
   profiles:
-    active: dev
+    active: local
   jpa:
     open-in-view: false
     properties:
@@ -22,22 +22,22 @@ spring:
 logging:
   level:
     root: DEBUG
-    fr.cooptalent.neodrive: DEBUG
+    fr.cooptalent.urnacare: DEBUG
 application:
     mail:
-      from: neodrive@localhost
+      from: urnacare@localhost
     async:
       core-pool-size: 2
       max-pool-size: 50
       queue-capacity: 10000
     swagger:
         default-include-pattern: /api/.*
-        title: Neobooster API
-        description: Neobooster API documentation
+        title: Urnacare API
+        description: Urnacare API documentation
         version: 0.0.1
         terms-of-service-url:
-        contact-name: Abderrahmane HASSANI
-        contact-url: www.cooptalent.fr
-        contact-email: contact@cooptalent.fr
+        contact-name: Kalyan Das
+        contact-url: www.urnacare.com
+        contact-email: technakriti@gmail.com
         license:
         license-url:
