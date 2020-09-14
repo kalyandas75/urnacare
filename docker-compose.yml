@@ -33,9 +33,9 @@ services:
     image: technakriti/urnacare
     container_name: urnacare
     expose:
-      - 8080
+      - 8081
     ports:
-      - 8080:8080
+      - 8081:8081
     restart: unless-stopped
     depends_on:
       - postgres
