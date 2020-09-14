@@ -25,7 +25,6 @@ export class LoginComponent implements OnInit {
   get f() { return this.loginForm.controls; }
 
   onSubmit() {
-    console.log(this.loginForm.value);
     this.submitted = true;
     if(this.loginForm.invalid) {
       return;
@@ -33,8 +32,10 @@ export class LoginComponent implements OnInit {
     this.loading = true;
     this.loginService.login(this.loginForm.value)
     .then((data) => {
-        this.router.navigate(['/dashboard']);
-        this.loading = false;
+      this.router.navigate(['/dashboard']);
+      this.loading = false; 
+
+        
       }).finally(() => {
           this.loading = false;
       });

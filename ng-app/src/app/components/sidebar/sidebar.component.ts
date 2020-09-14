@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { AccountService } from 'src/app/shared/service/account.service';
 
 declare interface RouteInfo {
   path: string;
@@ -29,10 +30,12 @@ export const ROUTES: RouteInfo[] = [
 export class SidebarComponent implements OnInit {
   menuItems: any[];
 
-  constructor() {}
+  constructor(private accountService: AccountService) {}
 
   ngOnInit() {
     this.menuItems = ROUTES;
+    console.log(this.accountService.isAuthenticated(), this.accountService.isIdentityResolved());
+    console.log(this.accountService.hasAnyAuthority(['ROLE_ADMIN', 'ROLE_CUSTOMER_SUPPORT']));
   }
   isMobileMenu() {
     if (window.innerWidth > 991) {

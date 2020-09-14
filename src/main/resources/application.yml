@@ -22,7 +22,7 @@ spring:
 logging:
   level:
     root: DEBUG
-    fr.cooptalent.urnacare: DEBUG
+    com.urna.urnacare: DEBUG
 application:
     mail:
       from: urnacare@localhost

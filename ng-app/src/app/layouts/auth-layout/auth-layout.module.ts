@@ -7,6 +7,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule } from "@angular/common/http";
 import { LandingComponent } from 'src/app/pages/auth/landing/landing.component';
 import { LoginComponent } from 'src/app/pages/auth/login/login.component';
+import { RegisterComponent } from 'src/app/pages/auth/register/register.component';
+import { ActivateComponent } from 'src/app/pages/auth/activate/activate.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -18,7 +20,9 @@ import { LoginComponent } from 'src/app/pages/auth/login/login.component';
   ],
   declarations: [
     LandingComponent,
-    LoginComponent
+    LoginComponent,
+    RegisterComponent,
+    ActivateComponent
   ]
 })
 export class AuthLayoutModule { }

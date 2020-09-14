@@ -33,12 +33,17 @@ export class HasAnyAuthorityDirective {
                 this.updateView();
                 // Get notified each time authentication state changes.
                 this.accountService.getAuthenticationState().subscribe(identity => {
-                    console.log('identity', identity);
                     this.updateView();
                 });
             });
+        } else {
+            this.authorities = typeof value === 'string' ? [value] : value;
+                this.updateView();
+                // Get notified each time authentication state changes.
+                this.accountService.getAuthenticationState().subscribe(identity => {
+                    this.updateView();
+                });
         }
-
     }
 
     private updateView(): void {

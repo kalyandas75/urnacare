@@ -23,7 +23,7 @@ export const AdminLayoutRoutes: Routes = [
     component: IngredientComponent,
     data: {
       title: 'dashboard.pageTitle',
-      authorities: []
+      authorities: ['ROLE_ADMIN', 'ROLE_CUSTOMER_SUPPORT']
     },
     resolve: {
       title: TitleResolver
