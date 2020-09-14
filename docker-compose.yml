@@ -45,7 +45,7 @@ services:
       - urnacare-net
 volumes:
   postgres-data: {}
-
+  pgadmin_data: {}
 networks:
   urnacare-net:
     driver: bridge
