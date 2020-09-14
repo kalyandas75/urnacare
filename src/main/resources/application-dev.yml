@@ -1,0 +1,71 @@
+spring:
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:postgresql://localhost:5432/urnacare
+    username: postgres
+    password: local123
+    hikari:
+      auto-commit: false
+      data-source-properties:
+        cachePrepStmts: true
+        prepStmtCacheSize: 250
+        prepStmtCacheSqlLimit: 2048
+        useServerPrepStmts: true
+  jpa:
+    database: POSTGRESQL
+    show-sql: true
+    properties:
+      hibernate.id.new_generator_mappings: true
+      hibernate.connection.provider_disables_autocommit: true
+      hibernate.cache.use_second_level_cache: true
+      hibernate.cache.use_query_cache: false
+      hibernate.generate_statistics: true
+      hibernate.cache.region.factory_class: com.hazelcast.hibernate.HazelcastCacheRegionFactory
+      hibernate.cache.hazelcast.instance_name: urnacare
+      hibernate.cache.use_minimal_puts: true
+      hibernate.cache.hazelcast.use_lite_member: true
+      hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: cooptalent19@gmail.com
+    password: Cooptalent@12345
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+
+application:
+  cors:
+    allowed-origins: "*"
+    allowed-methods: "*"
+    allowed-headers: "*"
+    exposed-headers: "Authorization,Link,X-Total-Count"
+    allow-credentials: true
+    max-age: 1800
+  security:
+    authentication:
+      jwt:
+        # This token must be encoded using Base64 and be at least 256 bits long (you can type `openssl rand -base64 64` on your command line to generate a 512 bits one)
+        secret: Y2IzMTk3NzMzZDM1ZjI1NmYzMjJiNzc3NTAyNGFjNWIxNmNhNjNjZTRmNjgxNjgyNjU0YzI2Y2QxNjc4MGEzNWI2MWUyMzc1MzQwMDU0ZGE0MjEyOTI0OTQyZDU1YjYxMzQ4YjUwOTlkYTZmNWMyOTRlYWRjZTYyNTAzYjY4MzA=
+        # Token validty in secs -- is valid 24 hours
+        token-validity-in-seconds: 86400
+        # Token validty in secs for remember me
+        token-validity-in-seconds-for-remember-me: 2592000
+
+  mail:
+    from: cooptalent19@gmail.com
+    base-url: http://www.urnacare.com
+  cache: # Cache configuration
+    hazelcast: # Hazelcast distributed cache
+      time-to-live-seconds: 3600
+      backup-count: 1
+      management-center: # Full reference is available at: http://docs.hazelcast.org/docs/management-center/3.9/manual/html/Deploying_and_Starting.html
+        enabled: false
+        update-interval: 3
+        url: http://localhost:8180/mancenter
