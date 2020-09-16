@@ -123,7 +123,7 @@ export class AccountService {
 
     savePassword(newPassword: string, currentPassword: string): Observable<any> {
         const data = {currentPassword: currentPassword, newPassword: newPassword};
-        return this.http.post(SERVICE_API_URL + 'api/account/change-password', data);
+        return this.http.post(SERVICE_API_URL + '/account/change-password', data);
     }
 
 }

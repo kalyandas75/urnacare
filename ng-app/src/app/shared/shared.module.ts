@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HasAnyAuthorityDirective } from './directive/has-any-authority.directive';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -9,7 +10,9 @@ import { HasAnyAuthorityDirective } from './directive/has-any-authority.directiv
     HasAnyAuthorityDirective
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   exports: [
     HasAnyAuthorityDirective

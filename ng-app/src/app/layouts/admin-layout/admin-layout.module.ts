@@ -22,6 +22,7 @@ import { ConsultationEditComponent } from 'src/app/pages/appointment/consultatio
 import { ConsultationViewComponent } from 'src/app/pages/appointment/consultation-view/consultation-view.component';
 import { ChatComponent } from 'src/app/pages/chat/chat.component';
 import { FormlyModule } from '@ngx-formly/core';
+import { ChangePasswordComponent } from 'src/app/pages/profile/change-password/change-password.component';
 
 @NgModule({
   imports: [
@@ -49,7 +50,8 @@ import { FormlyModule } from '@ngx-formly/core';
     DoctorAppointmentListComponent,
     ConsultationEditComponent,
     ConsultationViewComponent,
-    ChatComponent
+    ChatComponent,
+    ChangePasswordComponent
   ],
   entryComponents: [
     AppointmentRequestEditComponent,

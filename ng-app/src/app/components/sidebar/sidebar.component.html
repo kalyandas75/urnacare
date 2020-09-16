@@ -10,7 +10,7 @@
 </div>
 <div class="sidebar-wrapper">
   <ul class="nav">
-    <li routerLinkActive="active"
+    <!-- <li routerLinkActive="active"
     *appHasAnyAuthority="['ROLE_PATIENT']"
     class="nav-item">
       <a routerLink="/patient-appointment">
@@ -33,9 +33,16 @@
         <i class="tim-icons icon-notes"></i>
         <p>Ingredients</p>
       </a>
-    </li>
+    </li> -->
+    <ng-container *ngFor="let mi of menuItems">
+      <li routerLinkActive="active" *appHasAnyAuthority="mi.authorities" class="nav-item">
+        <a [routerLink]="mi.path">
+          <i class="tim-icons {{mi.icon}}"></i>
+          <p>{{ mi.title }}</p>
+        </a>
+
+      </li>
+    </ng-container>
+
   </ul>
 </div>
-
-<!--     *ngIf = "accountService.hasAnyAuthority(['ROLE_ADMIN', 'ROLE_CUSTOMER_SUPPORT'])"
--->

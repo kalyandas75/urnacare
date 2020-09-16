@@ -6,6 +6,7 @@ import { UserRouteAccessService } from 'src/app/shared/service/user-route-access
 import { IngredientComponent } from 'src/app/pages/ingredient/ingredient.component';
 import { PatientAppointmentComponent } from 'src/app/pages/appointment/patient-appointment.component';
 import { DoctorAppointmentComponent } from 'src/app/pages/appointment/doctor-appointment.component';
+import { ChangePasswordComponent } from 'src/app/pages/profile/change-password/change-password.component';
 
 export const AdminLayoutRoutes: Routes = [
   {
@@ -56,4 +57,16 @@ export const AdminLayoutRoutes: Routes = [
     },
     canActivate: [UserRouteAccessService]
   },
+  {
+    path: "change-password",
+    component: ChangePasswordComponent,
+    data: {
+      title: 'changePassword.title',
+      authorities: []
+    },
+    resolve: {
+      title: TitleResolver
+    },
+    canActivate: [UserRouteAccessService]
+  }
 ];

@@ -6,19 +6,29 @@ declare interface RouteInfo {
   title: string;
   icon: string;
   class: string;
+  authorities: string[]
 }
 export const ROUTES: RouteInfo[] = [
   {
-    path: "",
+    path: "/patient-appointment",
     title: "Appointments",
     icon: "icon-notes",
-    class: ""
+    class: "",
+    authorities: ['ROLE_PATIENT']
   },
   {
-    path: "",
-    title: "Profile",
-    icon: "icon-single-02",
-    class: ""
+    path: "/doctor-appointment",
+    title: "Appointments",
+    icon: "icon-notes",
+    class: "",
+    authorities: ['ROLE_DOCTOR']
+  },
+  {
+    path: "/ingredients",
+    title: "Ingredients",
+    icon: "icon-notes",
+    class: "",
+    authorities: ['ROLE_ADMIN', 'ROLE_CUSTOMER_SUPPORT']
   }
 ];
 
