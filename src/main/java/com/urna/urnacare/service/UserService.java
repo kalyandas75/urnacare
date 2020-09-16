@@ -68,7 +68,7 @@ public class UserService {
                     user.setPassword(passwordEncoder.encode(newPassword));
                     user.setResetKey(null);
                     user.setResetDate(null);
-                    return user;
+                    return this.userRepository.save(user);
                 });
     }
 
@@ -78,7 +78,7 @@ public class UserService {
                 .map(user -> {
                     user.setResetKey(RandomUtil.generateResetKey());
                     user.setResetDate(Instant.now());
-                    return user;
+                    return this.userRepository.save(user);
                 });
     }
 

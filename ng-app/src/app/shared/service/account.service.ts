@@ -126,4 +126,11 @@ export class AccountService {
         return this.http.post(SERVICE_API_URL + '/account/change-password', data);
     }
 
+    resetPasswordInit(email: string) {
+        return this.http.post(SERVICE_API_URL + '/account/reset-password/init', email, { observe: 'response'});
+    }
+
+    resetPasswordFinish(key: string, newPassword: string) {
+        return this.http.post(SERVICE_API_URL + '/account/reset-password/finish', { key: key, newPassword: newPassword}, { observe: 'response'});
+    }
 }

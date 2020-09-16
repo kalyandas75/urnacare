@@ -2,7 +2,7 @@ spring:
   application:
     name: urnacare
   profiles:
-    active: dev
+    active: local
   jpa:
     open-in-view: false
     properties:
