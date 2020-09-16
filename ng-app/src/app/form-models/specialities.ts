@@ -1,0 +1,23 @@
+export const SPECIALITIES = [
+    'Allergy and Immunology',
+    'Anesthesiology',
+    'Cardiology',
+    'Dentistry',
+    'Dermatology',
+    'Endocrinology',
+    'ENT',
+    'Gastroenterology',
+    'General',
+    'Neurology',
+    'Obstetrics and Gynecology',
+    'Oncology',
+    'Ophthalmology',
+    'Orthopaedic Surgery',
+    'Pediatrics',
+    'Psychiatry',
+    'Pulmonology',
+    'Radiology',
+    'Rheumatology',
+    'Sexology',
+    'Urology'
+];

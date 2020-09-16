@@ -1,0 +1,30 @@
+<div class="card">
+    <div class=" card-header">
+        <h4 class=" card-title">Pending Appointment Requests</h4>
+    </div>
+    <div class="card-body">
+        <div class=" table-full-width table-responsive">
+            <table class=" table">
+                <thead>
+                    <tr>
+                        <td>Doctor</td>
+                        <td>Date/Time</td>
+                        <td>Status</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngIf="appointmentRequests && appointmentRequests.length > 0">
+                        <tr *ngFor="let apmt of appointmentRequests">
+                            <td>Dr. {{ apmt.doctorFirstName }} {{ apmt.doctorLastName }}</td>
+                            <td>{{ apmt.desiredDate | date : 'mediumDate' }}</td>
+                            <td>{{ apmt.requestStatus }}</td>
+                        </tr>
+                    </ng-container>
+                    <ng-container *ngIf="!(appointmentRequests && appointmentRequests.length > 0)">
+                        <tr><td colspan="3"> -- No Pending Requests -- </td></tr>
+                    </ng-container>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -19,6 +19,10 @@ import { AuthInterceptor } from './shared/interceptor/auth.interceptor';
 import { AuthExpiredInterceptor } from './shared/interceptor/auth-expired.interceptor';
 import { ErrorHandlerInterceptor } from './shared/interceptor/errorhandler.interceptor';
 import { NotificationInterceptor } from './shared/interceptor/notification.interceptor';
+import { FormlyModule } from '@ngx-formly/core';
+import { ValidationMessages } from './form-models/validation.messages';
+import { UrnaDateComponent } from './components/urna-date/urna-date.component';
+import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
 @NgModule({
   imports: [
     BrowserAnimationsModule,
@@ -29,7 +33,14 @@ import { NotificationInterceptor } from './shared/interceptor/notification.inter
     RouterModule,
     AppRoutingModule,
     ToastrModule.forRoot(),
-    NgxWebstorageModule.forRoot()
+    NgxWebstorageModule.forRoot(),
+    FormlyModule.forRoot({
+      validationMessages: ValidationMessages,
+      types: [{
+        name: 'urna-datepicker', component: UrnaDateComponent, extends: 'input'
+      }]
+    }),
+    FormlyBootstrapModule
   ],
   declarations: [AppComponent, AdminLayoutComponent, AuthLayoutComponent],
   providers: [    { provide: LocationStrategy, useClass: HashLocationStrategy },

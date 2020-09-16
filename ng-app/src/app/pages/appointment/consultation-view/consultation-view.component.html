@@ -1,0 +1,71 @@
+<div class="modal-header">
+    <h4 class="modal-title">Consultation</h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body" *ngIf="consultation">
+    <div class="row">
+        <div class="col-md-3">
+            <label>Appointment Date</label>
+        </div>
+        <div class="col-md-9">
+            {{ appointment.scheduledDate | date: 'MMM d, y, h:mm a' }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <label>Consultation Date</label>
+        </div>
+        <div class="col-md-9">
+            {{ consultation.createdOn | date: 'MMM d, y, h:mm a' }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <label>Patient's Name</label>
+        </div>
+        <div class="col-md-9">
+            {{ appointment.patientFirstName }} {{ appointment.patientLastName }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <label>Doctor's Name</label>
+        </div>
+        <div class="col-md-9">
+            {{ appointment.doctorFirstName }} {{ appointment.doctorLastName }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <label>Health issue since</label>
+        </div>
+        <div class="col-md-9">
+            {{ consultation.durationOfHealthIssue }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <label>Presentation/Observation</label>
+        </div>
+        <div class="col-md-9">
+            {{ consultation.healthIssue }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <label>Rx</label>
+        </div>
+        <div class="col-md-9">
+            {{ consultation.consultationResponse }}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <button class="btn btn-sm float-right" (click)="activeModal.dismiss('Close')"> Close</button>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,36 @@
+<div class="card">
+    <div class=" card-header">
+        <h4 class=" card-title">Book an Appointment</h4>
+    </div>
+    <div class="card-body">
+        <form [formGroup]="form" (ngSubmit)="onSearch()">
+            <formly-form [model]="model" [fields]="fields" [options]="options" [form]="form"></formly-form>
+            <button type="submit" class="btn btn-success btn-sm submit-button float-right"
+                [disabled]="!form.valid">Search</button>
+        </form>
+        <div class=" table-full-width table-responsive" *ngIf="searched">
+            <table class=" table">
+                <thead>
+                    <tr>
+                        <td>Name</td>
+                        <td>Qualification</td>
+                        <td></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngIf="doctors && doctors.length > 0">
+                        <tr *ngFor="let d of doctors">
+                            <td>Dr. {{ d.firstName }} {{ d.lastName }}</td>
+                            <td>{{ d.doctorQualifications }}</td>
+                            <td><button type="button" class="btn btn-primary btn-sm" (click)="open(d.id)">Book</button></td>
+                        </tr>
+                    </ng-container>
+                    <ng-container *ngIf="!(doctors && doctors.length > 0)">
+                        <td colspan="3"> -- No Doctors Found --</td>
+                    </ng-container>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

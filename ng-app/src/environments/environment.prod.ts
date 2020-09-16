@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  CHAT_SERVER_URL: ''
 };

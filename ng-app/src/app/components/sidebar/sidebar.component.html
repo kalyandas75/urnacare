@@ -11,6 +11,22 @@
 <div class="sidebar-wrapper">
   <ul class="nav">
     <li routerLinkActive="active"
+    *appHasAnyAuthority="['ROLE_PATIENT']"
+    class="nav-item">
+      <a routerLink="/patient-appointment">
+        <i class="tim-icons icon-notes"></i>
+        <p>Appointment</p>
+      </a>
+    </li>
+    <li routerLinkActive="active"
+    *appHasAnyAuthority="['ROLE_DOCTOR']"
+    class="nav-item">
+      <a routerLink="/doctor-appointment">
+        <i class="tim-icons icon-notes"></i>
+        <p>Appointment</p>
+      </a>
+    </li>
+    <li routerLinkActive="active"
     *appHasAnyAuthority="['ROLE_ADMIN', 'ROLE_CUSTOMER_SUPPORT']"
     class="nav-item">
       <a routerLink="/ingredients">

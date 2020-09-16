@@ -1,0 +1,40 @@
+<div class="card">
+    <div class=" card-header">
+        <h4 class=" card-title">
+            <span *ngIf="!completed">Upcoming Appointments</span>
+            <span *ngIf="completed">Past Appointments</span>
+        </h4>
+    </div>
+    <div class="card-body">
+        <div class=" table-full-width table-responsive">
+            <table class=" table">
+                <thead>
+                    <tr>
+                        <td>Doctor</td>
+                        <td>Date Time</td>
+                        <td></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngIf="appointments && appointments.length > 0">
+                        <tr *ngFor="let a of appointments">
+                            <td>Dr. {{ a.doctorFirstName }} {{ a.doctorLastName }}</td>
+                            <td>{{ a.scheduledDate | date: 'MMM d, y, h:mm a' }}</td>
+                            <td>
+                                <a class="btn btn-sm btn-warning" href="javascript: void(0)" *ngIf="a.enableChat" (click)="openChat(a.uniquieKey, 'Dr' + a.doctorFirstName + ' ' + a.doctorLastName)" >Chat</a> <!-- *ngIf="a.enableChat" -->
+                                <button class="btn btn-sm btn-info" *ngIf="completed && !!a.consultationId" (click)="openConsultation(a)">View Consultation</button>
+                                <span *ngIf="completed && !a.consultationId">Missed</span>
+                            </td>
+                        </tr>
+                    </ng-container>
+                    <ng-container *ngIf="appointments && appointments.length < 1">
+                        <tr>
+                            <td colspan="3"> -- No records found -- </td>
+                        </tr>
+                    </ng-container>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

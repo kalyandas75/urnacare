@@ -1,0 +1,79 @@
+<div class="card">
+    <div class=" card-header">
+        <h4 class=" card-title">Pending Appointment Approvals</h4>
+    </div>
+    <div class="card-body">
+        <div class=" table-full-width table-responsive">
+            <table class=" table">
+                <thead>
+                    <tr>
+                        <td>Patient</td>
+                        <td>Date</td>
+                        <td>Hours Between</td>
+                        <td>Date Flexible?</td>
+                        <td>Hours Flexible?</td>
+                        <td></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngIf="appointmentRequests && appointmentRequests.length > 0">
+                        <tr *ngFor="let apmt of appointmentRequests">
+                            <td>Dr. {{ apmt.patientFirstName }} {{ apmt.patientLastName }}</td>
+                            <td>{{ apmt.desiredDate | date : 'mediumDate' }}</td>
+                            <td>{{ getHours(apmt) }}</td>
+                            <td>{{ apmt.dateFlexible }}</td>
+                            <td>{{ apmt.hoursFlexible }}</td>
+                            <td>
+                                <button class="btn btn-sm btn-success" (click)="open(content, apmt)">Approve</button>
+                                <button class="btn btn-sm btn-danger" (click)="openReject(content1, apmt.id)">Reject</button>
+                            </td>
+                        </tr>
+                    </ng-container>
+                    <ng-container *ngIf="!(appointmentRequests && appointmentRequests.length > 0)">
+                        <tr>
+                            <td colspan="6"> -- No Pending Requests -- </td>
+                        </tr>
+                    </ng-container>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<ng-template #content let-apprmodal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Approve</h4>
+        <button type="button" class="close" aria-label="Close" (click)="apprmodal.dismiss('X')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="apprform" (ngSubmit)="apprmodal.close('Y')">
+            <formly-form [model]="apprmodel" [fields]="apprfields" [options]="approptions" [form]="apprform">
+            </formly-form>
+            <button type="submit" class="btn btn-success btn-sm submit-button float-right"
+                [disabled]="!apprform.valid">Submit</button>
+        </form>
+    </div>
+
+</ng-template>
+
+
+<ng-template #content1 let-rjmodal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Reject</h4>
+        <button type="button" class="close" aria-label="Close" (click)="rjmodal.dismiss('X')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="rjform" (ngSubmit)="rjmodal.close('Y')">
+            <formly-form [model]="rjmodel" [fields]="rjfields" 
+            [options]="rjoptions" [form]="rjform">
+            </formly-form>
+            <button type="submit" class="btn btn-success btn-sm submit-button float-right"
+                [disabled]="!rjform.valid">Submit</button>
+        </form>
+    </div>
+
+</ng-template>
