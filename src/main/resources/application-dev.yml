@@ -62,7 +62,7 @@ application:
 
   mail:
     from: cooptalent19@gmail.com
-    base-url: http://www.urnacare.com
+    base-url: http://45.35.190.51:8081
   cache: # Cache configuration
     hazelcast: # Hazelcast distributed cache
       time-to-live-seconds: 3600
