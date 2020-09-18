@@ -33,7 +33,7 @@ public class Appointment {
 	@Column(columnDefinition = "TIMESTAMP")
 	private LocalDateTime scheduledDate;
 
-	@OneToMany
+	@OneToMany(fetch = FetchType.EAGER)
 	@JoinColumn(name="appointmentId", referencedColumnName="id")
 	private Set<MedicalFile> medicalFiles;
 
