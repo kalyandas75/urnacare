@@ -1,0 +1,223 @@
+<div class=" content">
+    <div class=" row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class=" card-header">
+                    <h2>Profile</h2>
+                </div>
+                <div class="card-body">
+                    <form class="needs-validation" novalidate [formGroup]="form" (ngSubmit)="onSubmit()"
+                        *ngIf="profile">
+                        <div class="form-row">
+                            <div class="col-md-6">
+                                <label>First name</label>
+                                <input type="text" class="form-control" placeholder="First name"
+                                    formControlName="firstName"
+                                    [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }">
+                                <div class="invalid-feedback" style="display: block;"
+                                    *ngIf="submitted && f.firstName.invalid">
+                                    <div *ngIf="f.firstName.errors.required">Firstname is required</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Last name</label>
+                                <input type="text" class="form-control" placeholder="Last name"
+                                    formControlName="lastName"
+                                    [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }">
+                                <div class="invalid-feedback" style="display: block;"
+                                    *ngIf="submitted && f.lastName.invalid">
+                                    <div *ngIf="f.lastName.errors.required">Lastname is required</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-md-6">
+                                <label>Phone</label>
+                                <input type="text" class="form-control" placeholder="Phone"
+                                    formControlName="phoneNumber"
+                                    [ngClass]="{ 'is-invalid': submitted && f.phoneNumber.errors }">
+                                <div class="invalid-feedback" style="display: block;"
+                                    *ngIf="submitted && f.phoneNumber.invalid">
+                                    <div *ngIf="f.phoneNumber.errors.required">Phone is required</div>
+                                    <div *ngIf="f.phoneNumber.errors.pattern">Phone is not valid</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Alternate Phone</label>
+                                <input type="text" class="form-control" placeholder="Alternate Phone"
+                                    formControlName="alternatePhoneNumber"
+                                    [ngClass]="{ 'is-invalid': submitted && f.alternatePhoneNumber.errors }">
+                                <div class="invalid-feedback" style="display: block;"
+                                    *ngIf="submitted && f.alternatePhoneNumber.invalid">
+                                    <div *ngIf="f.alternatePhoneNumber.errors.pattern">Phone is not valid</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-md-6">
+                                <label>Email</label>
+                                <input type="text" class="form-control" placeholder="Email" formControlName="email"
+                                    [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
+                                <div class="invalid-feedback" style="display: block;"
+                                    *ngIf="submitted && f.email.invalid">
+                                    <div *ngIf="f.email.errors.required">Email is required</div>
+                                    <div *ngIf="f.email.errors.email">Email is not valid</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Gender</label>
+                                <select class="form-control" formControlName="gender">
+                                    <option></option>
+                                    <option *ngFor="let g of genders" [value]="g">{{ g }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <ng-container *appHasAnyAuthority="['ROLE_DOCTOR']">
+                            <div class="form-row">
+                                <div class="col-md-6">
+                                    <label>Registration Number</label>
+                                    <input type="text" class="form-control" placeholder="Registration Number"
+                                        formControlName="registrationNumber"
+                                        [ngClass]="{ 'is-invalid': submitted && f.registrationNumber.errors }">
+                                    <div class="invalid-feedback" style="display: block;"
+                                        *ngIf="submitted && f.registrationNumber.invalid">
+                                        <div *ngIf="f.registrationNumber.errors.required">Registration Number is
+                                            required</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label>Primary Speciality</label>
+                                    <select formControlName="primarySpeciality" class="form-control"
+                                        placeholder="Primary Speciality"
+                                        [ngClass]="{ 'is-invalid': submitted && f.primarySpeciality.errors }">
+                                        <option *ngFor="let sp of specialities" [value]="sp">{{ sp }}</option>
+                                    </select>
+                                    <div class="invalid-feedback" style="display: block;"
+                                        *ngIf="submitted && f.primarySpeciality.invalid">
+                                        <div *ngIf="f.primarySpeciality.errors.required">Primary Speciality is not valid
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-6">
+                                    <label>Qualifications</label>
+                                    <button class="btn btn-link btn-info" type="button" (click)="addQualification()">
+                                        <i class="tim-icons icon-simple-add"></i>
+                                    </button>
+                                    <div class="row" formArrayName="qualifications"
+                                        *ngFor="let q of form.get('qualifications').controls; let i = index;">
+                                        <div class="col-md-10">
+                                            <input [formControlName]="i" placeholder="Qualification" class="form-control">
+                                        </div>
+                                        <div class="col-md-2">
+                                            <button class="btn btn-link btn-warning" type="button" (click)="removeQualification(i)">
+                                                <i class="tim-icons icon-simple-remove"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label>Other Speciality</label>
+                                    <button class="btn btn-link btn-info" type="button" (click)="addOtherSpeciality()">
+                                        <i class="tim-icons icon-simple-add"></i>
+                                    </button>
+                                    <div class="row" formArrayName="otherSpecialities"
+                                        *ngFor="let q of form.get('otherSpecialities').controls; let i = index;">
+                                        <div class="col-md-10">
+                                            <select [formControlName]="i" class="form-control">
+                                                <option *ngFor="let s of specialities" [value]="s">{{ s }}</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <button class="btn btn-link btn-warning" type="button" (click)="removeOtherSpeciality(i)">
+                                                <i class="tim-icons icon-simple-remove"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+                        <hr>
+                        <div class="form-row">
+                            <div class="col-md-12">
+                                <h4 style="display: inline;">Addresses</h4>
+                                <button class="btn btn-link btn-info" type="button" (click)="addAddress()">
+                                    <i class="tim-icons icon-simple-add"></i>
+                                </button>
+                                <ng-container  formArrayName="addresses">
+                                    <ng-container  *ngFor="let _ of form.get('addresses').controls; index as i" [formGroupName]="i">
+                                        <div class="form-row">
+                                            <div class="col-md-3">
+                                                <label>Type</label>
+                                                <select class="form-control" formControlName="type">
+                                                    <option [value]="'PRACTICE'" *appHasAnyAuthority="['ROLE_DOCTOR']">Practice</option>
+                                                    <option [value]="'MAILING'">Mailing</option>
+                                                </select>
+                                                <div class="invalid-feedback" style="display: block;"
+                                                    *ngIf="submitted && getFormArray('addresses').controls[i].get('type').invalid">
+                                                    <div *ngIf="getFormArray('addresses').controls[i].get('type').errors.required">Address Type is required</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <label>Address</label>
+                                                <input type="text" class="form-control" formControlName="address" 
+                                                [ngClass]="{ 'is-invalid': (submitted  && !!getFormArray('addresses').controls[i].get('address').errors)}">
+                                                <div class="invalid-feedback" style="display: block;"
+                                                    *ngIf="submitted && getFormArray('addresses').controls[i].get('address').invalid">
+                                                    <div *ngIf="getFormArray('addresses').controls[i].get('address').errors.required">Address is required</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="col-md-4">
+                                                <label>City</label>
+                                                <input type="text" class="form-control" formControlName="city">
+                                                <div class="invalid-feedback" style="display: block;"
+                                                    *ngIf="submitted && getFormArray('addresses').controls[i].get('city').invalid">
+                                                    <div *ngIf="getFormArray('addresses').controls[i].get('city').errors.required">City is required</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>State</label>
+                                                <input type="text" class="form-control" formControlName="state">
+                                                <div class="invalid-feedback" style="display: block;"
+                                                    *ngIf="submitted && getFormArray('addresses').controls[i].get('state').invalid">
+                                                    <div *ngIf="getFormArray('addresses').controls[i].get('state').errors.required">State is required</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label>Pin</label>
+                                                <input type="text" class="form-control" formControlName="pin">
+                                                <div class="invalid-feedback" style="display: block;"
+                                                    *ngIf="submitted && getFormArray('addresses').controls[i].get('pin').invalid">
+                                                    <div *ngIf="getFormArray('addresses').controls[i].get('pin').errors.required">Pin is required</div>
+                                                    <div *ngIf="getFormArray('addresses').controls[i].get('pin').errors.pattern">Pin is invalid</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="col-md-2 offset-md-10">
+                                                <button class="btn btn-warning btn-sm" (click) = "removeAddress(i)">Remove</button>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                    </ng-container>
+                                   
+                                </ng-container>
+                                
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="col-md-3 offset-md-9">
+                                <button type="submit" class="btn btn-primary" [disabled]="loading">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

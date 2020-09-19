@@ -12,6 +12,7 @@ import com.urna.urnacare.mapper.UserMapper;
 import com.urna.urnacare.repository.UserRepository;
 import com.urna.urnacare.security.AuthoritiesConstants;
 import com.urna.urnacare.security.SecurityUtils;
+import com.urna.urnacare.service.DoctorService;
 import com.urna.urnacare.service.MailService;
 import com.urna.urnacare.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -49,14 +50,17 @@ public class AccountController {
 
     private final DoctorMapper doctorMapper;
 
+    private final DoctorService doctorService;
 
-    public AccountController(UserRepository userRepository, UserService userService, MailService mailService, UserMapper userMapper, DoctorMapper doctorMapper) {
+
+    public AccountController(UserRepository userRepository, UserService userService, MailService mailService, UserMapper userMapper, DoctorMapper doctorMapper, DoctorService doctorService) {
 
         this.userRepository = userRepository;
         this.userService = userService;
         this.mailService = mailService;
         this.userMapper = userMapper;
         this.doctorMapper = doctorMapper;
+        this.doctorService = doctorService;
     }
 
     @PostMapping("/register-doctor")
@@ -127,22 +131,26 @@ public class AccountController {
     /**
      * POST  /account : update the current user information.
      *
-     * @param userDTO the current user information
+     * @param doctorDTO the current user information
      * @throws EmailAlreadyUsedException 400 (Bad Request) if the email is already used
      * @throws RuntimeException 500 (Internal Server Error) if the user login wasn't found
      */
-    /*
+
     @PostMapping("/account")
-    public void saveAccount(@Valid @RequestBody UserDTO userDTO) {
+    public void saveAccount(@Valid @RequestBody DoctorDTO doctorDTO) {
         final String userLogin = SecurityUtils.getCurrentUserLogin().orElseThrow(() -> new InternalServerErrorException("Current user login not found"));
-        Optional<User> existingUser = userRepository.findOneByEmailIgnoreCase(userDTO.getEmail());
-        if (existingUser.isPresent() && (!existingUser.get().getLogin().equalsIgnoreCase(userLogin))) {
+        Optional<User> existingUser = userRepository.findOneByEmailIgnoreCase(doctorDTO.getEmail());
+        if (existingUser.isPresent() && (!existingUser.get().getEmail().equalsIgnoreCase(userLogin))) {
             throw new EmailAlreadyUsedException();
         }
-        userService.updateUser(userDTO.getFirstName(), userDTO.getLastName(), userDTO.getEmail());
+        if(SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.DOCTOR)) {
+            this.doctorService.update(doctorDTO);
+        } else {
+            userService.update(doctorDTO);
+        }
     }
 
-     */
+
 
     /**
      * POST  /account/change-password : changes the current user's password

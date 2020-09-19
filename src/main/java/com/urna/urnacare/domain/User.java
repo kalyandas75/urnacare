@@ -1,5 +1,6 @@
 package com.urna.urnacare.domain;
 
+import com.urna.urnacare.enumeration.Gender;
 import com.urna.urnacare.security.AuthoritiesConstants;
 import lombok.Data;
 
@@ -7,6 +8,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
 import java.time.Instant;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -66,8 +68,9 @@ public class User extends AbstractAuditingEntity  {
     private String alternatePhoneNumber;
 
     @OneToMany(mappedBy="user", fetch = FetchType.EAGER)
-    private Set<Address> addresses;
+    private List<Address> addresses;
 
-    @Column(name = "gender", length = 10)
-    private String gender;
+    @Enumerated(value = EnumType.STRING)
+    @Column
+    private Gender gender;
 }

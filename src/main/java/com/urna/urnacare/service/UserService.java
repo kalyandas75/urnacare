@@ -2,12 +2,12 @@ package com.urna.urnacare.service;
 
 import com.urna.urnacare.domain.Doctor;
 import com.urna.urnacare.domain.User;
-import com.urna.urnacare.dto.DoctorDTO;
 import com.urna.urnacare.dto.DoctorRegistrationDTO;
 import com.urna.urnacare.dto.PatientRegistrationDTO;
 import com.urna.urnacare.dto.UserDTO;
 import com.urna.urnacare.errors.EmailAlreadyUsedException;
 import com.urna.urnacare.errors.InvalidPasswordException;
+import com.urna.urnacare.mapper.AddressMapper;
 import com.urna.urnacare.mapper.DoctorMapper;
 import com.urna.urnacare.mapper.UserMapper;
 import com.urna.urnacare.repository.DoctorRepository;
@@ -38,14 +38,17 @@ public class UserService {
 
     private final DoctorMapper doctorMapper;
 
+    private final AddressMapper addressMapper;
 
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, DoctorRepository doctorRepository, UserMapper userMapper, DoctorMapper doctorMapper) {
+
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, DoctorRepository doctorRepository, UserMapper userMapper, DoctorMapper doctorMapper, AddressMapper addressMapper) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.doctorRepository = doctorRepository;
         this.userMapper = userMapper;
         this.doctorMapper = doctorMapper;
+        this.addressMapper = addressMapper;
     }
 
     public Optional<User> activateRegistration(String key) {
@@ -165,6 +168,23 @@ public class UserService {
 
     public Optional<User> findUserByEmail() {
         return SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByEmailIgnoreCase);
+    }
+
+    public Optional<UserDTO> update(UserDTO userDTO) {
+        return Optional.of(userRepository
+                .findById(userDTO.getId()))
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .map(user -> {
+                    user.setEmail(userDTO.getEmail());
+                    user.setFirstName(userDTO.getFirstName());
+                    user.setLastName(userDTO.getLastName());
+                    user.setAddresses(this.addressMapper.toEntity(userDTO.getAddresses()));
+                    user.setAlternatePhoneNumber(userDTO.getAlternatePhoneNumber());
+                    user.setPhoneNumber(userDTO.getPhoneNumber());
+                    user.setGender(userDTO.getGender());
+                    return this.userMapper.toDto(user);
+                });
     }
 
 }

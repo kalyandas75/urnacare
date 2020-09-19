@@ -23,6 +23,7 @@ import { ConsultationViewComponent } from 'src/app/pages/appointment/consultatio
 import { ChatComponent } from 'src/app/pages/chat/chat.component';
 import { FormlyModule } from '@ngx-formly/core';
 import { ChangePasswordComponent } from 'src/app/pages/profile/change-password/change-password.component';
+import { ProfileComponent } from 'src/app/pages/profile/profile.component';
 
 @NgModule({
   imports: [
@@ -51,7 +52,8 @@ import { ChangePasswordComponent } from 'src/app/pages/profile/change-password/c
     ConsultationEditComponent,
     ConsultationViewComponent,
     ChatComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent, 
+    ProfileComponent
   ],
   entryComponents: [
     AppointmentRequestEditComponent,

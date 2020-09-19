@@ -1,5 +1,6 @@
 package com.urna.urnacare.dto;
 
+import com.urna.urnacare.enumeration.AddressType;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,14 +14,8 @@ public class AddressDTO implements Serializable {
     private Long id;
 
     @NotBlank
-    @Size(max = 100)
-    private String line1;
-
-    @Size(max = 100)
-    private String line2;
-
-    @Size(max = 100)
-    private String line3;
+    @Size(max = 255)
+    private String address;
 
     @NotBlank
     @Size(max = 100)
@@ -35,10 +30,7 @@ public class AddressDTO implements Serializable {
     private String pin;
 
     @NotBlank
-    @Size(max = 10)
-    private String type;
-
-    private Boolean current;
+    private AddressType type;
 
     private Long userId;
 }

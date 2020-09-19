@@ -7,6 +7,7 @@ import { IngredientComponent } from 'src/app/pages/ingredient/ingredient.compone
 import { PatientAppointmentComponent } from 'src/app/pages/appointment/patient-appointment.component';
 import { DoctorAppointmentComponent } from 'src/app/pages/appointment/doctor-appointment.component';
 import { ChangePasswordComponent } from 'src/app/pages/profile/change-password/change-password.component';
+import { ProfileComponent } from 'src/app/pages/profile/profile.component';
 
 export const AdminLayoutRoutes: Routes = [
   {
@@ -62,6 +63,18 @@ export const AdminLayoutRoutes: Routes = [
     component: ChangePasswordComponent,
     data: {
       title: 'changePassword.title',
+      authorities: []
+    },
+    resolve: {
+      title: TitleResolver
+    },
+    canActivate: [UserRouteAccessService]
+  },
+  {
+    path: "profile",
+    component: ProfileComponent,
+    data: {
+      title: 'profile.title',
       authorities: []
     },
     resolve: {

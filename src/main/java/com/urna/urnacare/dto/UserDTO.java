@@ -1,5 +1,6 @@
 package com.urna.urnacare.dto;
 
+import com.urna.urnacare.enumeration.Gender;
 import com.urna.urnacare.security.AuthoritiesConstants;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,6 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -45,5 +47,7 @@ public class UserDTO extends AbstractAuditingDTO {
     @Size(max = 15)
     private String alternatePhoneNumber;
 
-    private Set<AddressDTO> addresses;
+    private List<AddressDTO> addresses;
+
+    private Gender gender;
 }

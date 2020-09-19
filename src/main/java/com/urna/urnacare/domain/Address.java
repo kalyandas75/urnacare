@@ -1,6 +1,7 @@
 package com.urna.urnacare.domain;
 
 
+import com.urna.urnacare.enumeration.AddressType;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -20,14 +21,8 @@ public class Address implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "line_1", length = 100, nullable = false)
-    private String line1;
-
-    @Column(name = "line_2", length = 100)
-    private String line2;
-
-    @Column(name = "line_3", length = 100)
-    private String line3;
+    @Column(name = "address", nullable = false)
+    private String address;
 
     @Column(name = "city", length = 100, nullable = false)
     private String city;
@@ -38,11 +33,9 @@ public class Address implements Serializable {
     @Column(name = "pin", length = 10)
     private String pin;
 
+    @Enumerated(value = EnumType.STRING)
     @Column(name = "type", nullable = false)
-    private String type;
-
-    @Column(name = "current")
-    private Boolean current;
+    private AddressType type;
 
     @ManyToOne
     @JoinColumn(name="user_id", nullable=false)
