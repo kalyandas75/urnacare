@@ -67,7 +67,7 @@ public class User extends AbstractAuditingEntity  {
     @Column(length = 15)
     private String alternatePhoneNumber;
 
-    @OneToMany(mappedBy="user", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy="user", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Address> addresses;
 
     @Enumerated(value = EnumType.STRING)

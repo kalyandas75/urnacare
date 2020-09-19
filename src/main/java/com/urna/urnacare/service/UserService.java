@@ -179,11 +179,14 @@ public class UserService {
                     user.setEmail(userDTO.getEmail());
                     user.setFirstName(userDTO.getFirstName());
                     user.setLastName(userDTO.getLastName());
+                    if(userDTO.getAddresses() != null) {
+                        userDTO.getAddresses().stream().forEach(a -> a.setUserId(user.getId()));
+                    }
                     user.setAddresses(this.addressMapper.toEntity(userDTO.getAddresses()));
                     user.setAlternatePhoneNumber(userDTO.getAlternatePhoneNumber());
                     user.setPhoneNumber(userDTO.getPhoneNumber());
                     user.setGender(userDTO.getGender());
-                    return this.userMapper.toDto(user);
+                    return this.userMapper.toDto(this.userRepository.save(user));
                 });
     }
 

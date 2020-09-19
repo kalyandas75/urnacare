@@ -113,11 +113,14 @@ export class ProfileComponent implements OnInit {
       }
     }
     addressArray.push(this.fb.group({
+      name: [!! address && !!address.name ? address.name: ''],
       address: [!! address && !!address.address ? address.address: '', Validators.required],
       city: [!! address && !!address.city ? address.city: '', Validators.required],
       state: [!! address && !!address.state ? address.state: '', Validators.required],
       pin: [!! address && !!address.pin ? address.pin: '', [Validators.required, Validators.pattern(/^[1-9][0-9]{5}$/)]],
-      type: [!! address && !!address.type ? address.type : '', [Validators.required]]
+      type: [!! address && !!address.type ? address.type : '', [Validators.required]],
+      phoneNumber: [!! address && !!address.phoneNumber ? address.phoneNumber: '', [Validators.pattern(/^[1-9]{1}[0-9]{9}$/)]],
+
     }));
   }
 
@@ -136,7 +139,7 @@ export class ProfileComponent implements OnInit {
     }
     const data = this.form.value;
     data.id = this.profile.id;
-    this.accountService.save(this.form.value)
+    this.accountService.save(this.form.value, this.accountService.hasAnyAuthority(['ROLE_DOCTOR']))
     .subscribe(res => {
       this.toastr.success('Profile saved successfully');
       this.loadProfile();

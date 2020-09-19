@@ -131,13 +131,24 @@ public class AccountController {
     /**
      * POST  /account : update the current user information.
      *
-     * @param doctorDTO the current user information
+     * @param userDTO the current user information
      * @throws EmailAlreadyUsedException 400 (Bad Request) if the email is already used
      * @throws RuntimeException 500 (Internal Server Error) if the user login wasn't found
      */
 
     @PostMapping("/account")
-    public void saveAccount(@Valid @RequestBody DoctorDTO doctorDTO) {
+    public void saveAccount(@Valid @RequestBody UserDTO userDTO) {
+        final String userLogin = SecurityUtils.getCurrentUserLogin().orElseThrow(() -> new InternalServerErrorException("Current user login not found"));
+        Optional<User> existingUser = userRepository.findOneByEmailIgnoreCase(userDTO.getEmail());
+        if (existingUser.isPresent() && (!existingUser.get().getEmail().equalsIgnoreCase(userLogin))) {
+            throw new EmailAlreadyUsedException();
+        }
+        userService.update(userDTO);
+
+    }
+
+    @PostMapping("/account-doctor")
+    public void saveDoctorAccount(@Valid @RequestBody DoctorDTO doctorDTO) {
         final String userLogin = SecurityUtils.getCurrentUserLogin().orElseThrow(() -> new InternalServerErrorException("Current user login not found"));
         Optional<User> existingUser = userRepository.findOneByEmailIgnoreCase(doctorDTO.getEmail());
         if (existingUser.isPresent() && (!existingUser.get().getEmail().equalsIgnoreCase(userLogin))) {

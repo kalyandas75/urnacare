@@ -21,6 +21,12 @@ public class Address implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Column(name = "name")
+    private String name;
+
+    @Column(length = 15)
+    private String phoneNumber;
+
     @Column(name = "address", nullable = false)
     private String address;
 
@@ -37,8 +43,8 @@ public class Address implements Serializable {
     @Column(name = "type", nullable = false)
     private AddressType type;
 
-    @ManyToOne
-    @JoinColumn(name="user_id", nullable=false)
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name="user_id")
     private User user;
 
 }

@@ -39,10 +39,14 @@ public class DoctorService {
                     doctor.setOtherSpecialities(doctorDTO.getOtherSpecialities());
                     doctor.setQualifications(doctorDTO.getQualifications());
                     doctor.setFirstName(doctorDTO.getFirstName());
+                    if(doctorDTO.getAddresses() != null) {
+                        doctorDTO.getAddresses().stream().forEach(a -> a.setUserId(doctor.getId()));
+                    }
                     doctor.setAddresses(this.addressMapper.toEntity(doctorDTO.getAddresses()));
                     doctor.setPhoneNumber(doctorDTO.getPhoneNumber());
                     doctor.setAlternatePhoneNumber(doctorDTO.getAlternatePhoneNumber());
-                    return this.doctorMapper.toDto(doctor);
+                    doctor.setGender(doctorDTO.getGender());
+                    return this.doctorMapper.toDto(this.doctorRepository.save(doctor));
                 });
     }
 

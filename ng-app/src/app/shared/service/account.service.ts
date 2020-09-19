@@ -22,7 +22,10 @@ export class AccountService {
         return this.http.get<Account>(SERVICE_API_URL + '/account', { observe: 'response' });
     }
 
-    save(account: any): Observable<HttpResponse<any>> {
+    save(account: any, isDoctor = false): Observable<HttpResponse<any>> {
+        if(isDoctor) {
+            return this.http.post(SERVICE_API_URL + '/account-doctor', account, { observe: 'response' });
+        }
         return this.http.post(SERVICE_API_URL + '/account', account, { observe: 'response' });
     }
 

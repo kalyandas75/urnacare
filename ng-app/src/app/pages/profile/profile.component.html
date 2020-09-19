@@ -68,7 +68,7 @@
                                 <label>Gender</label>
                                 <select class="form-control" formControlName="gender">
                                     <option></option>
-                                    <option *ngFor="let g of genders" [value]="g">{{ g }}</option>
+                                    <option *ngFor="let g of genders" value="{{ g }}">{{ g }}</option>
                                 </select>
                             </div>
                         </div>
@@ -149,18 +149,18 @@
                                 <ng-container  formArrayName="addresses">
                                     <ng-container  *ngFor="let _ of form.get('addresses').controls; index as i" [formGroupName]="i">
                                         <div class="form-row">
-                                            <div class="col-md-3">
+                                            <div class="col-md-2">
                                                 <label>Type</label>
                                                 <select class="form-control" formControlName="type">
-                                                    <option [value]="'PRACTICE'" *appHasAnyAuthority="['ROLE_DOCTOR']">Practice</option>
-                                                    <option [value]="'MAILING'">Mailing</option>
+                                                    <option value="PRACTICE" *appHasAnyAuthority="['ROLE_DOCTOR']">Practice</option>
+                                                    <option value="MAILING">Mailing</option>
                                                 </select>
                                                 <div class="invalid-feedback" style="display: block;"
                                                     *ngIf="submitted && getFormArray('addresses').controls[i].get('type').invalid">
                                                     <div *ngIf="getFormArray('addresses').controls[i].get('type').errors.required">Address Type is required</div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-8">
+                                            <div class="col-md-6">
                                                 <label>Address</label>
                                                 <input type="text" class="form-control" formControlName="address" 
                                                 [ngClass]="{ 'is-invalid': (submitted  && !!getFormArray('addresses').controls[i].get('address').errors)}">
@@ -169,9 +169,13 @@
                                                     <div *ngIf="getFormArray('addresses').controls[i].get('address').errors.required">Address is required</div>
                                                 </div>
                                             </div>
+                                            <div class="col-md-4">
+                                                <label>Name(e.g Name of clinic/office/home etc)</label>
+                                                <input type="text" class="form-control" formControlName="name">
+                                            </div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="col-md-4">
+                                            <div class="col-md-3">
                                                 <label>City</label>
                                                 <input type="text" class="form-control" formControlName="city">
                                                 <div class="invalid-feedback" style="display: block;"
@@ -179,7 +183,7 @@
                                                     <div *ngIf="getFormArray('addresses').controls[i].get('city').errors.required">City is required</div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-3">
                                                 <label>State</label>
                                                 <input type="text" class="form-control" formControlName="state">
                                                 <div class="invalid-feedback" style="display: block;"
@@ -194,6 +198,14 @@
                                                     *ngIf="submitted && getFormArray('addresses').controls[i].get('pin').invalid">
                                                     <div *ngIf="getFormArray('addresses').controls[i].get('pin').errors.required">Pin is required</div>
                                                     <div *ngIf="getFormArray('addresses').controls[i].get('pin').errors.pattern">Pin is invalid</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label>Phone</label>
+                                                <input type="text" class="form-control" formControlName="phoneNumber">
+                                                <div class="invalid-feedback" style="display: block;"
+                                                    *ngIf="submitted && getFormArray('addresses').controls[i].get('phoneNumber').invalid">
+                                                    <div *ngIf="getFormArray('addresses').controls[i].get('phoneNumber').errors.pattern">Phone is invalid</div>
                                                 </div>
                                             </div>
                                         </div>
