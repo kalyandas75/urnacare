@@ -284,7 +284,7 @@
 							<goal>npm</goal>
 						</goals>
 						<configuration>
-							<arguments>run build --prod="true"</arguments>
+							<arguments>run build --prod</arguments>
 						</configuration>
 					</execution>
 					<execution>
