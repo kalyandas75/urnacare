@@ -7,7 +7,7 @@ import javax.validation.constraints.Size;
 
 @Data
 @NoArgsConstructor
-public class PatientRegistrationDTO extends UserDTO {
+public class UserRegistrationDTO extends UserDTO {
     public static final int PASSWORD_MIN_LENGTH = 4;
 
     public static final int PASSWORD_MAX_LENGTH = 100;

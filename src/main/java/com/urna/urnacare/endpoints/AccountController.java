@@ -75,7 +75,7 @@ public class AccountController {
 
     @PostMapping("/register-patient")
     @ResponseStatus(HttpStatus.CREATED)
-    public void registerPatient(@Valid @RequestBody PatientRegistrationDTO registrationDTO) {
+    public void registerPatient(@Valid @RequestBody UserRegistrationDTO registrationDTO) {
         if (!checkPasswordLength(registrationDTO.getPassword())) {
             throw new InvalidPasswordException();
         }

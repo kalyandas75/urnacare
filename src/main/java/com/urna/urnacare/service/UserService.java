@@ -3,8 +3,9 @@ package com.urna.urnacare.service;
 import com.urna.urnacare.domain.Doctor;
 import com.urna.urnacare.domain.User;
 import com.urna.urnacare.dto.DoctorRegistrationDTO;
-import com.urna.urnacare.dto.PatientRegistrationDTO;
+import com.urna.urnacare.dto.UserRegistrationDTO;
 import com.urna.urnacare.dto.UserDTO;
+import com.urna.urnacare.errors.BadRequestAlertException;
 import com.urna.urnacare.errors.EmailAlreadyUsedException;
 import com.urna.urnacare.errors.InvalidPasswordException;
 import com.urna.urnacare.mapper.AddressMapper;
@@ -16,12 +17,15 @@ import com.urna.urnacare.security.AuthoritiesConstants;
 import com.urna.urnacare.security.SecurityUtils;
 import com.urna.urnacare.util.RandomUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -103,16 +107,16 @@ public class UserService {
         return doctorRepository.save(doctor);
     }
 
-    public User registerPatient(PatientRegistrationDTO patientRegistrationDTO) {
-        userRepository.findOneByEmailIgnoreCase(patientRegistrationDTO.getEmail()).ifPresent(existingUser -> {
+    public User registerPatient(UserRegistrationDTO userRegistrationDTO) {
+        userRepository.findOneByEmailIgnoreCase(userRegistrationDTO.getEmail()).ifPresent(existingUser -> {
             boolean removed = removeNonActivatedUser(existingUser);
             if (!removed) {
                 throw new EmailAlreadyUsedException();
             }
         });
-        User user = this.userMapper.toEntity(patientRegistrationDTO);
-        user.setEmail(patientRegistrationDTO.getEmail().toLowerCase());
-        user.setPassword(passwordEncoder.encode(patientRegistrationDTO.getPassword()));
+        User user = this.userMapper.toEntity(userRegistrationDTO);
+        user.setEmail(userRegistrationDTO.getEmail().toLowerCase());
+        user.setPassword(passwordEncoder.encode(userRegistrationDTO.getPassword()));
         user.setActivated(false);
         user.setActivationKey(RandomUtil.generateActivationKey());
         user.setAuthority(AuthoritiesConstants.PATIENT);
@@ -120,6 +124,8 @@ public class UserService {
         user.setLastModifiedBy("system");
         return userRepository.save(user);
     }
+
+
 
 
     private boolean removeNonActivatedUser(User existingUser){
@@ -188,6 +194,26 @@ public class UserService {
                     user.setGender(userDTO.getGender());
                     return this.userMapper.toDto(this.userRepository.save(user));
                 });
+    }
+
+    public UserDTO createUser(UserRegistrationDTO userDTO) {
+        this.userRepository.findOneByEmailIgnoreCase(userDTO.getEmail())
+                .ifPresent(u -> {
+                    throw new EmailAlreadyUsedException();
+                });
+        User user = this.userMapper.toEntity(userDTO);
+        user.setEmail(userDTO.getEmail().toLowerCase());
+        user.setPassword(this.passwordEncoder.encode(userDTO.getPassword()));
+        user.setActivated(true);
+        return this.userMapper.toDto(this.userRepository.save(user));
+    }
+
+    public Page<UserDTO> getUsers(Pageable pageable) {
+        return this.userRepository.findAll(pageable).map(user -> this.userMapper.toDto(user));
+    }
+
+    public Optional<UserDTO> getUser(Long id) {
+        return this.userRepository.findById(id).map(user ->this.userMapper.toDto(user));
     }
 
 }
