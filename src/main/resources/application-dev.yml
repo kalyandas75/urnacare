@@ -1,5 +1,11 @@
 server:
-  port: 8081
+  port: 8443
+  server:
+    ssl.key-store: /etc/letsencrypt/live/urnacare.technakriti.com/keystore.p12
+    key-store-password: local123
+    keyStoreType: PKCS12
+    keyAlias: urnacare
+security.require-ssl: true
 spring:
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
@@ -62,7 +68,7 @@ application:
 
   mail:
     from: cooptalent19@gmail.com
-    base-url: http://45.35.190.51:8081
+    base-url: https://urnacare.technakriti.com:8443
   cache: # Cache configuration
     hazelcast: # Hazelcast distributed cache
       time-to-live-seconds: 3600
