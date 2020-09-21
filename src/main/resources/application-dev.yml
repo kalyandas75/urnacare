@@ -1,7 +1,7 @@
 server:
   port: 443
-  server:
-    ssl.key-store: /etc/letsencrypt/live/urnacare.technakriti.com/keystore.p12
+  ssl:
+    key-store: /etc/letsencrypt/live/urnacare.technakriti.com/keystore.p12
     key-store-password: local123
     keyStoreType: PKCS12
     keyAlias: urnacare
