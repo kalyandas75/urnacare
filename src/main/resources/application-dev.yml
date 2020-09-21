@@ -1,11 +1,12 @@
 server:
-  port: 8443
+  port: 443
   server:
     ssl.key-store: /etc/letsencrypt/live/urnacare.technakriti.com/keystore.p12
     key-store-password: local123
     keyStoreType: PKCS12
     keyAlias: urnacare
-security.require-ssl: true
+security:
+  require-ssl: true
 spring:
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
