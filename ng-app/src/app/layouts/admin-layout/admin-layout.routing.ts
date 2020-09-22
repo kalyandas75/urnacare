@@ -8,6 +8,9 @@ import { PatientAppointmentComponent } from 'src/app/pages/appointment/patient-a
 import { DoctorAppointmentComponent } from 'src/app/pages/appointment/doctor-appointment.component';
 import { ChangePasswordComponent } from 'src/app/pages/profile/change-password/change-password.component';
 import { ProfileComponent } from 'src/app/pages/profile/profile.component';
+import { CompositionComponent } from 'src/app/pages/composition/composition.component';
+import { ManufacturerComponent } from 'src/app/pages/manufacturer/manufacturer.component';
+import { UserManagementComponent } from 'src/app/pages/user-management/user-management.component';
 
 export const AdminLayoutRoutes: Routes = [
   {
@@ -27,7 +30,7 @@ export const AdminLayoutRoutes: Routes = [
     component: IngredientComponent,
     data: {
       title: 'dashboard.pageTitle',
-      authorities: ['ROLE_ADMIN', 'ROLE_CUSTOMER_SUPPORT']
+      authorities: ['ROLE_ADMIN', 'ROLE_SUPPORT']
     },
     resolve: {
       title: TitleResolver
@@ -76,6 +79,54 @@ export const AdminLayoutRoutes: Routes = [
     data: {
       title: 'profile.title',
       authorities: []
+    },
+    resolve: {
+      title: TitleResolver
+    },
+    canActivate: [UserRouteAccessService]
+  },
+  {
+    path: "composition",
+    component: CompositionComponent,
+    data: {
+      title: 'composition.title',
+      authorities: ['ROLE_ADMIN', 'ROLE_SUPPORT']
+    },
+    resolve: {
+      title: TitleResolver
+    },
+    canActivate: [UserRouteAccessService]
+  },
+  {
+    path: "manufacturer",
+    component: ManufacturerComponent,
+    data: {
+      title: 'manufacturer.title',
+      authorities: ['ROLE_ADMIN', 'ROLE_SUPPORT']
+    },
+    resolve: {
+      title: TitleResolver
+    },
+    canActivate: [UserRouteAccessService]
+  },
+  {
+    path: "inventory",
+    component: ManufacturerComponent,
+    data: {
+      title: 'inventory.title',
+      authorities: ['ROLE_ADMIN', 'ROLE_SUPPORT']
+    },
+    resolve: {
+      title: TitleResolver
+    },
+    canActivate: [UserRouteAccessService]
+  },
+  {
+    path: "user-management",
+    component: UserManagementComponent,
+    data: {
+      title: 'userManagement.title',
+      authorities: ['ROLE_ADMIN']
     },
     resolve: {
       title: TitleResolver

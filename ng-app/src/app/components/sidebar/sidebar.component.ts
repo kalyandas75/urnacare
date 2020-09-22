@@ -24,11 +24,32 @@ export const ROUTES: RouteInfo[] = [
     authorities: ['ROLE_DOCTOR']
   },
   {
-    path: "/ingredients",
-    title: "Ingredients",
+    path: "/user-management",
+    title: "User Management",
     icon: "icon-notes",
     class: "",
-    authorities: ['ROLE_ADMIN', 'ROLE_CUSTOMER_SUPPORT']
+    authorities: ['ROLE_ADMIN']
+  },
+  {
+    path: "/inventory",
+    title: "Inventories",
+    icon: "icon-notes",
+    class: "",
+    authorities: ['ROLE_ADMIN', 'ROLE_SUPPORT']
+  },
+  {
+    path: "/composition",
+    title: "Compositions",
+    icon: "icon-notes",
+    class: "",
+    authorities: ['ROLE_ADMIN', 'ROLE_SUPPORT']
+  },
+  {
+    path: "/manufacturer",
+    title: "Manufacturers",
+    icon: "icon-notes",
+    class: "",
+    authorities: ['ROLE_ADMIN', 'ROLE_SUPPORT']
   }
 ];
 
@@ -45,7 +66,7 @@ export class SidebarComponent implements OnInit {
   ngOnInit() {
     this.menuItems = ROUTES;
     console.log(this.accountService.isAuthenticated(), this.accountService.isIdentityResolved());
-    console.log(this.accountService.hasAnyAuthority(['ROLE_ADMIN', 'ROLE_CUSTOMER_SUPPORT']));
+    console.log(this.accountService.hasAnyAuthority(['ROLE_ADMIN', 'ROLE_SUPPORT']));
   }
   isMobileMenu() {
     if (window.innerWidth > 991) {

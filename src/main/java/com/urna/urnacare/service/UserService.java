@@ -22,6 +22,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -29,6 +30,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 @Slf4j
 public class UserService {
 
@@ -168,10 +170,12 @@ public class UserService {
                 });
     }
 
+    @Transactional(readOnly = true)
     public Optional<Doctor> findDoctorByEmail() {
         return SecurityUtils.getCurrentUserLogin().flatMap(doctorRepository::findOneByEmailIgnoreCase);
     }
 
+    @Transactional(readOnly = true)
     public Optional<User> findUserByEmail() {
         return SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByEmailIgnoreCase);
     }
@@ -188,15 +192,16 @@ public class UserService {
                     if(userDTO.getAddresses() != null) {
                         userDTO.getAddresses().stream().forEach(a -> a.setUserId(user.getId()));
                     }
-                    user.setAddresses(this.addressMapper.toEntity(userDTO.getAddresses()));
+                   // user.setAddresses(this.addressMapper.toEntity(userDTO.getAddresses()));
                     user.setAlternatePhoneNumber(userDTO.getAlternatePhoneNumber());
                     user.setPhoneNumber(userDTO.getPhoneNumber());
                     user.setGender(userDTO.getGender());
+                    user.setActivated(userDTO.isActivated());
                     return this.userMapper.toDto(this.userRepository.save(user));
                 });
     }
 
-    public UserDTO createUser(UserRegistrationDTO userDTO) {
+    public User createUser(UserRegistrationDTO userDTO) {
         this.userRepository.findOneByEmailIgnoreCase(userDTO.getEmail())
                 .ifPresent(u -> {
                     throw new EmailAlreadyUsedException();
@@ -205,13 +210,17 @@ public class UserService {
         user.setEmail(userDTO.getEmail().toLowerCase());
         user.setPassword(this.passwordEncoder.encode(userDTO.getPassword()));
         user.setActivated(true);
-        return this.userMapper.toDto(this.userRepository.save(user));
+        user.setResetKey(RandomUtil.generateResetKey());
+        user.setResetDate(Instant.now());
+        return this.userRepository.save(user);
     }
 
+    @Transactional(readOnly = true)
     public Page<UserDTO> getUsers(Pageable pageable) {
-        return this.userRepository.findAll(pageable).map(user -> this.userMapper.toDto(user));
+        return this.userRepository.findAllByAuthorityNotAndEmailNot(pageable, AuthoritiesConstants.ANONYMOUS, "system@urnacare.com")
+                .map(user -> this.userMapper.toDto(user));
     }
-
+    @Transactional(readOnly = true)
     public Optional<UserDTO> getUser(Long id) {
         return this.userRepository.findById(id).map(user ->this.userMapper.toDto(user));
     }

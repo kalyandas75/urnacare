@@ -24,6 +24,11 @@ import { ChatComponent } from 'src/app/pages/chat/chat.component';
 import { FormlyModule } from '@ngx-formly/core';
 import { ChangePasswordComponent } from 'src/app/pages/profile/change-password/change-password.component';
 import { ProfileComponent } from 'src/app/pages/profile/profile.component';
+import { CompositionComponent } from 'src/app/pages/composition/composition.component';
+import { InventoryComponent } from 'src/app/pages/inventory/inventory.component';
+import { ManufacturerComponent } from 'src/app/pages/manufacturer/manufacturer.component';
+import { UserManagementComponent } from 'src/app/pages/user-management/user-management.component';
+import { UserManagementEditComponent } from 'src/app/pages/user-management/user-management-edit/user-management-edit.component';
 
 @NgModule({
   imports: [
@@ -53,13 +58,19 @@ import { ProfileComponent } from 'src/app/pages/profile/profile.component';
     ConsultationViewComponent,
     ChatComponent,
     ChangePasswordComponent, 
-    ProfileComponent
+    ProfileComponent,
+    CompositionComponent,
+    ManufacturerComponent,
+    InventoryComponent,
+    UserManagementComponent,
+    UserManagementEditComponent
   ],
   entryComponents: [
     AppointmentRequestEditComponent,
     ConsultationEditComponent,
     ConsultationViewComponent,
-    ChatComponent
+    ChatComponent,
+    UserManagementEditComponent
   ]
 })
 export class AdminLayoutModule {}

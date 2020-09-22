@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
 import { RegisterService } from 'src/app/shared/service/register.service';
-import { SPECIALITIES } from 'src/app/app.constant';
+import { PHONE_REGEX, SPECIALITIES } from 'src/app/app.constant';
 
 @Component({
   selector: 'app-register',
@@ -44,8 +44,8 @@ export class RegisterComponent implements OnInit {
       password: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(16)]],
       firstName: ['', [Validators.required]],
       lastName: ['', [Validators.required]],
-      phoneNumber: ['', [Validators.required, Validators.pattern(/^[1-9]{1}[0-9]{9}$/)]],
-      alternatePhoneNumber: ['', [Validators.pattern(/^[1-9]{1}[0-9]{9}$/)]]
+      phoneNumber: ['', [Validators.required, Validators.pattern(PHONE_REGEX)]],
+      alternatePhoneNumber: ['', [Validators.pattern(PHONE_REGEX)]]
     });
   }
 
@@ -55,8 +55,8 @@ export class RegisterComponent implements OnInit {
       password: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(16)]],
       firstName: ['', [Validators.required]],
       lastName: ['', [Validators.required]],
-      phoneNumber: ['', [Validators.required, Validators.pattern(/^[1-9]{1}[0-9]{9}$/)]],
-      alternatePhoneNumber: ['', [Validators.pattern(/^[1-9]{1}[0-9]{9}$/)]],
+      phoneNumber: ['', [Validators.required, Validators.pattern(PHONE_REGEX)]],
+      alternatePhoneNumber: ['', [Validators.pattern(PHONE_REGEX)]],
       registrationNumber: ['', [Validators.required]],
       primarySpeciality: ['', [Validators.required]]
     });

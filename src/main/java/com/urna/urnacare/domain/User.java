@@ -58,7 +58,7 @@ public class User extends AbstractAuditingEntity  {
     @Column(name = "reset_date", columnDefinition = "TIMESTAMP")
     private Instant resetDate = null;
 
-    @Column(nullable = false, length = 20)
+    @Column(nullable = false, length = 21)
     private String authority = AuthoritiesConstants.PATIENT;
 
     @Column(length = 15)

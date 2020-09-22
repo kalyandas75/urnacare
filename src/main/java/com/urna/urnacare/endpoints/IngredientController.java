@@ -40,14 +40,14 @@ public class IngredientController {
     }
 
     @PutMapping("/ingredients/{id}")
-    @PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\" or \"" + AuthoritiesConstants.CUSTOMER_SUPPORT + "\")")
+    @PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\" or \"" + AuthoritiesConstants.SUPPORT + "\")")
     public ResponseEntity<Ingredient> update(@PathVariable Long id, @Valid @RequestBody Ingredient ingredient) {
         log.debug("REST request to update Ingredient : {}", ingredient);
         return ResponseUtil.wrapOrNotFound(ingredientService.update(id, ingredient),
                 HeaderUtil.createAlert("ingredient.updated", ingredient.getId() + ""));
     }
     @DeleteMapping("/ingredients/{id}")
-    @PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\" or \"" + AuthoritiesConstants.CUSTOMER_SUPPORT + "\")")
+    @PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\" or \"" + AuthoritiesConstants.SUPPORT + "\")")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         this.ingredientService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createAlert( "ingredient.deleted", String.valueOf(id))).build();

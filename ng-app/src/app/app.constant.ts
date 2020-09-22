@@ -29,5 +29,6 @@ export const SPECIALITIES = [
     'Sexology',
     'Urology'
 ];
+export const PHONE_REGEX = /^[1-9]{1}[0-9]{9}$/;
 
 

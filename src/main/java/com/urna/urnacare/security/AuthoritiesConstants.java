@@ -13,7 +13,7 @@ public final class AuthoritiesConstants {
 
     public static final String DOCTOR = "ROLE_DOCTOR";
 
-    public static final String CUSTOMER_SUPPORT = "ROLE_CUSTOMER_SUPPORT";
+    public static final String SUPPORT = "ROLE_SUPPORT";
 
     private AuthoritiesConstants() {
     }

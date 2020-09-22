@@ -1,0 +1,103 @@
+<div class="modal-header">
+    <h4 class="modal-title">Edit/Create/View User</h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <form class="needs-validation" novalidate [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="form-row">
+            <div class="col-md-4">
+                <label>First name</label>
+                <input type="text" class="form-control" placeholder="First name" formControlName="firstName"
+                    [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }">
+                <div class="invalid-feedback" style="display: block;" *ngIf="submitted && f.firstName.invalid">
+                    <div *ngIf="f.firstName.errors.required">Firstname is required</div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <label>Last name</label>
+                <input type="text" class="form-control" placeholder="Last name" formControlName="lastName"
+                    [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }">
+                <div class="invalid-feedback" style="display: block;" *ngIf="submitted && f.lastName.invalid">
+                    <div *ngIf="f.lastName.errors.required">Lastname is required</div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <label>Gender</label>
+                <select class="form-control" formControlName="gender">
+                    <option></option>
+                    <option *ngFor="let g of genders" value="{{ g }}">{{ g }}</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-md-5">
+                <label>Email</label>
+                <input type="text" class="form-control" placeholder="Email" formControlName="email"
+                    [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
+                <div class="invalid-feedback" style="display: block;" *ngIf="submitted && f.email.invalid">
+                    <div *ngIf="f.email.errors.required">Email is required</div>
+                    <div *ngIf="f.email.errors.email">Email is not valid</div>
+                </div>
+            </div>
+            <div class="col-md-5">
+                <label>Authority</label>
+                <select class="form-control" formControlName="authority" [disabled]="!!user.email">
+                    <option></option>
+                    <option *ngFor="let a of getAuthorities()" value="{{ a }}">{{ a }}</option>
+                </select>
+                <div class="invalid-feedback" style="display: block;" *ngIf="submitted && f.authority.invalid">
+                    <div *ngIf="f.authority.required">Authority is required</div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <label>Activated</label>
+                <input type="checkbox" class="form-control" style="width: 10%;" formControlName="activated" [disabled]="!!user.email">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-md-6">
+                <label>Phone</label>
+                <input type="text" class="form-control" placeholder="Phone" formControlName="phoneNumber"
+                    [ngClass]="{ 'is-invalid': submitted && f.phoneNumber.errors }">
+                <div class="invalid-feedback" style="display: block;" *ngIf="submitted && f.phoneNumber.invalid">
+                    <div *ngIf="f.phoneNumber.errors.required">Phone is required</div>
+                    <div *ngIf="f.phoneNumber.errors.pattern">Phone is not valid</div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <label>Alternate Phone</label>
+                <input type="text" class="form-control" placeholder="Alternate Phone"
+                    formControlName="alternatePhoneNumber"
+                    [ngClass]="{ 'is-invalid': submitted && f.alternatePhoneNumber.errors }">
+                <div class="invalid-feedback" style="display: block;"
+                    *ngIf="submitted && f.alternatePhoneNumber.invalid">
+                    <div *ngIf="f.alternatePhoneNumber.errors.pattern">Phone is not valid</div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="form-row" *ngIf="!user.email">
+            <div class="col-md-6">
+                <label>Temp. Password</label>
+                <input type="password" class="form-control" placeholder="Temporary Password" formControlName="password"
+                    [ngClass]="{ 'is-invalid': submitted && f.password.errors }">
+                <div class="invalid-feedback" style="display: block;" *ngIf="submitted && f.password.invalid">
+                    <div *ngIf="f.password.errors.required">Password is required</div>
+                    <div *ngIf="f.email.errors.email">Email is not valid</div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="form-row">
+            <div class="col-md-3 offset-md-9">
+                <button type="submit" class="btn btn-primary" [disabled]="loading">Submit</button>
+            </div>
+        </div>
+    </form>
+
+</div>

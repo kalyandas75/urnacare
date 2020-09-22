@@ -38,7 +38,7 @@ public class UserDTO extends AbstractAuditingDTO {
     @Size(max = 256)
     private String imageUrl;
 
-    @Size(max = 20)
+    @Size(max = 21)
     private String authority = AuthoritiesConstants.PATIENT;
 
     @Size(max = 15)

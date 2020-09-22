@@ -4,5 +4,6 @@ public enum MeasurementUnit {
     mg,
     g,
     ml,
-    ltr
+    ltr,
+    nos
 }
