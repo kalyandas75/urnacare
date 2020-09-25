@@ -1,22 +1,22 @@
 import { Component, OnInit } from "@angular/core";
 import {
   FormBuilder,
-  FormControl,
   FormGroup,
+  FormControl,
   Validators,
 } from "@angular/forms";
-import { FormlyFieldConfig, FormlyFormOptions } from "@ngx-formly/core";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
+import { FormlyFieldConfig, FormlyFormOptions } from "@ngx-formly/core";
 import { ToastrService } from "ngx-toastr";
-import { ManufacturerService } from "../manufacturer.service";
+import { CompositionService } from "../composition.service";
 
 @Component({
-  selector: "app-manufacturer-edit",
-  templateUrl: "./manufacturer-edit.component.html",
-  styleUrls: ["./manufacturer-edit.component.scss"],
+  selector: "app-composition-edit",
+  templateUrl: "./composition-edit.component.html",
+  styleUrls: ["./composition-edit.component.scss"],
 })
-export class ManufacturerEditComponent implements OnInit {
-  manufacturer;
+export class CompositionEditComponent implements OnInit {
+  composition;
   form: FormGroup;
   submitted = false;
   loading = false;
@@ -24,16 +24,16 @@ export class ManufacturerEditComponent implements OnInit {
 
   constructor(
     public activeModal: NgbActiveModal,
-    private manufacturerServ: ManufacturerService,
+    private compositionServ: CompositionService,
     private fb: FormBuilder,
     private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
-    console.log("manufacturer", this.manufacturer);
+    console.log("composition", this.composition);
     this.form = this.fb.group({
       name: [
-        !!this.manufacturer.name ? this.manufacturer.name : "",
+        !!this.composition.name ? this.composition.name : "",
         [Validators.required],
       ],
     });
@@ -49,10 +49,10 @@ export class ManufacturerEditComponent implements OnInit {
       return;
     }
     console.log("sending", this.form.value);
-    this.manufacturerServ.saveManufacturer(this.form.value).subscribe(
+    this.compositionServ.saveComposition(this.form.value).subscribe(
       (res) => {
         this.toastr.success("User saved successfully");
-        this.manufacturerServ.reloadEmitter.emit();
+        this.compositionServ.reloadEmitter.emit();
         this.activeModal.close("Y");
       },
       (err) => {

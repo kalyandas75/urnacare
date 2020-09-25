@@ -30,6 +30,8 @@ import { ManufacturerComponent } from "src/app/pages/manufacturer/manufacturer.c
 import { UserManagementComponent } from "src/app/pages/user-management/user-management.component";
 import { UserManagementEditComponent } from "src/app/pages/user-management/user-management-edit/user-management-edit.component";
 import { ManufacturerEditComponent } from "src/app/pages/manufacturer/manufacturer-edit/manufacturer-edit.component";
+import { InventoryEditComponent } from "src/app/pages/inventory/inventory-edit/inventory-edit.component";
+import { CompositionEditComponent } from "src/app/pages/composition/composition-edit/composition-edit.component";
 
 @NgModule({
   imports: [
@@ -66,6 +68,8 @@ import { ManufacturerEditComponent } from "src/app/pages/manufacturer/manufactur
     UserManagementComponent,
     UserManagementEditComponent,
     ManufacturerEditComponent,
+    InventoryEditComponent,
+    CompositionEditComponent,
   ],
   entryComponents: [
     AppointmentRequestEditComponent,
@@ -74,6 +78,8 @@ import { ManufacturerEditComponent } from "src/app/pages/manufacturer/manufactur
     ChatComponent,
     UserManagementEditComponent,
     ManufacturerEditComponent,
+    InventoryEditComponent,
+    CompositionEditComponent,
   ],
 })
 export class AdminLayoutModule {}
