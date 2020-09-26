@@ -1,1 +1,52 @@
-<p>composition works!</p>
+<div class="content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h2>Compositions</h2>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table tablesorter">
+              <thead>
+                <tr>
+                  <th scope="col">Name</th>
+                  <th>
+                    <button type="button" class="btn btn-link" (click)="open()">
+                      <i class="tim-icons icon-simple-add"></i>
+                    </button>
+                  </th>
+                </tr>
+              </thead>
+              <tbody *ngIf="compositions">
+                <tr *ngFor="let composition of compositions">
+                  <td>{{ composition.name }}</td>
+                  <td>
+                    <button
+                      type="button"
+                      (click)="open(composition)"
+                      class="btn btn-link"
+                    >
+                      <i class="tim-icons icon-pencil"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card-footer">
+          <ngb-pagination
+            [collectionSize]="totalSize"
+            [(page)]="page"
+            [pageSize]="size"
+            (pageChange)="pageChange()"
+            size="md"
+            class="d-flex justify-content-end"
+          >
+          </ngb-pagination>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
