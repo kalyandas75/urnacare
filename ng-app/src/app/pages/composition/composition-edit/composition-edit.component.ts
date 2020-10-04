@@ -49,14 +49,20 @@ export class CompositionEditComponent implements OnInit {
       return;
     }
     console.log("sending", this.form.value);
-    this.compositionServ.saveComposition(this.form.value).subscribe(
+    let saveObservable = null;
+    if(!!this.composition.id) {
+      saveObservable = this.compositionServ.update(this.composition.id, this.form.value);
+    } else {
+      saveObservable = this.compositionServ.create(this.form.value);
+    }
+    saveObservable.subscribe(
       (res) => {
-        this.toastr.success("User saved successfully");
+        this.toastr.success("Composition saved successfully");
         this.compositionServ.reloadEmitter.emit();
         this.activeModal.close("Y");
       },
       (err) => {
-        this.toastr.error("Unable to save user");
+        this.toastr.error("Unable to save composition");
       }
     );
   }

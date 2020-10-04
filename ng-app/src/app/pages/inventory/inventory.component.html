@@ -3,7 +3,7 @@
     <div class="col-md-12">
       <div class="card">
         <div class="card-header">
-          <h2>Inventories</h2>
+          <h2>Inventory</h2>
         </div>
         <div class="card-body">
           <div class="table-responsive">
@@ -11,9 +11,12 @@
               <thead>
                 <tr>
                   <th scope="col">Brand</th>
-                  <th scope="col">Manufacturer</th>
-                  <th scope="col">Composition</th>
+                  <th scope="col">Batch#</th>
                   <th scope="col">Expiry</th>
+                  <th scope="col">Price/pack</th>
+                  <th scope="col">Pack Size</th>
+                  <th scope="col">Availability</th>
+                  <th scope="col">Discount</th>
                   <th>
                     <button type="button" class="btn btn-link" (click)="open()">
                       <i class="tim-icons icon-simple-add"></i>
@@ -23,10 +26,13 @@
               </thead>
               <tbody *ngIf="inventories">
                 <tr *ngFor="let inventory of inventories">
-                  <td>{{ inventory.brand }}</td>
-                  <td>{{ inventory.manufacturerName }}</td>
-                  <td>{{ inventory.compositionName }}</td>
-                  <td>{{ inventory.expiryDate | date: "mediumDate" }}</td>
+                  <td>{{ inventory.brand }} ({{ inventory.strength }})</td>
+                  <td>{{ inventory.batchNumber }}</td>
+                  <td>{{ inventory.expiryDate | date: "dd/MM/yyyy" }}</td>
+                  <td>{{ inventory.price }}</td>
+                  <td>{{ inventory.packSize}} {{ inventory.unit }}</td>
+                  <td>{{ inventory.noOfUnits }}</td>
+                  <td>{{ inventory.maxDiscountRate }}</td>
                   <td>
                     <button
                       type="button"
@@ -35,6 +41,13 @@
                     >
                       <i class="tim-icons icon-pencil"></i>
                     </button>
+                    <button
+                    type="button"
+                    (click)="delete(inventory)"
+                    class="btn btn-link btn-danger"
+                    >
+                    <i class="tim-icons icon-trash-simple"></i>
+                  </button>
                   </td>
                 </tr>
               </tbody>

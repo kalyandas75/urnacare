@@ -1,5 +1,6 @@
 package com.urna.urnacare.endpoints;
 
+import com.urna.urnacare.dto.DrugDTO;
 import com.urna.urnacare.dto.InventoryDTO;
 import com.urna.urnacare.errors.BadRequestAlertException;
 import com.urna.urnacare.errors.InternalServerErrorException;
@@ -21,6 +22,7 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/inventories")
@@ -32,6 +34,13 @@ public class InventoryController {
         this.service = service;
     }
 
+    @GetMapping("search")
+    public ResponseEntity<List<InventoryDTO>> search(@RequestParam("q") String q) {
+        final List<InventoryDTO> inventories = service.searchByBrandOrComposition(q);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(inventories);
+        return new ResponseEntity<>(inventories, headers, HttpStatus.OK);
+    }
+
     @GetMapping
     public ResponseEntity<List<InventoryDTO>> getAll(Pageable pageable) {
         final Page<InventoryDTO> page = service.getAll(pageable);
@@ -40,7 +49,7 @@ public class InventoryController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<InventoryDTO> getUser(@PathVariable Long id) {
+    public ResponseEntity<InventoryDTO> getOne(@PathVariable Long id) {
         log.debug("REST request to get inventory : {}", id);
         return ResponseUtil.wrapOrNotFound(
                 service.getOne(id));
@@ -51,9 +60,9 @@ public class InventoryController {
     public ResponseEntity<InventoryDTO> create(@Valid @RequestBody InventoryDTO dto) throws URISyntaxException {
         log.debug("REST request to save Inventory : {}", dto);
         if (dto.getId() != null) {
-            throw new BadRequestAlertException("A new inventort cannot already have an ID", "inventory", "idexists");
+            throw new BadRequestAlertException("A new inventory cannot already have an ID", "inventory", "idexists");
         } else {
-            InventoryDTO newInventory = service.save(dto).get();
+            InventoryDTO newInventory = service.create(dto);
             if(newInventory == null) {
                 throw new InternalServerErrorException("Could not create inventory");
             }
@@ -63,16 +72,16 @@ public class InventoryController {
         }
     }
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\" or \"" + AuthoritiesConstants.SUPPORT + "\")")
+    @PreAuthorize("hasAnyRole(\"" + AuthoritiesConstants.ADMIN + "\",\"" + AuthoritiesConstants.SUPPORT + "\")")
     public ResponseEntity<InventoryDTO> update(@PathVariable Long id, @Valid @RequestBody InventoryDTO dto) {
         log.debug("REST request to update inventory : {}", dto);
         dto.setId(id);
-        return ResponseUtil.wrapOrNotFound(service.save(dto),
+        return ResponseUtil.wrapOrNotFound(Optional.of(service.update(id, dto)),
                 HeaderUtil.createAlert("inventory.updated", dto.getId() + ""));
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\" or \"" + AuthoritiesConstants.SUPPORT + "\")")
+    @PreAuthorize("hasAnyRole(\"" + AuthoritiesConstants.ADMIN + "\",\"" + AuthoritiesConstants.SUPPORT + "\")")
     public void delete(@PathVariable Long id) {
         this.service.delete(id);
     }

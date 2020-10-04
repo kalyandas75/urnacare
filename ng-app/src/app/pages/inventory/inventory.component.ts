@@ -1,6 +1,8 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { ToastrService } from 'ngx-toastr';
 import { Subscription } from "rxjs";
+import { ConfirmationComponent } from 'src/app/components/confirmation/confirmation.component';
 import { InventoryEditComponent } from "./inventory-edit/inventory-edit.component";
 import { InventoryManagementService } from "./inventory-management.service";
 
@@ -11,7 +13,7 @@ import { InventoryManagementService } from "./inventory-management.service";
 })
 export class InventoryComponent implements OnInit, OnDestroy {
   page = 1;
-  sort = "brand,asc";
+  sort = "drug.brand,asc";
   size = 20;
   inventories: any[];
   totalSize = 0;
@@ -19,7 +21,8 @@ export class InventoryComponent implements OnInit, OnDestroy {
 
   constructor(
     private inventoryManagementServ: InventoryManagementService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -37,7 +40,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
 
   loadAll() {
     this.inventoryManagementServ
-      .getAllInventories({
+      .getAll({
         page: this.page - 1,
         size: this.size,
         sort: this.sort,
@@ -61,5 +64,26 @@ export class InventoryComponent implements OnInit, OnDestroy {
       backdrop: "static",
     });
     modalRef.componentInstance.inventory = Object.assign({}, inventory);
+  }
+
+  delete(inventory) {
+    const modalRef = this.modalService.open(ConfirmationComponent, {
+      size: "sm",
+      scrollable: true,
+      centered: false,
+      backdrop: "static",
+    });
+    modalRef.componentInstance.message = 'Do you want to delete ' + inventory.id + '?';
+    modalRef.result.then(r => {
+      console.log(r);
+      if(r === 'Y') {
+        this.inventoryManagementServ.delete(inventory.id)
+        .subscribe(() => {
+          this.toastr.success('inventory delete successfully');
+          this.inventoryManagementServ.reloadEmitter.emit();
+        });
+      }
+    })
+    .catch((r) => console.log(r));
   }
 }

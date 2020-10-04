@@ -1,5 +1,5 @@
 <div class="modal-header">
-  <h4 class="modal-title">Edit/Create/View User</h4>
+  <h4 class="modal-title">Edit/Create/View Inventory</h4>
   <button
     type="button"
     class="close"
@@ -9,32 +9,36 @@
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
+<ng-template #rt let-r="result" let-t="term">
+  <ngb-highlight [result]="r.brand + ' (' + r.strength + ')'" [term]="t"></ngb-highlight>---
+  <ngb-highlight [result]="r.compositionName" [term]="t"></ngb-highlight>
+</ng-template>
 <div class="modal-body">
+  <div class="row">
+      <div class="col-md-3" *ngIf="!inventory.id">
+        <input id="typeahead-http" type="text" class="form-control mx-sm-3" 
+        [class.is-invalid]="searchFailed" [(ngModel)]="drug" 
+        [ngbTypeahead]="search" placeholder="Search Drug by Brand or Composition" [resultTemplate]="rt"
+        [inputFormatter]="formatter" [editable]='false'
+        container="body" 
+        showHint="true"/>
+        <small *ngIf="searching" class="form-text text-muted">searching...</small>
+        <div class="invalid-feedback" *ngIf="searchFailed">Sorry, suggestions could not be loaded.</div>
+      </div>
+      <div class="col-9" *ngIf="drug && drug.id">
+        {{ drug.brand }} ( {{ drug.strength }}) - {{ drug.compositionName }} - {{ drug.formulation }} - {{ drug.manufacturerName }}
+      </div>
+  </div>
+  <hr>
   <form
     class="needs-validation"
     novalidate
     [formGroup]="form"
     (ngSubmit)="onSubmit()"
+    *ngIf="drug && drug.id"
   >
     <div class="form-row">
-      <div class="col-md-8">
-        <label>Brand</label>
-        <input
-          type="text"
-          class="form-control"
-          placeholder="Brand"
-          formControlName="brand"
-          [ngClass]="{ 'is-invalid': submitted && f.brand.errors }"
-        />
-        <div
-          class="invalid-feedback"
-          style="display: block"
-          *ngIf="submitted && f.brand.invalid"
-        >
-          <div *ngIf="f.brand.errors.required">Brand is required</div>
-        </div>
-      </div>
-      <div class="col-md-4">
+      <div class="col-md-3">
         <label>Batch Number</label>
         <input
           type="text"
@@ -53,107 +57,43 @@
           </div>
         </div>
       </div>
-    </div>
-    <div class="form-row">
-      <div class="col-md-10">
-        <label>Composition</label>
-        <select class="form-control" formControlName="compositionId">
-          <option></option>
-          <option
-            *ngFor="let composition of compositions"
-            value="{{ composition?.id }}"
-          >
-            {{ composition?.name }}
-          </option>
-        </select>
-      </div>
-      <div class="col-md-2">
-        <div class="add-btn">
-          <button class="btn btn-sm btn-primary" (click)="addComposition()">
-            &#43; New
-          </button>
-        </div>
-      </div>
-      <div
-        class="invalid-feedback"
-        style="display: block"
-        *ngIf="submitted && f.compositionId.invalid"
-      >
-        <div *ngIf="f.compositionId.errors.required">
-          Composition is required
-        </div>
-      </div>
-    </div>
-    <div class="form-row">
-      <div class="col-md-10">
-        <label>Manufacturer</label>
-        <select class="form-control" formControlName="manufacturerId">
-          <option></option>
-          <option
-            *ngFor="let manufacturer of manufacturers"
-            value="{{ manufacturer?.id }}"
-          >
-            {{ manufacturer?.name }}
-          </option>
-        </select>
-      </div>
-      <div class="col-md-2">
-        <div class="add-btn">
-          <button class="btn btn-sm btn-primary" (click)="addManufacturer()">
-            &#43; New
-          </button>
-        </div>
-      </div>
-      <div
-        class="invalid-feedback"
-        style="display: block"
-        *ngIf="submitted && f.manufacturerId.invalid"
-      >
-        <div *ngIf="f.manufacturerId.errors.required">
-          Manufacturer is required
-        </div>
-      </div>
-    </div>
-
-    <div class="form-row">
-      <div class="col-md-4">
-        <label>Formulation</label>
-        <select class="form-control" formControlName="formulation">
-          <option></option>
-          <option *ngFor="let f of formulations" value="{{ f }}">
-            {{ f }}
-          </option>
-        </select>
-
-        <div
-          class="invalid-feedback"
-          style="display: block"
-          *ngIf="submitted && f.formulation.invalid"
-        >
-          <div *ngIf="f.formulation.errors.required">
-            Formulation is required
-          </div>
-        </div>
-      </div>
-      <div class="col-md-5">
-        <label>HSN Code</label>
+      <div class="col-md-3">
+        <label>Expiry Date</label>
         <input
-          type="text"
+          type="date"
           class="form-control"
-          placeholder="HSN Code"
-          formControlName="hsnCode"
-          [ngClass]="{
-            'is-invalid': submitted && f.hsnCode.errors
-          }"
+          placeholder="Expiry Date"
+          formControlName="expiryDate"
+          [ngClass]="{ 'is-invalid': submitted && f.expiryDate.errors }"
         />
         <div
           class="invalid-feedback"
           style="display: block"
-          *ngIf="submitted && f.hsnCode.invalid"
+          *ngIf="submitted && f.expiryDate.invalid"
         >
-          <div *ngIf="f.hsnCode.errors.required">HSN Code is not valid</div>
+          <div *ngIf="f.expiryDate.errors.required">
+            Expiry Date is required
+          </div>
         </div>
       </div>
+      <div class="col-md-3">
+        <label>Pack Size</label>
+        <input
+          type="number"
+          class="form-control"
+          placeholder="Pack Size"
+          formControlName="packSize"
+          [ngClass]="{ 'is-invalid': submitted && f.packSize.errors }"
+        />
+        <div
+          class="invalid-feedback"
+          style="display: block"
+          *ngIf="submitted && f.packSize.invalid"
+        >
+          <div *ngIf="f.packSize.errors.required">Pack Size is required</div>
+        </div>
+      </div>
+
       <div class="col-md-3">
         <label>Unit</label>
         <select class="form-control" formControlName="unit">
@@ -174,42 +114,27 @@
     </div>
 
     <div class="form-row">
-      <div class="col-md-5">
-        <label>Expiry Date</label>
+      <div class="col-md-3">
+        <label>Price/Pack</label>
         <input
-          type="date"
+          type="number"
           class="form-control"
-          placeholder="Expiry Date"
-          formControlName="expiryDate"
-          [ngClass]="{ 'is-invalid': submitted && f.expiryDate.errors }"
+          placeholder="Price per Unit"
+          formControlName="price"
+          [ngClass]="{ 'is-invalid': submitted && f.price.errors }"
         />
         <div
           class="invalid-feedback"
           style="display: block"
-          *ngIf="submitted && f.expiryDate.invalid"
+          *ngIf="submitted && f.price.invalid"
         >
-          <div *ngIf="f.expiryDate.errors.required">
-            Expiry Date is required
-          </div>
+          <div *ngIf="f.price.errors.required">Price is required</div>
         </div>
       </div>
-
-      <div class="col-md-3 offset-md-2">
-        <label>Prescription Required</label>
-        <input
-          type="checkbox"
-          class="form-control"
-          style="width: 10%"
-          formControlName="prescriptionRequired"
-        />
-      </div>
-    </div>
-
-    <div class="form-row">
       <div class="col-md-3">
-        <label>No. of Units</label>
+        <label>No. of Packs</label>
         <input
-          type="text"
+          type="number"
           class="form-control"
           placeholder="No. of Units"
           formControlName="noOfUnits"
@@ -221,34 +146,19 @@
           *ngIf="submitted && f.noOfUnits.invalid"
         >
           <div *ngIf="f.noOfUnits.errors.required">
-            No. of Units is required
+            No. of Packs is required
           </div>
         </div>
       </div>
 
+
+
       <div class="col-md-3">
-        <label>Pack Size</label>
+        <label>Max Discount%</label>
         <input
-          type="text"
+          type="number"
           class="form-control"
-          placeholder="Pack Size"
-          formControlName="packSize"
-          [ngClass]="{ 'is-invalid': submitted && f.packSize.errors }"
-        />
-        <div
-          class="invalid-feedback"
-          style="display: block"
-          *ngIf="submitted && f.packSize.invalid"
-        >
-          <div *ngIf="f.packSize.errors.required">Pack Size is required</div>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <label>Max Discount</label>
-        <input
-          type="text"
-          class="form-control"
-          placeholder="Max Discount"
+          placeholder="Max Discount%"
           formControlName="maxDiscountRate"
           [ngClass]="{ 'is-invalid': submitted && f.maxDiscountRate.errors }"
         />
@@ -262,30 +172,37 @@
           </div>
         </div>
       </div>
-      <div class="col-md-3">
-        <label>Price</label>
+
+    </div>
+<hr>
+    <div class="form-row">
+      <div class="col-md-5">
+        <label>HSN Code</label>
         <input
           type="text"
           class="form-control"
-          placeholder="Pack Size"
-          formControlName="price"
-          [ngClass]="{ 'is-invalid': submitted && f.price.errors }"
+          placeholder="HSN Code"
+          formControlName="hsnCode"
+          [ngClass]="{
+            'is-invalid': submitted && f.hsnCode.errors
+          }"
         />
         <div
           class="invalid-feedback"
           style="display: block"
-          *ngIf="submitted && f.price.invalid"
+          *ngIf="submitted && f.hsnCode.invalid"
         >
-          <div *ngIf="f.price.errors.required">Price is required</div>
+          <div *ngIf="f.hsnCode.errors.required">HSN Code is not valid</div>
         </div>
       </div>
     </div>
+
 
     <div class="form-row">
       <div class="col-md-3">
         <label>GST</label>
         <input
-          type="text"
+          type="number"
           class="form-control"
           placeholder="GST"
           formControlName="gst"
@@ -303,7 +220,7 @@
       <div class="col-md-3">
         <label>CGST</label>
         <input
-          type="text"
+          type="number"
           class="form-control"
           placeholder="CGST"
           formControlName="cgst"
@@ -321,7 +238,7 @@
       <div class="col-md-3">
         <label>SGST</label>
         <input
-          type="text"
+          type="number"
           class="form-control"
           placeholder="SGST"
           formControlName="sgst"
@@ -339,7 +256,7 @@
       <div class="col-md-3">
         <label>IGST</label>
         <input
-          type="text"
+          type="number"
           class="form-control"
           placeholder="IGST"
           formControlName="igst"
@@ -364,3 +281,4 @@
     </div>
   </form>
 </div>
+

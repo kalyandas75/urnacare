@@ -1,3 +1,4 @@
+import { AbstractControl, ValidatorFn } from '@angular/forms';
 import { environment } from 'src/environments/environment';
 
 export const SERVICE_API_URL = '/api';
@@ -30,5 +31,27 @@ export const SPECIALITIES = [
     'Urology'
 ];
 export const PHONE_REGEX = /^[1-9]{1}[0-9]{9}$/;
+
+export const FORMULATIONS = [
+    "Tablet",
+    "Capsule",
+    "Injection",
+    "Drops",
+    "Tonic",
+    "Lotion",
+    "Cream",
+    "Powder",
+    "Device",
+  ];
+export const UNITS = ["mg", "g", "ml", "ltr", "nos"];
+
+export function ValidateValueInList(values: any[], term?: any): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: boolean } | null => {
+      if(!!term && (!values || values.length < 1 || !control.value || !control.value.id)) {
+        return { 'valueNotInList': true};
+      }
+      return null;
+    };
+}
 
 

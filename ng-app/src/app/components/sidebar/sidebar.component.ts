@@ -31,6 +31,13 @@ export const ROUTES: RouteInfo[] = [
     authorities: ['ROLE_ADMIN']
   },
   {
+    path: "/drug",
+    title: "Drugs",
+    icon: "icon-notes",
+    class: "",
+    authorities: ['ROLE_ADMIN', 'ROLE_SUPPORT']
+  },
+  {
     path: "/inventory",
     title: "Inventories",
     icon: "icon-notes",

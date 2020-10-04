@@ -1,0 +1,86 @@
+<ng-template #rt let-r="result" let-t="term">
+    <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+</ng-template>
+<div class="modal-header">
+    <h4 class="modal-title">Edit/Create/View Drug</h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body" style="overflow-y:inherit !important;">
+    <form class="needs-validation" novalidate [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="form-row">
+            <div class="col-md-4">
+                <label>Brand</label>
+                <input type="text" class="form-control" placeholder="Brand" formControlName="brand"
+                    [ngClass]="{ 'is-invalid': submitted && f.brand.errors }">
+                <div class="invalid-feedback" style="display: block;" *ngIf="submitted && f.brand.invalid">
+                    <div *ngIf="f.brand.errors.required">Brand is required</div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <label>Strength</label>
+                <input type="text" class="form-control" placeholder="Strength" formControlName="strength">
+            </div>
+            <div class="col-md-4">
+                <label>Formulation</label>
+                <select formControlName="formulation" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.formulation.errors }">
+                    <option [value]="f" *ngFor="let f of formulations">{{ f }}</option>
+                </select>
+                <div class="invalid-feedback" style="display: block;" *ngIf="submitted && f.formulation.invalid">
+                    <div *ngIf="f.formulation.errors.required">Formulation is required</div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="form-row">
+            <div class="col-md-6">
+                <label>Composition</label>
+                <input id="typeahead-http" type="text" class="form-control" [class.is-invalid]="searchCFailed" 
+                formControlName="compositionId" 
+                [ngbTypeahead]="searchC" 
+                placeholder="Composition" 
+                [resultTemplate]="rt"
+                [inputFormatter]="formatter"
+                [editable]='false'
+                container="body" 
+                showHint="true" />
+                <small *ngIf="searchingC" class="form-text text-muted">searching...</small>
+                <div class="invalid-feedback" style="display: block;" *ngIf="searchCFailed">Sorry, suggestions could not be loaded.</div>
+                <div class="invalid-feedback" style="display: block;" *ngIf="submitted && !!f.compositionId.errors">
+                    <div *ngIf="f.compositionId.errors.required">Composition is required</div>
+                    <div *ngIf="f.compositionId.errors.valueNotInList">This value is not in the list</div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <label>Manufacturer</label>
+                <input id="typeahead-http" type="text" class="form-control" [class.is-invalid]="searchMFailed" 
+                formControlName="manufacturerId" 
+                [ngbTypeahead]="searchM" 
+                placeholder="Manufacturer" 
+                [resultTemplate]="rt"
+                [inputFormatter]="formatter"
+                [editable]='false'
+                container="body" 
+                showHint="true"/>
+                <small *ngIf="searchingM" class="form-text text-muted">searching...</small>
+                <div class="invalid-feedback" style="display: block;" *ngIf="searchMFailed">Sorry, suggestions could not be loaded.</div>
+                <div class="invalid-feedback" style="display: block;" *ngIf="submitted && !!f.manufacturerId.errors">
+                    <div *ngIf="f.manufacturerId.errors.required">Manufacturer is required</div>
+                    <div *ngIf="f.manufacturerId.errors.valueNotInList">This value is not in the list</div>
+                </div>            
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-md-3">
+                <label>Prescription Reqd.?</label>
+                <input type="checkbox" formControlName="prescriptionRequired" class="form-control" [value]="true">
+            </div>
+            <div class="col-md-3 offset-md-9">
+                <button type="submit" class="btn btn-primary" [disabled]="loading">Submit</button>
+            </div>
+        </div>
+    </form>
+
+</div>

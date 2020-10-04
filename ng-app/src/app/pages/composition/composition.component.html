@@ -5,7 +5,7 @@
         <div class="card-header">
           <h2>Compositions</h2>
         </div>
-        <div class="card-body">
+        <div class="card-body" >
           <div class="table-responsive">
             <table class="table tablesorter">
               <thead>
@@ -29,6 +29,13 @@
                     >
                       <i class="tim-icons icon-pencil"></i>
                     </button>
+                    <button
+                    type="button"
+                    (click)="delete(composition)"
+                    class="btn btn-link btn-danger"
+                    >
+                    <i class="tim-icons icon-trash-simple"></i>
+                  </button>
                   </td>
                 </tr>
               </tbody>

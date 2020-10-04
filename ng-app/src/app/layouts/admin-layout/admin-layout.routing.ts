@@ -12,6 +12,7 @@ import { CompositionComponent } from "src/app/pages/composition/composition.comp
 import { ManufacturerComponent } from "src/app/pages/manufacturer/manufacturer.component";
 import { UserManagementComponent } from "src/app/pages/user-management/user-management.component";
 import { InventoryComponent } from "src/app/pages/inventory/inventory.component";
+import { DrugComponent } from 'src/app/pages/drug/drug.component';
 
 export const AdminLayoutRoutes: Routes = [
   {
@@ -134,4 +135,16 @@ export const AdminLayoutRoutes: Routes = [
     },
     canActivate: [UserRouteAccessService],
   },
+  {
+    path: "drug",
+    component: DrugComponent,
+    data: {
+      title: "drug.title",
+      authorities: ["ROLE_ADMIN", "ROLE_SUPPORT"]
+    },
+    resolve: {
+      title: TitleResolver,
+    },
+    canActivate: [UserRouteAccessService],
+  }
 ];

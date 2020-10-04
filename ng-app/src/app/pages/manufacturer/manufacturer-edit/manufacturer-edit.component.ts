@@ -49,14 +49,20 @@ export class ManufacturerEditComponent implements OnInit {
       return;
     }
     console.log("sending", this.form.value);
-    this.manufacturerServ.saveManufacturer(this.form.value).subscribe(
+    let saveObservable = null;
+    if(!!this.manufacturer.id) {
+      saveObservable = this.manufacturerServ.update(this.manufacturer.id, this.form.value);
+    } else {
+      saveObservable = this.manufacturerServ.create(this.form.value);
+    }
+    saveObservable.subscribe(
       (res) => {
-        this.toastr.success("User saved successfully");
+        this.toastr.success("manufacturer saved successfully");
         this.manufacturerServ.reloadEmitter.emit();
         this.activeModal.close("Y");
       },
       (err) => {
-        this.toastr.error("Unable to save user");
+        this.toastr.error("Unable to save manufacturer");
       }
     );
   }

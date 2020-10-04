@@ -8,10 +8,11 @@ import { NavbarComponent } from "./navbar/navbar.component";
 import { SidebarComponent } from "./sidebar/sidebar.component";
 import { SharedModule } from '../shared/shared.module';
 import { UrnaDateComponent } from './urna-date/urna-date.component';
+import { ConfirmationComponent } from './confirmation/confirmation.component';
 
 @NgModule({
   imports: [CommonModule, RouterModule, NgbModule, SharedModule],
-  declarations: [FooterComponent, NavbarComponent, SidebarComponent, UrnaDateComponent],
+  declarations: [FooterComponent, NavbarComponent, SidebarComponent, UrnaDateComponent, ConfirmationComponent],
   exports: [FooterComponent, NavbarComponent, SidebarComponent]
 })
 export class ComponentsModule {}

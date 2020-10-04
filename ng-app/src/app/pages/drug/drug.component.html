@@ -1,0 +1,65 @@
+<div class=" content">
+    <div class=" row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class=" card-header">
+                    <h2>Drug List</h2>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table tablesorter">
+                            <thead>
+                            <tr>
+                              <th scope="col">Brand</th>
+                              <th scope="col">Strength</th>
+                              <th scope="col">Composition</th>
+                              <th scope="col">Formulation</th>
+                              <th scope="col">Manufacturer</th>
+                              <th scope="col">Prescription?</th>
+                              <th>
+                                  <button type="button" class="btn btn-link" (click)="open()">
+                                      <i class="tim-icons icon-simple-add"></i>
+                                  </button>
+                              </th>
+                            </tr>
+                            </thead>
+                            <tbody *ngIf="drugs">
+                            <tr *ngFor="let drug of drugs">
+                              <td>
+                                {{ drug.brand }}
+                              </td>
+                              <td>{{ drug.strength }}</td>
+                              <td>{{ drug.compositionName }}</td>
+                              <td>{{ drug.formulation }}</td>
+                              <td>{{ drug.manufacturerName }}</td>
+                              <td>
+                                <i class="tim-icons icon-check-2" *ngIf="drug.prescriptionRequired"></i>
+                                <i class="tim-icons icon-simple-remove" *ngIf="!drug.prescriptionRequired"></i>
+                              </td>
+                              <td>
+                                  <button type="button" (click)="open(drug)" class="btn btn-link">
+                                    <i class="tim-icons icon-pencil"></i>
+                                  </button>
+                                  <button
+                                    type="button"
+                                    (click)="delete(drug)"
+                                    class="btn btn-link btn-danger"
+                                    >
+                                    <i class="tim-icons icon-trash-simple"></i>
+                                </button>
+                             </td>
+                            </tr>
+                            </tbody>
+                          </table>
+                    </div>
+
+                </div>
+                <div class="card-footer" >
+                    <ngb-pagination [collectionSize]="totalSize" [(page)]="page" 
+                    [pageSize]="size" (pageChange)="pageChange()" size="md" class="d-flex justify-content-end">
+                    </ngb-pagination>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

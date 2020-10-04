@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -33,23 +34,41 @@ public class InventoryService {
                 .map(inventory -> this.mapper.toDto(inventory));
     }
 
-    public Optional<InventoryDTO> save(InventoryDTO dto) {
-        if(dto.getId() == null) {
-            if(this.repository.existsByBrandIgnoreCaseAndBatchNumberIgnoreCase(dto.getBrand(), dto.getBatchNumber())) {
-                throw new BadRequestAlertException("Inventory entry already exists. Please update instead of creating new entry.", "inventory", "exists");
-            }
-        } else {
-            Inventory inventory = this.repository.findById(dto.getId()).get();
-            if(inventory == null) {
-                throw new BadRequestAlertException("Inventory does not exist", "inventory", "notFound");
-            }
-            if(!(inventory.getBrand().equalsIgnoreCase(dto.getBrand()) && inventory.getBatchNumber().equalsIgnoreCase(dto.getBatchNumber()))) {
-                if(this.repository.existsByBrandIgnoreCaseAndBatchNumberIgnoreCase(dto.getBrand(), dto.getBatchNumber())) {
-                    throw new BadRequestAlertException("Inventory entry already exists. Please update instead of creating new entry.", "inventory", "exists");
-                }
-            }
+    public InventoryDTO add(Long id, Integer noOfUnits) {
+        Inventory inventory = this.repository.findById(id).get();
+        if(inventory == null) {
+            throw new BadRequestAlertException("Inventory does not exist", "inventory", "notFound");
         }
-        return Optional.of(this.mapper.toDto(this.repository.save(this.mapper.toEntity(dto))));
+        inventory.setNoOfUnits(inventory.getNoOfUnits() + noOfUnits);
+        return this.mapper.toDto(this.repository.save(inventory));
+    }
+
+    public InventoryDTO subtract(Long id, Integer noOfUnits) {
+        Inventory inventory = this.repository.findById(id).get();
+        if(inventory == null) {
+            throw new BadRequestAlertException("Inventory does not exist", "inventory", "notFound");
+        }
+        inventory.setNoOfUnits(inventory.getNoOfUnits() - noOfUnits);
+        return this.mapper.toDto(this.repository.save(inventory));
+    }
+
+    public InventoryDTO create(InventoryDTO dto) {
+        dto.setId(null);
+        if(this.repository.existsByDrugIdAndBatchNumber(dto.getDrugId(), dto.getBatchNumber())) {
+            throw new BadRequestAlertException("Inventory entry already exists. Please update instead of creating new entry.", "inventory", "exists");
+        }
+        Inventory inventory = this.mapper.toEntity(dto);
+        return this.mapper.toDto(this.repository.save(inventory));
+    }
+
+    public InventoryDTO update(Long id, InventoryDTO dto) {
+        Optional<Inventory> optionalInventory = this.repository.findById(id);
+        if(!optionalInventory.isPresent()) {
+            throw new BadRequestAlertException("Inventory not found", "Inventory", "notFound");
+        }
+        Inventory inventory = this.mapper.toEntity(dto);
+        inventory.setId(id);
+        return this.mapper.toDto(this.repository.save(inventory));
     }
 
     public void delete(Long id) {
@@ -58,6 +77,10 @@ public class InventoryService {
             throw new BadRequestAlertException("Inventory does not exist", "inventory", "notFound");
         }
         this.repository.deleteById(id);
+    }
+
+    public List<InventoryDTO> searchByBrandOrComposition(String q) {
+        return this.mapper.toDto(this.repository.searchByBrandOrComposition(q));
     }
 
 }

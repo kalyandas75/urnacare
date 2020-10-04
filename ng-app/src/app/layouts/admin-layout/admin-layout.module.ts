@@ -32,6 +32,8 @@ import { UserManagementEditComponent } from "src/app/pages/user-management/user-
 import { ManufacturerEditComponent } from "src/app/pages/manufacturer/manufacturer-edit/manufacturer-edit.component";
 import { InventoryEditComponent } from "src/app/pages/inventory/inventory-edit/inventory-edit.component";
 import { CompositionEditComponent } from "src/app/pages/composition/composition-edit/composition-edit.component";
+import { DrugComponent } from 'src/app/pages/drug/drug.component';
+import { DrugEditComponent } from 'src/app/pages/drug/drug-edit/drug-edit.component';
 
 @NgModule({
   imports: [
@@ -69,7 +71,9 @@ import { CompositionEditComponent } from "src/app/pages/composition/composition-
     UserManagementEditComponent,
     ManufacturerEditComponent,
     InventoryEditComponent,
-    CompositionEditComponent,
+    CompositionEditComponent, 
+    DrugComponent,
+    DrugEditComponent
   ],
   entryComponents: [
     AppointmentRequestEditComponent,
@@ -80,6 +84,7 @@ import { CompositionEditComponent } from "src/app/pages/composition/composition-
     ManufacturerEditComponent,
     InventoryEditComponent,
     CompositionEditComponent,
+    DrugEditComponent
   ],
 })
 export class AdminLayoutModule {}

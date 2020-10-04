@@ -2,9 +2,11 @@ import { Component, OnDestroy, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { NgbActiveModal, NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrService } from "ngx-toastr";
-import { Subscription } from "rxjs";
+import { Observable, of, Subscription } from "rxjs";
+import { debounceTime, distinctUntilChanged, tap, switchMap, catchError, filter } from 'rxjs/operators';
 import { CompositionEditComponent } from "../../composition/composition-edit/composition-edit.component";
 import { CompositionService } from "../../composition/composition.service";
+import { DrugService } from '../../drug/drug.service';
 import { ManufacturerEditComponent } from "../../manufacturer/manufacturer-edit/manufacturer-edit.component";
 import { ManufacturerService } from "../../manufacturer/manufacturer.service";
 import { InventoryManagementService } from "../inventory-management.service";
@@ -37,6 +39,10 @@ export class InventoryEditComponent implements OnInit, OnDestroy {
   units = ["mg", "g", "ml", "ltr", "nos"];
   reloadEmitterSubscription: Subscription;
 
+  drug: any;
+  searching = false;
+  searchFailed = false;
+
   constructor(
     public activeModal: NgbActiveModal,
     private inventoryManagementServ: InventoryManagementService,
@@ -44,96 +50,70 @@ export class InventoryEditComponent implements OnInit, OnDestroy {
     private toastr: ToastrService,
     private compositionServ: CompositionService,
     private manufacturerServ: ManufacturerService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private drugService: DrugService
   ) {}
 
   ngOnInit(): void {
     console.log("inventory", this.inventory);
-
-    this.getComposition();
-
-    this.reloadEmitterSubscription = this.compositionServ.reloadEmitter.subscribe(
-      () => {
-        this.getComposition();
-      }
-    );
-    this.getManufacturers();
-
-    this.reloadEmitterSubscription = this.manufacturerServ.reloadEmitter.subscribe(
-      () => {
-        this.getManufacturers();
-      }
-    );
+    if(this.inventory.id) {
+      this.drug = {
+        id: this.inventory.drugId,
+        brand: this.inventory.brand,
+        compositionName: this.inventory.compositionName,
+        manufacturerName: this.inventory.manufacturerName,
+        formulation: this.inventory.formulation,
+        strength: this.inventory.strength
+      };
+    }
     this.form = this.fb.group({
-      brand: [
-        !!this.inventory.brand ? this.inventory.brand : "",
-        [Validators.required],
-      ],
       batchNumber: [
-        !!this.inventory.batchNumber ? this.inventory.batchNumber : "",
+        !!this.inventory.id ? this.inventory.batchNumber : "",
         [Validators.required],
       ],
       cgst: [
-        !!this.inventory.cgst ? this.inventory.cgst : "",
-        [Validators.required],
-      ],
-      compositionId: [
-        !!this.inventory.compositionId ? this.inventory.compositionId : "",
-        [Validators.required],
-      ],
-      manufacturerId: [
-        !!this.inventory.manufacturerId ? this.inventory.manufacturerId : "",
-        [Validators.required],
+        !!this.inventory.id ? this.inventory.cgst : 0,
+        [Validators.required,Validators.min(0), Validators.max(100)],
       ],
       expiryDate: [
-        !!this.inventory.expiryDate ? this.inventory.expiryDate : "",
-        [Validators.required],
-      ],
-      formulation: [
-        !!this.inventory.formulation ? this.inventory.formulation : "",
+        !!this.inventory.id ? this.inventory.expiryDate : "",
         [Validators.required],
       ],
       gst: [
-        !!this.inventory.gst ? this.inventory.gst : "",
-        [Validators.required],
+        !!this.inventory.id ? this.inventory.gst : 0,
+        [Validators.required,Validators.min(0), Validators.max(100)],
       ],
       hsnCode: [
-        !!this.inventory.hsnCode ? this.inventory.hsnCode : "",
+        !!this.inventory.id ? this.inventory.hsnCode : "",
         [Validators.required],
       ],
       igst: [
-        !!this.inventory.igst ? this.inventory.igst : "",
-        [Validators.required],
+        !!this.inventory.id ? this.inventory.igst : 0,
+        [Validators.required,Validators.min(0), Validators.max(100)],
       ],
       maxDiscountRate: [
-        !!this.inventory.maxDiscountRate ? this.inventory.maxDiscountRate : "",
-        [Validators.required],
+        !!this.inventory.id ? this.inventory.maxDiscountRate : 0,
+        [Validators.required,Validators.min(0), Validators.max(100)],
       ],
       noOfUnits: [
-        !!this.inventory.noOfUnits ? this.inventory.noOfUnits : "",
-        [Validators.required],
+        !!this.inventory.id ? this.inventory.noOfUnits : 1,
+        [Validators.required, Validators.min(1)],
       ],
       packSize: [
-        !!this.inventory.packSize ? this.inventory.packSize : "",
-        [Validators.required],
-      ],
-      prescriptionRequired: [
-        !!this.inventory.prescriptionRequired
-          ? this.inventory.prescriptionRequired
-          : "",
-        [Validators.required],
+        !!this.inventory.id ? this.inventory.packSize : 1,
+        [Validators.required, Validators.min(1)],
       ],
       price: [
-        !!this.inventory.price ? this.inventory.price : "",
-        [Validators.required],
+        !!this.inventory.id ? this.inventory.price : 0,
+        [Validators.required, Validators.min(0)],
       ],
       sgst: [
-        !!this.inventory.sgst ? this.inventory.sgst : "",
-        [Validators.required],
+        !!this.inventory.id ? this.inventory.sgst : 0,
+        [Validators.required,Validators.min(0), Validators.max(100)],
       ],
       unit: [
-        !!this.inventory.unit ? this.inventory.unit : "",
-        [Validators.required],
+        !!this.inventory.id ? this.inventory.unit : 1,
+        [Validators.required, Validators.min(1)],
       ],
     });
   }
@@ -143,7 +123,6 @@ export class InventoryEditComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.reloadEmitterSubscription.unsubscribe();
   }
 
   onSubmit() {
@@ -152,47 +131,45 @@ export class InventoryEditComponent implements OnInit, OnDestroy {
       return;
     }
     console.log("sending", this.form.value);
-    this.inventoryManagementServ.saveInventory(this.form.value).subscribe(
+    const value = this.form.value;
+    value.drugId = this.drug.id;
+    let saveObs = null;
+    if(this.inventory.id) {
+      saveObs = this.inventoryManagementServ.update(this.inventory.id, value)
+    } else {
+      saveObs = this.inventoryManagementServ.create(value);
+    }
+    
+    saveObs.subscribe(
       (res) => {
-        this.toastr.success("User saved successfully");
+        this.toastr.success("Inventory saved successfully");
         this.inventoryManagementServ.reloadEmitter.emit();
         this.activeModal.close("Y");
       },
       (err) => {
-        this.toastr.error("Unable to save user");
+        this.toastr.error("Unable to save inventory");
       }
     );
   }
 
-  getManufacturers() {
-    this.manufacturerServ.getAllManufacturers().subscribe((res) => {
-      this.manufacturers = res.body as any[];
-    });
-  }
+  formatter = (x: {brand: string, compositionName: string }) => x.brand + '~' + x.compositionName;
 
-  getComposition() {
-    this.compositionServ.getAllCompositions().subscribe((res) => {
-      this.compositions = res.body as any[];
-    });
-  }
+  search = (text$: Observable<string>) =>
+  text$.pipe(
+    //filter(t => t.length > 2),
+    debounceTime(300),
+    distinctUntilChanged(),
+    tap(() => this.searching = true),
+    switchMap(term =>
+      this.drugService.search(term).pipe(
+        tap(() => this.searchFailed = false),
+        catchError(() => {
+          this.searchFailed = true;
+          return of([]);
+        }))
+    ),
+    tap(() => this.searching = false)
+  )
 
-  addManufacturer() {
-    const modalRef = this.modalService.open(ManufacturerEditComponent, {
-      size: "sm",
-      scrollable: true,
-      centered: false,
-      backdrop: "static",
-    });
-    modalRef.componentInstance.manufacturer = Object.assign({});
-  }
 
-  addComposition() {
-    const modalRef = this.modalService.open(CompositionEditComponent, {
-      size: "sm",
-      scrollable: true,
-      centered: false,
-      backdrop: "static",
-    });
-    modalRef.componentInstance.composition = Object.assign({});
-  }
 }

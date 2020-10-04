@@ -13,17 +13,17 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class InventoryDTO extends AbstractAuditingDTO {
     private Long id;
-    @NotBlank
-    @Size(max = 255)
-    private String brand;
     @NotNull
+    private Long drugId;
+
+    private String brand;
     private Long compositionId;
     private String compositionName;
-    @NotNull
     private Formulation formulation;
-    @NotNull
     private Long manufacturerId;
     private String manufacturerName;
+    private Boolean prescriptionRequired;
+    private String strength;
     @NotNull
     @Min(value = 0)
     private Integer packSize;
@@ -32,7 +32,7 @@ public class InventoryDTO extends AbstractAuditingDTO {
     @NotNull
     @Min(value = 1)
     private Integer noOfUnits;
-    private Boolean prescriptionRequired = true;
+
     @DecimalMin(value = "0.0", inclusive = false)
     @Digits(integer=7, fraction=2)
     @NotNull
