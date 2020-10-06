@@ -54,10 +54,10 @@ export class AppointmentService {
   }
 
   addConsultation(appointmentId, consultation) {
-    return this.http.put('/rest/urna/appointments/' + appointmentId + '/consultations', consultation);
+    return this.http.put('/api/appointments/' + appointmentId + '/consultations', consultation);
   }
 
   getConsulationByAppointmentId(appointmentId) {
-    return this.http.get('/rest/urna/appointments/' + appointmentId + '/consultations',{ observe: 'response'});
+    return this.http.get('/api/appointments/' + appointmentId + '/consultations',{ observe: 'response'});
   }
 }

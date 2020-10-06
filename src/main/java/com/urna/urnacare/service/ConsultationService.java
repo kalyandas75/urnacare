@@ -1,79 +1,52 @@
 package com.urna.urnacare.service;
 
 import com.urna.urnacare.domain.Consultation;
+import com.urna.urnacare.dto.ConsultationDto;
+import com.urna.urnacare.errors.BadRequestAlertException;
+import com.urna.urnacare.mapper.ConsultationMapper;
 import com.urna.urnacare.repository.ConsultationRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import javax.validation.Valid;
-import java.sql.Timestamp;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.Optional;
 
+
 @Service
+@Slf4j
 public class ConsultationService {
 
-    ConsultationRepository consultationRepository;
-	
-	@Autowired
-	public void setConsultationRepository(ConsultationRepository consultationRepository) {
-		this.consultationRepository = consultationRepository;
-	}
-	
-	public Iterable<Consultation> findAll() {
-		return consultationRepository.findAll();
+	private final ConsultationRepository repository;
+	private final ConsultationMapper mapper;
+
+	public ConsultationService(ConsultationRepository repository, ConsultationMapper mapper) {
+		this.repository = repository;
+		this.mapper = mapper;
 	}
 
-	public Optional<Consultation> findById(Long id) {
-		return consultationRepository.findById(id);
+	public ConsultationDto create(ConsultationDto dto) {
+		if(dto.getId() != null) {
+			throw new BadRequestAlertException("Consultation cannot have id while creating.",
+					"consultation", "idNotNull");
+		}
+		Consultation consultation = this.mapper.toEntity(dto);
+		return this.mapper.toDto(this.repository.save(consultation));
 	}
 
-	public Consultation insert(Consultation consultation) {
-		updateCreateTimeStamp(consultation);
-		return consultationRepository.save(consultation);
-	}
-	
-	public Consultation update(Consultation consultation) {
-		updateRespondedTimeStamp(consultation);
-		return consultationRepository.save(consultation);
-	}
-
-	public void delete(Consultation consultation) {
-		consultationRepository.delete(consultation);	
+	public ConsultationDto update(ConsultationDto dto) {
+		if(dto.getId() == null) {
+			throw new BadRequestAlertException("Consultation cannot be null while updating.",
+					"consultation", "idNull");
+		}
+		Consultation consultation = this.mapper.toEntity(dto);
+		return this.mapper.toDto(this.repository.save(consultation));
 	}
 
-	public void deleteById(Long id) {
-		consultationRepository.deleteById(id);
-		
+	public ConsultationDto getOne(Long id) {
+		Optional<Consultation> consultationOptional = this.repository.findById(id);
+		if(consultationOptional
+				.isPresent()) {
+			return this.mapper.toDto(consultationOptional.get());
+		}
+		return null;
 	}
-	
-	private void updateCreateTimeStamp(@Valid Consultation consultation) {
-		Calendar cal= Calendar.getInstance();
-		Date now = cal.getTime();
-		Timestamp createdOn= new Timestamp(now.getTime());
-		consultation.setCreatedOn(createdOn);
-	}
-
-	
-	
-	private void updateRespondedTimeStamp(@Valid Consultation consultation) {
-		Calendar cal= Calendar.getInstance();
-		Date now = cal.getTime();
-		Timestamp lastRespondedOn= new Timestamp(now.getTime());
-		consultation.setLastRespondedOn(lastRespondedOn);
-	}
-
-	public Iterable<Consultation> findAllConsultationByPatientId(Long cratedByPatientId) {
-		return consultationRepository.findAllConsultationByPatientId(cratedByPatientId);
-	}
-
-	public Iterable<Consultation> findAllConsultationByRespondedDoctorId(Long lastrespondedByDocId) {
-		return consultationRepository.findAllConsultationByRespondedDoctorId(lastrespondedByDocId);
-	}
-
-	public Iterable<Consultation> findAllConsultationBySpecialization(String specialization) {
-		return consultationRepository.findAllConsultationBySpecialization(specialization);
-	}
-
 }

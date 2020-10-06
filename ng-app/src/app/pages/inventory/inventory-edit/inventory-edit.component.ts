@@ -4,6 +4,7 @@ import { NgbActiveModal, NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrService } from "ngx-toastr";
 import { Observable, of, Subscription } from "rxjs";
 import { debounceTime, distinctUntilChanged, tap, switchMap, catchError, filter } from 'rxjs/operators';
+import { FORMULATIONS } from 'src/app/app.constant';
 import { CompositionEditComponent } from "../../composition/composition-edit/composition-edit.component";
 import { CompositionService } from "../../composition/composition.service";
 import { DrugService } from '../../drug/drug.service';
@@ -25,17 +26,7 @@ export class InventoryEditComponent implements OnInit, OnDestroy {
   authorities = ["ROLE_ADMIN", "ROLE_SUPPORT"];
   compositions: any[];
   manufacturers: any[];
-  formulations = [
-    "Tablet",
-    "Capsule",
-    "Injection",
-    "Drops",
-    "Tonic",
-    "Lotion",
-    "Cream",
-    "Powder",
-    "Device",
-  ];
+  formulations = FORMULATIONS;
   units = ["mg", "g", "ml", "ltr", "nos"];
   reloadEmitterSubscription: Subscription;
 

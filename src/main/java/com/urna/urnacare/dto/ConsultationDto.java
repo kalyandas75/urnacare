@@ -4,7 +4,9 @@ package com.urna.urnacare.dto;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Set;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Size;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -15,18 +17,16 @@ public class ConsultationDto implements java.io.Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	
 	private Long id ;
-	
-	private String  consultationFor;
-	private String 	speciality;
-	private String 	healthIssue;
-	private String 	durationOfHealthIssue;
-	private String  additionalQuery;
-	private String  consultationResponse;
-	private Long lastrespondedByDocId;
-	private Long cratedByPatientId;
-	
-	private String status;
-	private Set<MedicalFileDto> medicalFiles;
+	@Size(max = 255)
+	private String chiefComplaint;
+	@Size(max = 255)
+	private String observation;
+	@Size(max = 255)
+	private String suggestedInvestigation;
+	@Size(max = 255)
+	private String diagnosis;
+	@Size(max = 255)
+	private String specialInstructions;
+	private List<PrescriptionDrugDTO> prescriptionDrugs;
 }

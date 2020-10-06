@@ -1,3 +1,6 @@
+<ng-template #rt let-r="result" let-t="term">
+    <ngb-highlight [result]="formatter(r)" [term]="t"></ngb-highlight>
+</ng-template>
 <div class="modal-header">
     <h4 class="modal-title">Consultation</h4>
     <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
@@ -5,10 +8,115 @@
     </button>
 </div>
 <div class="modal-body">
-    <form [formGroup]="form" (ngSubmit)="onCreate()">
-        <formly-form [model]="model" [fields]="fields" [options]="options" [form]="form"></formly-form>
-        <button type="submit" class="btn btn-success submit-button btn-sm float-right"
-            [disabled]="!form.valid">Submit</button>
+    <form class="needs-validation" novalidate [formGroup]="form" (ngSubmit)="onCreate()"
+                        *ngIf="appointment">
+        <div class="form-row">
+            <div class="col-md-12">
+                <label>Chief Complaint</label>
+                <textarea class="form-control" placeholder="Cheif Complaint" formControlName="chiefComplaint"></textarea>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-md-12">
+                <label>Observation</label>
+                <textarea class="form-control" placeholder="Cheif Complaint" formControlName="observation"></textarea>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-md-12">
+                <label>Suggested Investigation</label>
+                <textarea class="form-control" placeholder="Suggested Investigation" formControlName="suggestedInvestigation"></textarea>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-md-12">
+                <label>Diagnosis</label>
+                <textarea class="form-control" placeholder="Diagnosis" formControlName="diagnosis"></textarea>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-md-12">
+                <label>Special Instructions</label>
+                <textarea class="form-control" placeholder="Special Instructions" formControlName="specialInstructions"></textarea>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-md-12">
+                <label>Prescription</label>
+                <div class=" table-full-width table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>S.No</th>
+                                <th>Medicine</th>
+                                <th>Dose</th>
+                                <th>Unit</th>
+                                <th>Frequency</th>
+                                <th>Period</th>
+                                <th>Duration</th>
+                                <th>
+                                    <button type="button" class="btn btn-link" (click)="addPrescriptionDrug()">
+                                        <i class="tim-icons icon-simple-add"></i>
+                                    </button>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody formArrayName="prescriptionDrugs">
+                            <tr *ngFor="let _ of getFormArray('prescriptionDrugs').controls; index as i" [formGroupName]="i">
+                                <td>
+                                    {{ i + 1}}
+                                </td>
+                                <td style="width: 400px;">
+                                    <input id="typeahead-http" type="text" class="form-control" 
+                                    [class.is-invalid]="searchFailed" formControlName="drug" 
+                                    [ngbTypeahead]="search" placeholder="Search Drug by Brand or Composition" [resultTemplate]="rt"
+                                    [inputFormatter]="formatter" [editable]='false'
+                                    container="body" 
+                                    showHint="true"/>
+                                    <small *ngIf="searching" class="form-text text-muted">searching...</small>
+                                    <div class="invalid-feedback" *ngIf="searchFailed">Sorry, suggestions could not be loaded.</div>
+                                    <small *ngIf="getFormArray('prescriptionDrugs').controls[i] && getFormArray('prescriptionDrugs').controls[i].get('drug')
+                                    && getFormArray('prescriptionDrugs').controls[i].get('drug').value">
+                                        {{ getFormArray('prescriptionDrugs').controls[i].get('drug').value.compositionName }}
+                                    </small>
+                                </td>
+                                <td>
+                                    <input type="number" formControlName="dose" class="form-control" style="width: 70px;">
+                                </td>
+                                <td>
+                                    <select formControlName="unit" class="form-control">
+                                        <option [value]="f" *ngFor="let f of units">{{ f }}</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select formControlName="frequency" class="form-control">
+                                        <option [value]="f" *ngFor="let f of frequencies">{{ f }}</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <input type="number" formControlName="duration" class="form-control" style="width: 70px;">
+
+                                </td>
+                                <td>
+                                    <select formControlName="durationUnit" class="form-control">
+                                        <option [value]="f" *ngFor="let f of durationUnits">{{ f }}</option>
+                                    </select>
+                                </td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-md-3 offset-md-9">
+            <button type="submit" class="btn btn-success submit-button btn-sm float-right"
+                [disabled]="!form.valid">Submit</button>
+            </div>
+        </div>
+                            
     </form>
 
 </div>

@@ -12,9 +12,10 @@ import { AppointmentService } from 'src/app/shared/service/appointment.service';
   selector: 'app-doctor-appointment-list',
   templateUrl: './doctor-appointment-list.component.html',
   styles: [
-    `::ng-deep .custom-modal .modal-dialog { 
+    `::ng-deep .uc-lg .modal-dialog { 
       max-width: 100%;
-      width: 90%;
+      width: 90%;,
+      top: 0
     }`
   ]
 })
@@ -106,10 +107,10 @@ export class DoctorAppointmentListComponent implements OnInit, OnDestroy {
 
   openConsultation(appointment) {
     if(!this.completed) {
-      const modalRef = this.modalService.open(ConsultationEditComponent, { size: 'lg', scrollable: true });
+      const modalRef = this.modalService.open(ConsultationEditComponent, { windowClass: 'uc-lg', centered: false, scrollable: true });
       modalRef.componentInstance.appointment = appointment;
     } else {
-      const modalRef = this.modalService.open(ConsultationViewComponent, { size: 'lg', scrollable: true });
+      const modalRef = this.modalService.open(ConsultationViewComponent, { size: 'lg', centered: false, scrollable: true });
       modalRef.componentInstance.appointment = appointment;
     }
   }

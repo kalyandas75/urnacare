@@ -5,6 +5,7 @@ import com.urna.urnacare.domain.Consultation;
 import com.urna.urnacare.domain.Doctor;
 import com.urna.urnacare.domain.User;
 import com.urna.urnacare.dto.AppointmentDto;
+import com.urna.urnacare.dto.ConsultationDto;
 import com.urna.urnacare.errors.BadRequestAlertException;
 import com.urna.urnacare.mapper.AppointmentMapper;
 import com.urna.urnacare.repository.AppointmentRepository;
@@ -55,16 +56,16 @@ public class AppointmentService {
         );
     }
 
-    public void createConsultation(Long appointmentId, Consultation consultation) {
+    public void createConsultation(Long appointmentId, ConsultationDto consultationDto) {
         Optional<Appointment> appointmentOpt = this.appointmentRepository.findById(appointmentId);
         appointmentOpt.ifPresent(appointment -> {
-            Consultation consultation1 = this.consultationService.insert(consultation);
-            appointment.setConsultationId(consultation1.getId());
+            ConsultationDto consultationDtoSaved = this.consultationService.create(consultationDto);
+            appointment.setConsultationId(consultationDtoSaved.getId());
             this.appointmentRepository.save(appointment);
         });
     }
 
-    public Optional<Consultation> getConsultation(Long appointmentId) {
+    public ConsultationDto getConsultation(Long appointmentId) {
         Optional<Appointment> appointmentOpt = this.appointmentRepository.findById(appointmentId);
         if(appointmentOpt.isPresent()) {
             Appointment appointment = appointmentOpt.get();
@@ -72,8 +73,8 @@ public class AppointmentService {
             if(consultationId == null) {
                 throw new BadRequestAlertException("Consultation not found", "appointment", "consultationNotFound");
             }
-            Optional<Consultation> consultationOptional = this.consultationService.findById(appointment.getConsultationId());
-            return  consultationOptional;
+            ConsultationDto consultationDto = this.consultationService.getOne(appointment.getConsultationId());
+            return  consultationDto;
         }
         throw new BadRequestAlertException("Appointment not found", "appointment", "notFound");
     }

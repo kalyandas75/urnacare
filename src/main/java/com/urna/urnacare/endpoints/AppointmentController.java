@@ -5,6 +5,7 @@ import com.urna.urnacare.domain.Consultation;
 import com.urna.urnacare.domain.Doctor;
 import com.urna.urnacare.domain.User;
 import com.urna.urnacare.dto.AppointmentDto;
+import com.urna.urnacare.dto.ConsultationDto;
 import com.urna.urnacare.repository.AppointmentRepository;
 import com.urna.urnacare.repository.UserRepository;
 import com.urna.urnacare.security.AuthoritiesConstants;
@@ -104,13 +105,13 @@ public class AppointmentController {
 
 	@PutMapping("/{id}/consultations")
 	@PreAuthorize("hasRole(\"" + AuthoritiesConstants.DOCTOR + "\")")
-	public void createConsultation(@PathVariable Long id, @Valid @RequestBody Consultation consultation) {
-		this.appointmentService.createConsultation(id, consultation);
+	public void createConsultation(@PathVariable Long id, @Valid @RequestBody ConsultationDto consultationDto) {
+		this.appointmentService.createConsultation(id, consultationDto);
 	}
 
 	@GetMapping(value = "/{id}/consultations")
 	@PreAuthorize("hasAnyRole(\"" + AuthoritiesConstants.DOCTOR + "\",\"" + AuthoritiesConstants.PATIENT + "\")")
-	public Consultation getConsultationByAppointmentId(@PathVariable Long id) {
-		return this.appointmentService.getConsultation(id).get();
+	public ConsultationDto getConsultationByAppointmentId(@PathVariable Long id) {
+		return this.appointmentService.getConsultation(id);
 	}
 }
