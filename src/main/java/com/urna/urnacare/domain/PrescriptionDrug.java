@@ -30,4 +30,6 @@ public class PrescriptionDrug {
     @Enumerated(EnumType.STRING)
     @Column
     private DurationUnit durationUnit;
+    @Column
+    private String instructions;
 }

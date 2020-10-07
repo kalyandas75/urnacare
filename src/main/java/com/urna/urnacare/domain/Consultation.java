@@ -1,10 +1,14 @@
 package com.urna.urnacare.domain;
 
+import lombok.Data;
+
 import javax.persistence.*;
+import java.time.Instant;
 import java.util.List;
 
 @Entity
 @Table(name = "consultation")
+@Data
 public class Consultation implements java.io.Serializable {
 	
 	/**
@@ -29,4 +33,6 @@ public class Consultation implements java.io.Serializable {
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name="consultationId", referencedColumnName="id")
 	private List<PrescriptionDrug> prescriptionDrugs;
+	@Column(name = "created_date", columnDefinition = "TIMESTAMP", updatable = false)
+	private Instant createdDate = Instant.now();
 }

@@ -21,10 +21,11 @@
                             <td>{{ a.patientFirstName }} {{ a.patientLastName }}</td>
                             <td>{{ a.scheduledDate | date: 'MMM d, y, h:mm a' }}</td>
                             <td>
-                                <a class="btn btn-sm btn-warning" href="javascript: void(0)" (click)="openChat(a.uniquieKey, a.patientFirstName + ' ' + a.patientLastName )" *ngIf="a.enableChat">Chat</a> <!--  -->
+                                <a class="btn btn-sm btn-warning" href="javascript: void(0)" (click)="openChat(a.uniquieKey, a.patientFirstName + ' ' + a.patientLastName )"  *ngIf="a.enableChat">Chat</a> <!--  -->
                                 <button class="btn btn-sm btn-info" 
                                 (click)="openConsultation(a)"
-                                *ngIf="(completed && a.consultationId) || (!completed && a.enableConsultation)">Consultation</button><!--   -->
+                                *ngIf="(completed && a.consultationId) || (!completed && a.enableConsultation)"
+                                >Consultation</button><!--   -->
                                 <span *ngIf="completed && !a.consultationId">Missed</span>
                             </td>
                         </tr>

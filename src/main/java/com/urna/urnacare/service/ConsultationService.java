@@ -7,12 +7,14 @@ import com.urna.urnacare.mapper.ConsultationMapper;
 import com.urna.urnacare.repository.ConsultationRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 
 @Service
 @Slf4j
+@Transactional(readOnly = false)
 public class ConsultationService {
 
 	private final ConsultationRepository repository;
@@ -24,12 +26,15 @@ public class ConsultationService {
 	}
 
 	public ConsultationDto create(ConsultationDto dto) {
+		log.debug("creating consultation {}", dto);
 		if(dto.getId() != null) {
 			throw new BadRequestAlertException("Consultation cannot have id while creating.",
 					"consultation", "idNotNull");
 		}
 		Consultation consultation = this.mapper.toEntity(dto);
-		return this.mapper.toDto(this.repository.save(consultation));
+		Consultation consultationSaved = this.repository.save(consultation);
+		log.debug("created consultation {}", consultationSaved);
+		return this.mapper.toDto(consultationSaved);
 	}
 
 	public ConsultationDto update(ConsultationDto dto) {
@@ -41,6 +46,7 @@ public class ConsultationService {
 		return this.mapper.toDto(this.repository.save(consultation));
 	}
 
+	@Transactional(readOnly = true)
 	public ConsultationDto getOne(Long id) {
 		Optional<Consultation> consultationOptional = this.repository.findById(id);
 		if(consultationOptional

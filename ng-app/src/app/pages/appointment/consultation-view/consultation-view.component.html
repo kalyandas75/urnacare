@@ -9,15 +9,13 @@
         <div class="col-md-3">
             <label>Appointment Date</label>
         </div>
-        <div class="col-md-9">
+        <div class="col-md-3">
             {{ appointment.scheduledDate | date: 'MMM d, y, h:mm a' }}
         </div>
-    </div>
-    <div class="row">
         <div class="col-md-3">
             <label>Consultation Date</label>
         </div>
-        <div class="col-md-9">
+        <div class="col-md-3">
             {{ consultation.createdOn | date: 'MMM d, y, h:mm a' }}
         </div>
     </div>
@@ -25,40 +23,85 @@
         <div class="col-md-3">
             <label>Patient's Name</label>
         </div>
-        <div class="col-md-9">
+        <div class="col-md-3">
             {{ appointment.patientFirstName }} {{ appointment.patientLastName }}
         </div>
-    </div>
-    <div class="row">
         <div class="col-md-3">
             <label>Doctor's Name</label>
         </div>
-        <div class="col-md-9">
+        <div class="col-md-3">
             {{ appointment.doctorFirstName }} {{ appointment.doctorLastName }}
         </div>
     </div>
     <div class="row">
         <div class="col-md-3">
-            <label>Health issue since</label>
+            <label>Cheif Complaint</label>
         </div>
         <div class="col-md-9">
-            {{ consultation.durationOfHealthIssue }}
+            {{ consultation.cheifComplaint }}
         </div>
     </div>
     <div class="row">
         <div class="col-md-3">
-            <label>Presentation/Observation</label>
+            <label>Observation</label>
         </div>
         <div class="col-md-9">
-            {{ consultation.healthIssue }}
+            {{ consultation.observation }}
         </div>
     </div>
     <div class="row">
         <div class="col-md-3">
-            <label>Rx</label>
+            <label>Diagnosis</label>
         </div>
         <div class="col-md-9">
-            {{ consultation.consultationResponse }}
+            {{ consultation.diagnosis }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <label>Suggested Investigations</label>
+        </div>
+        <div class="col-md-9">
+            {{ consultation.suggestedInvestigation }}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3">
+            <label>Prescription</label>
+        </div>
+        <div class="col-md-9">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>S.No.</th>
+                        <th>Medicine</th>
+                        <th>Form</th>
+                        <th>Frequency</th>
+                        <th>Duration</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let p of consultation.prescriptionDrugs; let i = index">
+                        <td>{{ i + 1 }}</td>
+                        <td>{{ p.drugBrand }} - {{p.drugStrength}} <br>
+                            ({{ p.drugCompositionName }})
+                        </td>
+                        <td>{{ p.drugFormulation }}</td>
+                        <td>{{ p.dose }} {{ p.unit }} {{ p.frequency }}</td>
+                        <td>{{ p.duration }} {{ p.durationUnit }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3">
+            <label>Special Instructions</label>
+        </div>
+        <div class="col-md-9">
+            {{ consultation.specialInstructions }}
         </div>
     </div>
 

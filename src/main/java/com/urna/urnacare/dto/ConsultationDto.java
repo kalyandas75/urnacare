@@ -29,4 +29,6 @@ public class ConsultationDto implements java.io.Serializable {
 	@Size(max = 255)
 	private String specialInstructions;
 	private List<PrescriptionDrugDTO> prescriptionDrugs;
+	@Size(max = 255)
+	private String instructions;
 }

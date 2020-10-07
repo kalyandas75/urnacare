@@ -79,6 +79,7 @@
                                     && getFormArray('prescriptionDrugs').controls[i].get('drug').value">
                                         {{ getFormArray('prescriptionDrugs').controls[i].get('drug').value.compositionName }}
                                     </small>
+                                    <input type="text" formControlName="instructions" class="form-control" placeholder="Instructions">
                                 </td>
                                 <td>
                                     <input type="number" formControlName="dose" class="form-control" style="width: 70px;">

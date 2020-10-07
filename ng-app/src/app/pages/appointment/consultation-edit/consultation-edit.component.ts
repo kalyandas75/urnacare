@@ -102,7 +102,8 @@ export class ConsultationEditComponent implements OnInit {
       frequency: ['qd'],
       duration: ['1'],
       durationUnit: ['DAYS'],
-      formulation: ['Tablet']
+      formulation: ['Tablet'],
+      instructions: ['']
     }));
   }
 

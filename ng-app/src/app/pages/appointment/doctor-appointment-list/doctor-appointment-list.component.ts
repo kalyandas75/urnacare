@@ -106,6 +106,7 @@ export class DoctorAppointmentListComponent implements OnInit, OnDestroy {
   }
 
   openConsultation(appointment) {
+    // this.completed = false;
     if(!this.completed) {
       const modalRef = this.modalService.open(ConsultationEditComponent, { windowClass: 'uc-lg', centered: false, scrollable: true });
       modalRef.componentInstance.appointment = appointment;

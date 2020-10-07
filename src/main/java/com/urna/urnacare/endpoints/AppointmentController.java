@@ -12,6 +12,7 @@ import com.urna.urnacare.security.AuthoritiesConstants;
 import com.urna.urnacare.security.SecurityUtils;
 import com.urna.urnacare.service.AppointmentService;
 import com.urna.urnacare.util.RandomUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +28,7 @@ import java.util.List;
 @CrossOrigin
 @RestController
 @RequestMapping("/api/appointments")
+@Slf4j
 public class AppointmentController {
 	private final AppointmentRepository appointmentRepository;
 	private final AppointmentService appointmentService;
@@ -106,6 +108,7 @@ public class AppointmentController {
 	@PutMapping("/{id}/consultations")
 	@PreAuthorize("hasRole(\"" + AuthoritiesConstants.DOCTOR + "\")")
 	public void createConsultation(@PathVariable Long id, @Valid @RequestBody ConsultationDto consultationDto) {
+		log.info("request to create consultation {}", consultationDto);
 		this.appointmentService.createConsultation(id, consultationDto);
 	}
 
