@@ -26,6 +26,8 @@ public class ApplicationProperties {
 
     private final CorsConfiguration cors = new CorsConfiguration();
 
+    private final Payment payment = new Payment();
+
     public Async getAsync() {
         return async;
     }
@@ -50,6 +52,9 @@ public class ApplicationProperties {
         return cors;
     }
 
+    public Payment getPayment() {
+        return payment;
+    }
 
     public static class Async {
 
@@ -372,6 +377,37 @@ public class ApplicationProperties {
 
         public void setUseDefaultResponseMessages(boolean useDefaultResponseMessages) {
             this.useDefaultResponseMessages = useDefaultResponseMessages;
+        }
+    }
+
+
+    public static class Payment {
+        private String merchantKey;
+        private String merchantSalt;
+        private String callbackUrl;
+
+        public String getMerchantKey() {
+            return merchantKey;
+        }
+
+        public void setMerchantKey(String merchantKey) {
+            this.merchantKey = merchantKey;
+        }
+
+        public String getMerchantSalt() {
+            return merchantSalt;
+        }
+
+        public void setMerchantSalt(String merchantSalt) {
+            this.merchantSalt = merchantSalt;
+        }
+
+        public String getCallbackUrl() {
+            return callbackUrl;
+        }
+
+        public void setCallbackUrl(String callbackUrl) {
+            this.callbackUrl = callbackUrl;
         }
     }
 

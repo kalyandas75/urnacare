@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -15,4 +16,5 @@ public interface InventoryRepository extends JpaRepository<Inventory, Long> {
     @Query("SELECT i FROM Inventory i WHERE lower(i.drug.brand) LIKE lower(concat('%', :q,'%')) OR " +
             "lower(i.drug.composition.name) LIKE lower(concat('%', :q,'%'))")
     List<Inventory> searchByBrandOrComposition(@Param("q") String q);
+    List<Inventory> findOneByDrugAndExpiryDateGreaterThanOrderByExpiryDateDesc(Drug drug, LocalDate expiryDate);
 }

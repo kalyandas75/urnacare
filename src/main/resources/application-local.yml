@@ -69,3 +69,8 @@ application:
         enabled: false
         update-interval: 3
         url: http://localhost:8180/mancenter
+
+    payment:
+      merchantKey: h6nS35ea
+      merchantSalt: SBZiWH9Yon
+      callbackUrl: http://localhost:4200/payment/callback

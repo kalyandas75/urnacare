@@ -7,7 +7,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 
-@Mapper(componentModel = "spring", uses = { Drug.class})
+@Mapper(componentModel = "spring", uses = { DrugMapper.class})
 public interface InventoryMapper extends EntityMapper<InventoryDTO, Inventory> {
     @Mappings({
             @Mapping(target = "drug.id", source = "drugId")
