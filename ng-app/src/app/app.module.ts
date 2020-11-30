@@ -23,7 +23,6 @@ import { FormlyModule } from '@ngx-formly/core';
 import { ValidationMessages } from './form-models/validation.messages';
 import { UrnaDateComponent } from './components/urna-date/urna-date.component';
 import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
-import { PaymentComponent } from './components/payment/payment.component';
 
 @NgModule({
   imports: [
@@ -44,7 +43,7 @@ import { PaymentComponent } from './components/payment/payment.component';
     }),
     FormlyBootstrapModule
   ],
-  declarations: [AppComponent, AdminLayoutComponent, AuthLayoutComponent, PaymentComponent],
+  declarations: [AppComponent, AdminLayoutComponent, AuthLayoutComponent],
   providers: [    { provide: LocationStrategy, useClass: HashLocationStrategy },
     {
       provide: HTTP_INTERCEPTORS,
