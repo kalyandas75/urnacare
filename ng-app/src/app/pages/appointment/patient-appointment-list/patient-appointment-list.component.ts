@@ -6,6 +6,7 @@ import { ConsultationViewComponent } from '../consultation-view/consultation-vie
 import { Subscription } from 'rxjs';
 import { ChatComponent } from '../../chat/chat.component';
 import { AppointmentService } from 'src/app/shared/service/appointment.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-patient-appointment-list',
@@ -21,7 +22,8 @@ export class PatientAppointmentListComponent implements OnInit, OnDestroy {
   constructor(
     private appointmentService: AppointmentService, 
     private toastr: ToastrService,
-    private modalService: NgbModal) { }
+    private modalService: NgbModal,
+    private router: Router) { }
 
 
   ngOnInit(): void {
@@ -97,5 +99,9 @@ export class PatientAppointmentListComponent implements OnInit, OnDestroy {
     const modalRef = this.modalService.open(ChatComponent,  { size: 'sm', scrollable: true, centered: false, backdrop: 'static' });
     modalRef.componentInstance.roomId = roomId;
     modalRef.componentInstance.partner = name;
+  }
+
+  initOrder(consultationId) {
+    this.router.navigateByUrl('/order/init/' + consultationId);
   }
 }

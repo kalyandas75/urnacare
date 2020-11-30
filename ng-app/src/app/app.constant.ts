@@ -31,6 +31,7 @@ export const SPECIALITIES = [
     'Urology'
 ];
 export const PHONE_REGEX = /^[1-9]{1}[0-9]{9}$/;
+export const PIN_REGEX = /^[1-9][0-9]{5}$/;
 
 export const FORMULATIONS = [
     "Tablet",

@@ -13,6 +13,10 @@ import { ManufacturerComponent } from "src/app/pages/manufacturer/manufacturer.c
 import { UserManagementComponent } from "src/app/pages/user-management/user-management.component";
 import { InventoryComponent } from "src/app/pages/inventory/inventory.component";
 import { DrugComponent } from 'src/app/pages/drug/drug.component';
+import { OrderInitComponent } from 'src/app/pages/order/order-init/order-init.component';
+import { OrderFinishComponent } from 'src/app/pages/order/order-finish/order-finish.component';
+import { OrderSummaryComponent } from 'src/app/pages/order/order-summary/order-summary.component';
+import { PaymentResultComponent } from 'src/app/pages/order/payment-result/payment-result.component';
 
 export const AdminLayoutRoutes: Routes = [
   {
@@ -141,6 +145,54 @@ export const AdminLayoutRoutes: Routes = [
     data: {
       title: "drug.title",
       authorities: ["ROLE_ADMIN", "ROLE_SUPPORT"]
+    },
+    resolve: {
+      title: TitleResolver,
+    },
+    canActivate: [UserRouteAccessService],
+  },
+  {
+    path: "order/init/:consultationId",
+    component: OrderInitComponent,
+    data: {
+      title: "orderInit.title",
+      authorities: ["ROLE_PATIENT"]
+    },
+    resolve: {
+      title: TitleResolver,
+    },
+    canActivate: [UserRouteAccessService],
+  },
+  {
+    path: "order/finish",
+    component: OrderFinishComponent,
+    data: {
+      title: "orderFinal.title",
+      authorities: ["ROLE_PATIENT"]
+    },
+    resolve: {
+      title: TitleResolver,
+    },
+    canActivate: [UserRouteAccessService],
+  },
+  {
+    path: "order/summary/:orderId",
+    component: OrderSummaryComponent,
+    data: {
+      title: "orderSummary.title",
+      authorities: ["ROLE_PATIENT"]
+    },
+    resolve: {
+      title: TitleResolver,
+    },
+    canActivate: [UserRouteAccessService],
+  },
+  {
+    path: "payment/result",
+    component: PaymentResultComponent,
+    data: {
+      title: "paymentResult.title",
+      authorities: ["ROLE_PATIENT"]
     },
     resolve: {
       title: TitleResolver,

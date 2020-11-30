@@ -385,6 +385,8 @@ public class ApplicationProperties {
         private String merchantKey;
         private String merchantSalt;
         private String callbackUrl;
+        private String payurl;
+        private String callbackResponseUrl;
 
         public String getMerchantKey() {
             return merchantKey;
@@ -408,6 +410,22 @@ public class ApplicationProperties {
 
         public void setCallbackUrl(String callbackUrl) {
             this.callbackUrl = callbackUrl;
+        }
+
+        public String getPayurl() {
+            return payurl;
+        }
+
+        public void setPayurl(String payurl) {
+            this.payurl = payurl;
+        }
+
+        public String getCallbackResponseUrl() {
+            return callbackResponseUrl;
+        }
+
+        public void setCallbackResponseUrl(String callbackResponseUrl) {
+            this.callbackResponseUrl = callbackResponseUrl;
         }
     }
 

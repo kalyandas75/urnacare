@@ -34,6 +34,10 @@ import { InventoryEditComponent } from "src/app/pages/inventory/inventory-edit/i
 import { CompositionEditComponent } from "src/app/pages/composition/composition-edit/composition-edit.component";
 import { DrugComponent } from 'src/app/pages/drug/drug.component';
 import { DrugEditComponent } from 'src/app/pages/drug/drug-edit/drug-edit.component';
+import { OrderInitComponent } from 'src/app/pages/order/order-init/order-init.component';
+import { OrderFinishComponent } from 'src/app/pages/order/order-finish/order-finish.component';
+import { OrderSummaryComponent } from 'src/app/pages/order/order-summary/order-summary.component';
+import { PaymentResultComponent } from 'src/app/pages/order/payment-result/payment-result.component';
 
 @NgModule({
   imports: [
@@ -73,7 +77,11 @@ import { DrugEditComponent } from 'src/app/pages/drug/drug-edit/drug-edit.compon
     InventoryEditComponent,
     CompositionEditComponent, 
     DrugComponent,
-    DrugEditComponent
+    DrugEditComponent,
+    OrderInitComponent, 
+    OrderFinishComponent, 
+    OrderSummaryComponent, 
+    PaymentResultComponent
   ],
   entryComponents: [
     AppointmentRequestEditComponent,

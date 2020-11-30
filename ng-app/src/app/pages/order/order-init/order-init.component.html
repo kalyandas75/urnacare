@@ -1,0 +1,71 @@
+<div class=" content">
+    <div class=" row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class=" card-header">
+                    <h2>Prescription Order</h2>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table tablesorter">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Description</th>
+                                    <th scope="col">Pack Size</th>
+                                    <th scope="col">Qty</th>
+                                    <th scope="col">Price/Pack</th>
+                                    <th scope="col">Discount</th>
+                                    <th scope="col">GST</th>
+                                    <th scope="col">Net Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody *ngIf="orderItems">
+                                <tr *ngFor="let item of orderItems">
+                                    <td>
+                                        {{ item.drugBrand }} {{ item.drugStrength }} {{ item.drugFormulation }}
+                                        ({{ item.drugCompositionName }}) {{ item.dose}} {{ item.frequency}} x
+                                        {{ item.duration }} {{ item.durationUnit }}
+                                    </td>
+                                    <ng-container *ngIf="!item.unavailable">
+                                        <td>
+                                            {{ item.packSize }}
+                                        </td>
+                                        <td>
+                                            <input type="text" [(ngModel)]="item.quantity" class="form-control"
+                                                style="width: 50px;">
+                                        </td>
+                                        <td>
+                                            {{ item.pricePerUnit }}
+                                        </td>
+                                        <td>
+                                            {{ item.discountRate }}%
+                                        </td>
+                                        <td>
+                                            CGST: {{ item.cgst }}% + SGST: {{ item.sgst }}% + IGST: {{ item.igst }}%
+                                        </td>
+                                        <td>
+                                            {{ getNetAmount(item) }}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container *ngIf="item.unavailable">
+                                        <td colspan="6">Medicine not available</td>
+                                    </ng-container>
+
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <td colspan="6"></td>
+                                <td> {{ getTotal() }}</td>
+                            </tfoot>
+                        </table>
+                    </div>
+
+                </div>
+
+                <div class="card-footer" >
+                    <button type="button" class="btn btn-info float-right" (click)="onConfirm()">Add Shipping Address</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

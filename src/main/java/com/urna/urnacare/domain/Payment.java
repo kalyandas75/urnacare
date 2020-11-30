@@ -29,6 +29,6 @@ public class Payment {
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)
     private PaymentStatus status;
-    @Column
-    private String responseId;
+    @Column(columnDefinition="TEXT")
+    private String paymentResponse;
 }

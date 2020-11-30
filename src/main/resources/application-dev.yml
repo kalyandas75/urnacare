@@ -78,3 +78,9 @@ application:
         enabled: false
         update-interval: 3
         url: http://localhost:8180/mancenter
+  payment:
+    merchantKey: h6nS35ea
+    merchantSalt: SBZiWH9Yon
+    callbackUrl: https://urnacare.technakriti.com:8443/api/payments/callback
+    payurl: https://sandboxsecure.payu.in/_payment
+    callbackResponseUrl: https://urnacare.technakriti.com:8443/#/payment/result

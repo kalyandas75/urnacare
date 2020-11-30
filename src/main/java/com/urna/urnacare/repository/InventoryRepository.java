@@ -16,5 +16,6 @@ public interface InventoryRepository extends JpaRepository<Inventory, Long> {
     @Query("SELECT i FROM Inventory i WHERE lower(i.drug.brand) LIKE lower(concat('%', :q,'%')) OR " +
             "lower(i.drug.composition.name) LIKE lower(concat('%', :q,'%'))")
     List<Inventory> searchByBrandOrComposition(@Param("q") String q);
-    List<Inventory> findOneByDrugAndExpiryDateGreaterThanOrderByExpiryDateDesc(Drug drug, LocalDate expiryDate);
+    List<Inventory> findByDrugAndExpiryDateGreaterThanOrderByExpiryDateDesc(Drug drug, LocalDate expiryDate);
+    List<Inventory> findByDrugId(Long drugId);
 }

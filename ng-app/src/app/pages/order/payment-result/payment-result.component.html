@@ -1,0 +1,15 @@
+<div class=" content">
+    <div class=" row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class=" card-header">
+                    <h2>Payment Status</h2>
+                </div>
+                <div class="card-body">
+                    <span *ngIf="'success' === status">Your payment has been approved. We will be dispatching your medicines soon.</span>
+                    <span *ngIf="'success' !== status">Your payment has been not been approved. </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

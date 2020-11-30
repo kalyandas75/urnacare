@@ -1,0 +1,83 @@
+<div class=" content">
+    <div class=" row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class=" card-header">
+                    <h2>Shipping Address</h2>
+                </div>
+                <div class="card-body">
+                    <form class="needs-validation" novalidate [formGroup]="form" (ngSubmit)="onSubmit()"
+                        *ngIf="order && order.id">
+                        <div class="form-row">
+                            <div class="col-md-12">
+                                <label>Address</label>
+                                <textarea class="form-control" placeholder="Address" formControlName="address"
+                                    [ngClass]="{ 'is-invalid': submitted && f.address.errors }"></textarea>
+                                <div class="invalid-feedback" style="display: block"
+                                    *ngIf="submitted && f.address.invalid">
+                                    <div *ngIf="f.address.errors.required">
+                                        Address is required
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-md-6">
+                                <label>City/Town</label>
+                                <input class="form-control" placeholder="City" formControlName="city"
+                                    [ngClass]="{ 'is-invalid': submitted && f.city.errors }" />
+                                <div class="invalid-feedback" style="display: block"
+                                    *ngIf="submitted && f.city.invalid">
+                                    <div *ngIf="f.city.errors.required">
+                                        City is required
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label>State</label>
+                                <input class="form-control" placeholder="State" formControlName="state"
+                                    [ngClass]="{ 'is-invalid': submitted && f.state.errors }" />
+                                <div class="invalid-feedback" style="display: block"
+                                    *ngIf="submitted && f.state.invalid">
+                                    <div *ngIf="f.state.errors.required">
+                                        State is required
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="col-md-6">
+                                <label>Pin</label>
+                                <input class="form-control" placeholder="Pin Code" formControlName="pin"
+                                    [ngClass]="{ 'is-invalid': submitted && f.pin.errors }" />
+                                <div class="invalid-feedback" style="display: block" *ngIf="submitted && f.pin.invalid">
+                                    <div *ngIf="f.pin.errors.required">
+                                        Pin is required
+                                    </div>
+                                    <div *ngIf="f.pin.errors.pattern">
+                                        Pin is not valid
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Phone</label>
+                                <input class="form-control" placeholder="Phone" formControlName="phoneNumber"
+                                    [ngClass]="{ 'is-invalid': submitted && f.phoneNumber.errors }" />
+                                <div class="invalid-feedback" style="display: block"
+                                    *ngIf="submitted && f.phoneNumber.invalid">
+                                    <div *ngIf="f.phoneNumber.errors.pattern">
+                                        Phone is not valid
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="card-footer">
+                    <button type="button" class="btn btn-info float-right" (click)="onSubmit()">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,68 @@
+<div class=" content">
+    <div class=" row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class=" card-header">
+                    <h2>Order Summary</h2>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table tablesorter">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Description</th>
+                                    <th scope="col">Amount</th>
+                                    <th scope="col">Discount</th>
+                                    <th scope="col">GST</th>
+                                    <th scope="col">Net</th>
+                                </tr>
+                            </thead>
+                            <tbody *ngIf="paymentRequest && paymentRequest.items">
+                                <tr *ngFor="let item of paymentRequest.items">
+                                    <td>
+                                        {{ item.description }}
+                                    </td>
+                                    <td>{{ item.amount | currency:'INR'}}</td>
+                                    <td>{{ item.discount | currency:'INR'}}</td>
+                                    <td>{{ item.gst | currency:'INR'}}</td>
+                                    <td>{{ item.netAmount | currency:'INR'}}</td>
+                                </tr>
+                            </tbody>
+                            <tfoot *ngIf="paymentRequest && paymentRequest.items">
+                                <tr style="color: rgba(34, 42, 66, 0.7)">
+                                    <th>Total</th>
+                                    <th> {{ total.amount | currency:'INR'}}</th>
+                                    <th> {{ total.discount | currency:'INR'}}</th>
+                                    <th> {{ total.gst | currency:'INR'}}</th>
+                                    <th> {{ total.netAmount | currency:'INR' }}</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+
+                </div>
+
+                <div class="card-footer" *ngIf="paymentRequest">
+                    <form ngNoForm action="{{ paymentRequest.payurl}}" name="payuform" method="POST">
+                        <input type="hidden" name="productinfo" [(ngModel)]="paymentRequest.productInfo">
+                        <input type="hidden" name="firstname" [(ngModel)]="paymentRequest.firstName">
+                        <input type="hidden" name="lastname" [(ngModel)]="paymentRequest.lastName">
+                        <input type="hidden" name="email" [(ngModel)]="paymentRequest.email">
+                        <input type="hidden" name="amount" [(ngModel)]="paymentRequest.amount">
+                        <input type="hidden" name="phone" [(ngModel)]="paymentRequest.phone">
+                        <input type="hidden" name="udf1" [(ngModel)]="paymentRequest.udf1">
+                        <input type="hidden" name="key" [(ngModel)]="paymentRequest.key">
+                        <input type="hidden" name="hash" [(ngModel)]="paymentRequest.hash">
+                        <input type="hidden" name="txnid" [(ngModel)]="paymentRequest.txnId">
+                        <input type="hidden" name="surl" [(ngModel)]="paymentRequest.surl">
+                        <input type="hidden" name="furl" [(ngModel)]="paymentRequest.furl">
+                        <input type="hidden" name="service_provider" [(ngModel)]="paymentRequest.serviceProvider">
+                        <button type="submit" class="btn btn-info float-right">Confirm and Pay</button>
+                    </form>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+                

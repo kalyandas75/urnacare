@@ -1,6 +1,9 @@
 package com.urna.urnacare.dto;
 
+import com.urna.urnacare.enumeration.DoseUnit;
+import com.urna.urnacare.enumeration.DurationUnit;
 import com.urna.urnacare.enumeration.Formulation;
+import com.urna.urnacare.enumeration.Frequency;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -31,4 +34,12 @@ public class OrderItemDTO implements Serializable {
     private BigDecimal sgst;
     private BigDecimal igst;
     private BigDecimal discountRate;
+    private Boolean unavailable = false;
+    private Integer packSize;
+
+    private BigDecimal dose;
+    private DoseUnit unit;
+    private Frequency frequency;
+    private BigDecimal duration;
+    private DurationUnit durationUnit;
 }

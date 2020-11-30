@@ -1,5 +1,8 @@
 package com.urna.urnacare.domain;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.validation.constraints.NotBlank;
@@ -7,6 +10,8 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @Embeddable
+@Data
+@NoArgsConstructor
 public class OrderAddress {
 
     @Pattern(regexp = "[1-9][0-9]{9}")

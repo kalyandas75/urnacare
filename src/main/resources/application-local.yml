@@ -70,7 +70,9 @@ application:
         update-interval: 3
         url: http://localhost:8180/mancenter
 
-    payment:
-      merchantKey: h6nS35ea
-      merchantSalt: SBZiWH9Yon
-      callbackUrl: http://localhost:4200/payment/callback
+  payment:
+    merchantKey: h6nS35ea
+    merchantSalt: SBZiWH9Yon
+    callbackUrl: http://localhost:8080/api/payments/callback
+    payurl: https://sandboxsecure.payu.in/_payment
+    callbackResponseUrl: http://localhost:4200/#/payment/result

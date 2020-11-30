@@ -84,6 +84,7 @@ public class ExceptionTranslator implements ProblemHandling {
 
     @ExceptionHandler
     public ResponseEntity<Problem> handleNoSuchElementException(NoSuchElementException ex, NativeWebRequest request) {
+        System.out.println(request.toString());
         Problem problem = Problem.builder()
             .withStatus(Status.NOT_FOUND)
             .with(MESSAGE_KEY, ErrorConstants.ENTITY_NOT_FOUND_TYPE)

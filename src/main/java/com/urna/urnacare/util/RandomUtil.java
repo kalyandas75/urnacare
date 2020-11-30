@@ -2,6 +2,9 @@ package com.urna.urnacare.util;
 
 import org.apache.commons.lang3.RandomStringUtils;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 
 public final class RandomUtil {
 
@@ -40,4 +43,5 @@ public final class RandomUtil {
     public static String generateRandomAlphaNumeric(int count) {
         return RandomStringUtils.randomNumeric(count);
     }
+
 }

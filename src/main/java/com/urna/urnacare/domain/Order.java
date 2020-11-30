@@ -10,6 +10,7 @@ import java.util.List;
 
 @Entity
 @Data
+@Table(name = "uc_order")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -17,8 +18,8 @@ public class Order {
     private Long patientId;
     private Long consultationId;
     @Embedded
-    private Address shippingAddress;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private OrderAddress shippingAddress;
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name="orderId", referencedColumnName="id")
     private List<OrderItem> items;
     @ManyToOne(fetch = FetchType.EAGER)
@@ -26,8 +27,9 @@ public class Order {
     private Carrier carrier;
     private BigDecimal deliveryCharge;
     private String shippingReferenceNumber; // courier reference
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name="orderId", referencedColumnName="id")
     private List<OrderStatusHistory> statusHistory;
+    private OrderStatus status; // this is the latest status of the order
 
 }
