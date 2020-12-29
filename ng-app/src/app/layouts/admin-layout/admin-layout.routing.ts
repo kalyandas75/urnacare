@@ -17,6 +17,7 @@ import { OrderInitComponent } from 'src/app/pages/order/order-init/order-init.co
 import { OrderFinishComponent } from 'src/app/pages/order/order-finish/order-finish.component';
 import { OrderSummaryComponent } from 'src/app/pages/order/order-summary/order-summary.component';
 import { PaymentResultComponent } from 'src/app/pages/order/payment-result/payment-result.component';
+import { JChatComponent } from "src/app/pages/jchat/jchat.component";
 
 export const AdminLayoutRoutes: Routes = [
   {
@@ -193,6 +194,18 @@ export const AdminLayoutRoutes: Routes = [
     data: {
       title: "paymentResult.title",
       authorities: ["ROLE_PATIENT"]
+    },
+    resolve: {
+      title: TitleResolver,
+    },
+    canActivate: [UserRouteAccessService],
+  },
+  {
+    path: "chat/:roomId",
+    component: JChatComponent,
+    data: {
+      title: "jChat.title",
+      authorities: ["ROLE_PATIENT", "ROLE_DOCTOR"]
     },
     resolve: {
       title: TitleResolver,

@@ -96,9 +96,11 @@ export class PatientAppointmentListComponent implements OnInit, OnDestroy {
   }
   
   openChat(roomId: string, name: String) {
-    const modalRef = this.modalService.open(ChatComponent,  { size: 'sm', scrollable: true, centered: false, backdrop: 'static' });
+   /* const modalRef = this.modalService.open(ChatComponent,  { size: 'sm', scrollable: true, centered: false, backdrop: 'static' });
     modalRef.componentInstance.roomId = roomId;
     modalRef.componentInstance.partner = name;
+    */
+   this.router.navigate(['/chat', roomId]);
   }
 
   initOrder(consultationId) {

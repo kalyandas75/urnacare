@@ -21,7 +21,7 @@
                             <td>Dr. {{ a.doctorFirstName }} {{ a.doctorLastName }}</td>
                             <td>{{ a.scheduledDate | date: 'MMM d, y, h:mm a' }}</td>
                             <td>
-                                <a class="btn btn-sm btn-warning" href="javascript: void(0)" *ngIf="a.enableChat" (click)="openChat(a.uniquieKey, 'Dr' + a.doctorFirstName + ' ' + a.doctorLastName)" >Chat</a> <!-- *ngIf="a.enableChat" -->
+                                <a class="btn btn-sm btn-warning" href="javascript: void(0)" (click)="openChat(a.uniquieKey, 'Dr ' + a.doctorFirstName + ' ' + a.doctorLastName)" *ngIf="a.enableChat">Chat</a> <!--  -->
                                 <button class="btn btn-sm btn-info" *ngIf="completed && !!a.consultationId" (click)="openConsultation(a)">View Consultation</button>
                                 <span *ngIf="completed && !a.consultationId">Missed</span>
                                 &nbsp;<button class="btn btn-sm btn-secondary" *ngIf="completed && !!a.consultationId" (click)="initOrder(a.consultationId)">Place Order</button>

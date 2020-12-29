@@ -38,6 +38,7 @@ import { OrderInitComponent } from 'src/app/pages/order/order-init/order-init.co
 import { OrderFinishComponent } from 'src/app/pages/order/order-finish/order-finish.component';
 import { OrderSummaryComponent } from 'src/app/pages/order/order-summary/order-summary.component';
 import { PaymentResultComponent } from 'src/app/pages/order/payment-result/payment-result.component';
+import { JChatComponent } from "src/app/pages/jchat/jchat.component";
 
 @NgModule({
   imports: [
@@ -81,7 +82,8 @@ import { PaymentResultComponent } from 'src/app/pages/order/payment-result/payme
     OrderInitComponent, 
     OrderFinishComponent, 
     OrderSummaryComponent, 
-    PaymentResultComponent
+    PaymentResultComponent,
+    JChatComponent
   ],
   entryComponents: [
     AppointmentRequestEditComponent,

@@ -33,7 +33,8 @@
               "src/assets/css/nucleo-icons.css"
             ],
             "scripts": [
-              "src/socket.io.js"
+              "src/socket.io.js",
+              "src/assets/js/jitsi_api.js"
             ],
             "es5BrowserSupport": true
           },
