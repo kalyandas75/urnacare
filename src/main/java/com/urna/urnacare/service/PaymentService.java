@@ -5,6 +5,7 @@ import com.urna.urnacare.domain.*;
 import com.urna.urnacare.dto.PayUMoneyPaymentResponseDTO;
 import com.urna.urnacare.dto.PaymentRequestDTO;
 import com.urna.urnacare.dto.PaymentRequestItemDTO;
+import com.urna.urnacare.enumeration.OrderStatus;
 import com.urna.urnacare.enumeration.PaymentMode;
 import com.urna.urnacare.enumeration.PaymentStatus;
 import com.urna.urnacare.errors.BadRequestAlertException;
@@ -154,13 +155,16 @@ public class PaymentService {
 
         if("success".equals(paymentResponseDTO.getStatus())) {
             payment.setStatus(PaymentStatus.Success);
+            order.setStatus(OrderStatus.PAID);
+            this.orderRepository.save(order);
         } else if("failed".equals(paymentResponseDTO.getStatus())) {
-            payment.setStatus(PaymentStatus.Success);
+            payment.setStatus(PaymentStatus.Failed);
         } else {
             payment.setStatus(PaymentStatus.Other);
         }
         payment.setResponseOn(Instant.now());
         payment.setPaymentResponse(paymentResponseDump);
+        this.paymentRepository.save(payment);
         return paymentResponseDTO.getStatus();
     }
 
