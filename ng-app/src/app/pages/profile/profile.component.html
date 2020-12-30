@@ -101,6 +101,19 @@
                             </div>
                             <div class="form-row">
                                 <div class="col-md-6">
+                                    <label>Visiting Fees</label>
+                                    <input type="text" class="form-control" placeholder="Visiting Fees"
+                                        formControlName="fees"
+                                        [ngClass]="{ 'is-invalid': submitted && f.fees.errors }">
+                                    <div class="invalid-feedback" style="display: block;"
+                                        *ngIf="submitted && f.fees.invalid">
+                                        <div *ngIf="f.fees.errors.max">Fees cannot be more than INR 99999</div>
+                                        <div *ngIf="f.fees.errors.min">Fees cannot be less than INR 0</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-6">
                                     <label>Qualifications</label>
                                     <button class="btn btn-link btn-info" type="button" (click)="addQualification()">
                                         <i class="tim-icons icon-simple-add"></i>

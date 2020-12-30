@@ -2,8 +2,11 @@ package com.urna.urnacare.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.math.BigDecimal;
 import java.util.List;
 
 @Data
@@ -18,4 +21,6 @@ public class DoctorDTO extends UserDTO {
     private List<String> otherSpecialities;
     private List<String> qualifications;
     private String practice;
+    @Digits(integer=5, fraction=2)
+    private BigDecimal fees;
 }

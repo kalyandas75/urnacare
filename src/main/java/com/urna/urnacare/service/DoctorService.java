@@ -46,6 +46,7 @@ public class DoctorService {
                     doctor.setPhoneNumber(doctorDTO.getPhoneNumber());
                     doctor.setAlternatePhoneNumber(doctorDTO.getAlternatePhoneNumber());
                     doctor.setGender(doctorDTO.getGender());
+                    doctor.setFees(doctorDTO.getFees());
                     return this.doctorMapper.toDto(this.doctorRepository.save(doctor));
                 });
     }

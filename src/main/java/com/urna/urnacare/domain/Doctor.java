@@ -8,6 +8,7 @@ import org.hibernate.annotations.TypeDef;
 import org.hibernate.annotations.TypeDefs;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
@@ -30,4 +31,6 @@ public class Doctor extends User {
     private String practice;
     @Column(nullable = false)
     private String registrationNumber;
+    @Column(precision = 7, scale = 2)
+    private BigDecimal fees;
 }

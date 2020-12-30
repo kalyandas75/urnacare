@@ -48,7 +48,8 @@ export class ProfileComponent implements OnInit {
         primarySpeciality: [this.profile.primarySpeciality, [Validators.required]],
         qualifications: this.fb.array([], {updateOn: 'blur'}),
         otherSpecialities: this.fb.array([]),
-        addresses: this.fb.array([])
+        addresses: this.fb.array([]),
+        fees: [!this.profile.fees ? 0 : this.profile.fees, [Validators.max(99999), Validators.min(0)]]
       });
       if(this.profile.qualifications && this.profile.qualifications.length > 0) {
         this.profile.qualifications.forEach(q => {

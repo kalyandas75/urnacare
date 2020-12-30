@@ -149,6 +149,7 @@ public class AccountController {
 
     @PostMapping("/account-doctor")
     public void saveDoctorAccount(@Valid @RequestBody DoctorDTO doctorDTO) {
+        System.out.println("request to save doctor profile " + doctorDTO);
         final String userLogin = SecurityUtils.getCurrentUserLogin().orElseThrow(() -> new InternalServerErrorException("Current user login not found"));
         Optional<User> existingUser = userRepository.findOneByEmailIgnoreCase(doctorDTO.getEmail());
         if (existingUser.isPresent() && (!existingUser.get().getEmail().equalsIgnoreCase(userLogin))) {
