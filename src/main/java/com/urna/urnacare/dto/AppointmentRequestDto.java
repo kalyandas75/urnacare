@@ -2,6 +2,7 @@ package com.urna.urnacare.dto;
 
 
 import com.urna.urnacare.enumeration.AppointmentRequestStatus;
+import com.urna.urnacare.enumeration.PaymentStatus;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -32,4 +33,5 @@ public class AppointmentRequestDto implements Serializable {
     private AppointmentRequestStatus requestStatus;
     private LocalDateTime createdAt;
     private String rejectReason;
+    private PaymentStatus paymentStatus;
 }

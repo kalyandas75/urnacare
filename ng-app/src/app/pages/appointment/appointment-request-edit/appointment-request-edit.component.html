@@ -1,14 +1,29 @@
-
 <div class="modal-header">
-    <h4 class="modal-title">Appointment Booking Request</h4>
-    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <form [formGroup]="form" (ngSubmit)="onCreate()">
-        <formly-form [model]="model" [fields]="fields" [options]="options" [form]="form"></formly-form>
-        <button type="submit" class="btn btn-success submit-button btn-sm float-right" [disabled]="!form.valid">Submit</button>
-    </form>
-
-    </div>
+  <h4 class="modal-title">Appointment Booking Request</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="form" (ngSubmit)="onCreate()" *ngIf="!paymentRequest">
+    <formly-form [model]="model" [fields]="fields" [options]="options" [form]="form"></formly-form>
+    <button type="submit" class="btn btn-success submit-button btn-sm float-right"
+      [disabled]="!form.valid">Submit</button>
+  </form>
+  <form ngNoForm action="{{ paymentRequest.payurl}}" name="payuform" method="POST" *ngIf="paymentRequest">
+    <input type="hidden" name="productinfo" [(ngModel)]="paymentRequest.productInfo">
+    <input type="hidden" name="firstname" [(ngModel)]="paymentRequest.firstName">
+    <input type="hidden" name="lastname" [(ngModel)]="paymentRequest.lastName">
+    <input type="hidden" name="email" [(ngModel)]="paymentRequest.email">
+    <input type="hidden" name="amount" [(ngModel)]="paymentRequest.amount">
+    <input type="hidden" name="phone" [(ngModel)]="paymentRequest.phone">
+    <input type="hidden" name="udf1" [(ngModel)]="paymentRequest.udf1">
+    <input type="hidden" name="key" [(ngModel)]="paymentRequest.key">
+    <input type="hidden" name="hash" [(ngModel)]="paymentRequest.hash">
+    <input type="hidden" name="txnid" [(ngModel)]="paymentRequest.txnId">
+    <input type="hidden" name="surl" [(ngModel)]="paymentRequest.surl">
+    <input type="hidden" name="furl" [(ngModel)]="paymentRequest.furl">
+    <input type="hidden" name="service_provider" [(ngModel)]="paymentRequest.serviceProvider">
+    <button type="submit" class="btn btn-info float-right">Confirm and Pay {{ paymentRequest.amount | currency:'INR'}}</button>
+  </form>
+</div>

@@ -18,6 +18,7 @@ export class AppointmentRequestEditComponent implements OnInit {
   form = new FormGroup({});
   model: any = {};
   options: FormlyFormOptions = {};
+  paymentRequest;
 
   fields: FormlyFieldConfig[] = [
     {
@@ -108,9 +109,11 @@ export class AppointmentRequestEditComponent implements OnInit {
     console.log(aptreq);
     this.appointmentService.createAppointmentRequest(aptreq)
     .subscribe(res => {
-      this.appointmentService.refreshListEmitter.emit();
-      this.toastr.success('Appointment Created Succesfully');
-      this.activeModal.close('Y');
+      console.log('RESPONSE', res.body);
+      //this.appointmentService.refreshListEmitter.emit();
+      //this.toastr.success('Appointment Created Succesfully');
+      //this.activeModal.close('Y');
+      this.paymentRequest = res.body;
     }, err => {
       this.toastr.error('Could not book an appointment');
     });

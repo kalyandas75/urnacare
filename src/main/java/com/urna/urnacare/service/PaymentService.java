@@ -9,9 +9,7 @@ import com.urna.urnacare.enumeration.OrderStatus;
 import com.urna.urnacare.enumeration.PaymentMode;
 import com.urna.urnacare.enumeration.PaymentStatus;
 import com.urna.urnacare.errors.BadRequestAlertException;
-import com.urna.urnacare.repository.OrderRepository;
-import com.urna.urnacare.repository.PaymentRepository;
-import com.urna.urnacare.repository.UserRepository;
+import com.urna.urnacare.repository.*;
 import com.urna.urnacare.util.GenericUtil;
 import com.urna.urnacare.util.RandomUtil;
 import org.springframework.stereotype.Service;
@@ -31,13 +29,112 @@ public class PaymentService {
     private final ApplicationProperties applicationProperties;
     private final OrderRepository orderRepository;
     private final UserRepository userRepository;
+    private final AppointmentRequestRepository appointmentRequestRepository;
+    private final AppointmentPaymentRepository appointmentPaymentRepository;
 
-    public PaymentService(PaymentRepository paymentRepository, ApplicationProperties applicationProperties, OrderRepository orderRepository, UserRepository userRepository) {
+    public PaymentService(PaymentRepository paymentRepository, ApplicationProperties applicationProperties, OrderRepository orderRepository, UserRepository userRepository, AppointmentRequestRepository appointmentRequestRepository, AppointmentPaymentRepository appointmentPaymentRepository) {
         this.paymentRepository = paymentRepository;
         this.applicationProperties = applicationProperties;
-
         this.orderRepository = orderRepository;
         this.userRepository = userRepository;
+        this.appointmentRequestRepository = appointmentRequestRepository;
+        this.appointmentPaymentRepository = appointmentPaymentRepository;
+    }
+
+    public PaymentRequestDTO visitingFeesInit(Long appointmentRequestId) {
+        Optional<AppointmentRequest>  appointmentRequestOptional = this.appointmentRequestRepository.findById(appointmentRequestId);
+        if(!appointmentRequestOptional.isPresent()) {
+            throw new BadRequestAlertException("Appointment Request not found", "appointmentRequest", "notFound");
+        }
+        AppointmentRequest appointmentRequest = appointmentRequestOptional.get();
+        Doctor doctor = appointmentRequest.getDoctor();
+        BigDecimal fees = doctor.getFees();
+        if(fees == null || fees == BigDecimal.ZERO) {
+            throw new BadRequestAlertException("Doctor has not yet set fees", "doctor", "feesNotSet");
+        }
+        //         paymentRequestItemDTO.setDescription("Visiting fees for doctor's (Dr. " +    doctor.getFirstName() + " " + doctor.getLastName() + ")");
+
+        String trxnId = RandomUtil.generateRandomAlphaNumeric(15);
+        AppointmentPayment payment = new AppointmentPayment();
+        payment.setMode(PaymentMode.PAYUM);
+        payment.setAppointmentRequestId(appointmentRequestId);
+        payment.setStatus(PaymentStatus.Pending);
+        payment.setTransactionId(trxnId);
+        payment.setAmount(fees);
+        payment = this.appointmentPaymentRepository.save(payment);
+
+        String formattedAmount = GenericUtil.formatAmount(fees);
+        PaymentRequestDTO paymentRequestDTO = new PaymentRequestDTO();
+        paymentRequestDTO.setAmount(formattedAmount);
+        User user = appointmentRequest.getPatient();
+        paymentRequestDTO.setEmail(user.getEmail());
+        paymentRequestDTO.setFirstName(user.getFirstName());
+        paymentRequestDTO.setLastName(user.getLastName());
+        paymentRequestDTO.setPhone(user.getPhoneNumber());
+        paymentRequestDTO.setProductInfo("Visiting fees for doctor's (Dr. " +    doctor.getFirstName() + " " + doctor.getLastName() + ")");
+        paymentRequestDTO.setKey(applicationProperties.getPayment().getMerchantKey());
+        paymentRequestDTO.setSUrl(applicationProperties.getPayment().getVfcallbackUrl());
+        paymentRequestDTO.setFUrl(applicationProperties.getPayment().getVfcallbackUrl());
+        paymentRequestDTO.setPayurl(applicationProperties.getPayment().getPayurl());
+        paymentRequestDTO.setTxnId(payment.getTransactionId());
+        String unHashed = applicationProperties.getPayment().getMerchantKey()
+                + "|" + payment.getTransactionId()
+                + "|" + formattedAmount
+                + "|" + paymentRequestDTO.getProductInfo()
+                + "|" + user.getFirstName()
+                + "|" + user.getEmail()
+                + "|" + payment.getId()
+                + "|||||||||"
+                + "|" + applicationProperties.getPayment().getMerchantSalt();
+        paymentRequestDTO.setHash(GenericUtil.calculateHash("SHA-512", unHashed));
+        paymentRequestDTO.setUdf1(payment.getId() + "");
+        return paymentRequestDTO;
+    }
+
+    public String handleVisitingFeesPaymentResponse(PayUMoneyPaymentResponseDTO paymentResponseDTO, String paymentResponseDump) {
+        String transactionId = paymentResponseDTO.getTxnid();
+        AppointmentPayment payment = this.appointmentPaymentRepository.findOneByTransactionId(transactionId);
+        if(payment == null) {
+            return "Payment Not Found";
+        }
+        Optional<AppointmentRequest> appointmentRequestOptional = this.appointmentRequestRepository.findById(payment.getAppointmentRequestId());
+        if(!appointmentRequestOptional.isPresent()) {
+            throw new BadRequestAlertException("Appointment Request not found", "appointmentRequest", "notFound");
+        }
+        AppointmentRequest appointmentRequest = appointmentRequestOptional.get();
+        Doctor doctor = appointmentRequest.getDoctor();
+        BigDecimal fees = payment.getAmount();
+        String productInfo = "Visiting fees for doctor's (Dr. " +    doctor.getFirstName() + " " + doctor.getLastName() + ")";
+        User patient = appointmentRequest.getPatient();
+        String receivedHash = paymentResponseDTO.getHash();
+        String calculatedUnhashed = applicationProperties.getPayment().getMerchantSalt() + "|" +
+                paymentResponseDTO.getStatus() + "|" +
+                "|||||||||" +
+                payment.getId() + "|" +
+                patient.getEmail() + "|" +
+                patient.getFirstName() + "|" +
+                productInfo + "|" +
+                GenericUtil.formatAmount(fees) + "|" +
+                payment.getTransactionId() + "|" +
+                applicationProperties.getPayment().getMerchantKey();
+        String calculatedHash = GenericUtil.calculateHash("SHA-512", calculatedUnhashed);
+        if(!receivedHash.equals(calculatedHash)) {
+            return "Check sum failed";
+        }
+
+        if("success".equals(paymentResponseDTO.getStatus())) {
+            payment.setStatus(PaymentStatus.Success);
+            appointmentRequest.setPaymentStatus(PaymentStatus.Success);
+            this.appointmentRequestRepository.save(appointmentRequest);
+        } else if("failed".equals(paymentResponseDTO.getStatus())) {
+            payment.setStatus(PaymentStatus.Failed);
+        } else {
+            payment.setStatus(PaymentStatus.Other);
+        }
+        payment.setResponseOn(Instant.now());
+        payment.setPaymentResponse(paymentResponseDump);
+        this.appointmentPaymentRepository.save(payment);
+        return paymentResponseDTO.getStatus();
     }
 
     public PaymentRequestDTO paymentInit(Long orderId) {

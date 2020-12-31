@@ -387,6 +387,8 @@ public class ApplicationProperties {
         private String callbackUrl;
         private String payurl;
         private String callbackResponseUrl;
+        private String vfcallbackUrl;
+        private String vfcallbackResponseUrl;
 
         public String getMerchantKey() {
             return merchantKey;
@@ -426,6 +428,22 @@ public class ApplicationProperties {
 
         public void setCallbackResponseUrl(String callbackResponseUrl) {
             this.callbackResponseUrl = callbackResponseUrl;
+        }
+
+        public String getVfcallbackUrl() {
+            return vfcallbackUrl;
+        }
+
+        public void setVfcallbackUrl(String vfcallbackUrl) {
+            this.vfcallbackUrl = vfcallbackUrl;
+        }
+
+        public String getVfcallbackResponseUrl() {
+            return vfcallbackResponseUrl;
+        }
+
+        public void setVfcallbackResponseUrl(String vfcallbackResponseUrl) {
+            this.vfcallbackResponseUrl = vfcallbackResponseUrl;
         }
     }
 

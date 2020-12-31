@@ -9,7 +9,8 @@
                     <tr>
                         <td>Doctor</td>
                         <td>Date/Time</td>
-                        <td>Status</td>
+                        <td>Approval Status</td>
+                        <td>Payment Status</td>
                     </tr>
                 </thead>
                 <tbody>
@@ -18,6 +19,7 @@
                             <td>Dr. {{ apmt.doctorFirstName }} {{ apmt.doctorLastName }}</td>
                             <td>{{ apmt.desiredDate | date : 'mediumDate' }}</td>
                             <td>{{ apmt.requestStatus }}</td>
+                            <td>{{ !apmt.paymentStatus ? 'Pending': apmt.paymentStatus }}</td>
                         </tr>
                     </ng-container>
                     <ng-container *ngIf="!(appointmentRequests && appointmentRequests.length > 0)">

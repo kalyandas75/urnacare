@@ -76,3 +76,5 @@ application:
     callbackUrl: http://localhost:8080/api/payments/callback
     payurl: https://sandboxsecure.payu.in/_payment
     callbackResponseUrl: http://localhost:4200/#/payment/result
+    vfcallbackUrl: http://localhost:4200/api/payments/vfcallback
+    vfcallbackResponseUrl: http://localhost:4200/#/payment/result

@@ -6,6 +6,7 @@ import com.urna.urnacare.domain.Doctor;
 import com.urna.urnacare.domain.User;
 import com.urna.urnacare.dto.AppointmentRequestDto;
 import com.urna.urnacare.enumeration.AppointmentRequestStatus;
+import com.urna.urnacare.enumeration.PaymentStatus;
 import com.urna.urnacare.mapper.AppointmentRequestMapper;
 import com.urna.urnacare.repository.AppointmentRepository;
 import com.urna.urnacare.repository.AppointmentRequestRepository;
@@ -69,12 +70,12 @@ public class AppointmentRequestService {
 
     public List<AppointmentRequestDto> getAllForPatient(Long patientId) {
         return this.appointmentRequestMapper.toDto(
-                this.appointmentRequestRepository.findByPatientIdAndRequestStatusOrderByCreatedAt(patientId, AppointmentRequestStatus.REQUESTED));
+                this.appointmentRequestRepository.findByPatientIdAndRequestStatusOrderByCreatedAtDesc(patientId, AppointmentRequestStatus.REQUESTED));
     }
 
     public List<AppointmentRequestDto> getAllForDoctor(Long doctorId) {
         return this.appointmentRequestMapper.toDto(
-                this.appointmentRequestRepository.findByDoctorIdAndRequestStatusOrderByDesiredDate(doctorId, AppointmentRequestStatus.REQUESTED));
+                this.appointmentRequestRepository.findByDoctorIdAndRequestStatusAndPaymentStatusOrderByDesiredDate(doctorId, AppointmentRequestStatus.REQUESTED, PaymentStatus.Success));
     }
 
 }

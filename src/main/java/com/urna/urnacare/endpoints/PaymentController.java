@@ -3,6 +3,7 @@ package com.urna.urnacare.endpoints;
 import com.urna.urnacare.config.ApplicationProperties;
 import com.urna.urnacare.dto.PayUMoneyPaymentResponseDTO;
 import com.urna.urnacare.dto.PaymentRequestDTO;
+import com.urna.urnacare.dto.PaymentResponseBundle;
 import com.urna.urnacare.service.PaymentService;
 import com.urna.urnacare.util.GenericUtil;
 import org.springframework.http.ResponseEntity;
@@ -24,16 +25,33 @@ public class PaymentController {
         this.applicationProperties = applicationProperties;
     }
 
-    @GetMapping("/init/{orderId}")
+    @GetMapping("/vf/init/{appointmentRequestId}")
+    public ResponseEntity<PaymentRequestDTO> initVistingFeesPayment(@PathVariable Long appointmentRequestId) {
+        PaymentRequestDTO paymentRequestDTO = this.paymentService.visitingFeesInit(appointmentRequestId);
+        return ResponseEntity.ok(paymentRequestDTO);
+    }
+    @PostMapping("/vfcallback")
+    public void vfcallback(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        PaymentResponseBundle bundle = getPaymentResponseBundle(request);
+        String status = this.paymentService.handleVisitingFeesPaymentResponse(
+                bundle.getResponseDTO(), bundle.getResponseString());
+        response.sendRedirect(this.applicationProperties.getPayment().getVfcallbackResponseUrl() + "?status=" + status + "&mode=vf");
+    }
+
+        @GetMapping("/init/{orderId}")
     public ResponseEntity<PaymentRequestDTO> initPayment(@PathVariable Long orderId) {
         PaymentRequestDTO paymentRequestDTO = this.paymentService.paymentInit(orderId);
         return ResponseEntity.ok(paymentRequestDTO);
     }
 
     @PostMapping("/callback")
-    void callback(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        System.out.println("response recieved ......");
-        System.out.println(request.getQueryString());
+    public void callback(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        PaymentResponseBundle bundle = this.getPaymentResponseBundle(request);
+        String status = this.paymentService.handlePaymentResponse(bundle.getResponseDTO(), bundle.getResponseString());
+        response.sendRedirect(this.applicationProperties.getPayment().getCallbackResponseUrl() + "?status=" + status);
+    }
+
+    private PaymentResponseBundle getPaymentResponseBundle(HttpServletRequest request) {
         Enumeration<String> enumeration = request.getParameterNames();
         String paymentResponse = "{";
         PayUMoneyPaymentResponseDTO responseDTO = new PayUMoneyPaymentResponseDTO();
@@ -69,8 +87,10 @@ public class PaymentController {
         }
         paymentResponse+= "}";
 
-        String status = this.paymentService.handlePaymentResponse(responseDTO, paymentResponse);
-        response.sendRedirect(this.applicationProperties.getPayment().getCallbackResponseUrl() + "?status=" + status);
+        PaymentResponseBundle paymentResponseBundle = new PaymentResponseBundle();
+        paymentResponseBundle.setResponseDTO(responseDTO);
+        paymentResponseBundle.setResponseString(paymentResponse);
+        return paymentResponseBundle;
     }
 
     public static void main(String[] args) {

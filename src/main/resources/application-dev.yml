@@ -84,3 +84,5 @@ application:
     callbackUrl: https://urnacare.technakriti.com:8443/api/payments/callback
     payurl: https://sandboxsecure.payu.in/_payment
     callbackResponseUrl: https://urnacare.technakriti.com:8443/#/payment/result
+    vfcallbackUrl: https://urnacare.technakriti.com:8443/api/payments/vfcallback
+    vfcallbackResponseUrl: https://urnacare.technakriti.com:8443/#/payment/result

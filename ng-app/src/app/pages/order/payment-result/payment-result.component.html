@@ -6,8 +6,12 @@
                     <h2>Payment Status</h2>
                 </div>
                 <div class="card-body">
-                    <span *ngIf="'success' === status">Your payment has been approved. We will be dispatching your medicines soon.</span>
+
+                    <span *ngIf="'success' === status && !mode">Your payment has been approved. We will be dispatching your medicines soon.</span>
+                    <span *ngIf="'success' === status && 'vf' === mode">Your payment has been approved, however your appointment is not confirmed yet. Doctor will schedule the appointment and we will let you know via your email. You can also see the status on the dashboard. If the doctor fails to schedule an appointment your money will be refunded.</span>
                     <span *ngIf="'success' !== status">Your payment has been not been approved. </span>
+                    <br>
+                    <a routerLink="/patient-appointment" class="btn" style="float: right;">Back to dashboard</a>
                 </div>
             </div>
         </div>

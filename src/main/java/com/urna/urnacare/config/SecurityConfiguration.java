@@ -110,6 +110,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/hello").permitAll()
                 .antMatchers("/api/v2/api-docs").permitAll()
                 .antMatchers("/api/payments/callback").permitAll()
+                .antMatchers("/api/payments/vfcallback").permitAll()
                 .antMatchers("/api/**").authenticated()
                 .antMatchers("/swagger-ui.html").permitAll()
                 .antMatchers("/management/health").permitAll()

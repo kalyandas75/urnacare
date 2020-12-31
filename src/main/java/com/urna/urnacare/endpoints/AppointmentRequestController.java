@@ -4,10 +4,12 @@ import com.urna.urnacare.domain.Appointment;
 import com.urna.urnacare.domain.User;
 import com.urna.urnacare.dto.AppointmentRequestDto;
 import com.urna.urnacare.dto.AppointmentRequestTimeDto;
+import com.urna.urnacare.dto.PaymentRequestDTO;
 import com.urna.urnacare.repository.UserRepository;
 import com.urna.urnacare.security.AuthoritiesConstants;
 import com.urna.urnacare.security.SecurityUtils;
 import com.urna.urnacare.service.AppointmentRequestService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
@@ -22,19 +24,22 @@ import java.util.List;
 public class AppointmentRequestController {
     private final AppointmentRequestService requestService;
     private final UserRepository userRepository;
+    private final PaymentController paymentController;
 
-    public AppointmentRequestController(AppointmentRequestService requestService, UserRepository userRepository) {
+    public AppointmentRequestController(AppointmentRequestService requestService, UserRepository userRepository, PaymentController paymentController) {
         this.requestService = requestService;
         this.userRepository = userRepository;
+        this.paymentController = paymentController;
     }
 
     @PostMapping
     @ResponseBody
     @PreAuthorize("hasRole(\"" + AuthoritiesConstants.PATIENT + "\")")
-    public AppointmentRequestDto create(@Valid @RequestBody AppointmentRequestDto appointmentRequest) {
+    public ResponseEntity<PaymentRequestDTO> create(@Valid @RequestBody AppointmentRequestDto appointmentRequest) {
         User patient = SecurityUtils.getCurrentUserLogin().map(userRepository::findOneByEmailIgnoreCase).get().get();
         appointmentRequest.setPatientId(patient.getId());
-        return this.requestService.create(appointmentRequest);
+        AppointmentRequestDto appointmentRequestDto = this.requestService.create(appointmentRequest);
+        return this.paymentController.initVistingFeesPayment(appointmentRequestDto.getId());
     }
 
     @PostMapping("/approve/{id}")

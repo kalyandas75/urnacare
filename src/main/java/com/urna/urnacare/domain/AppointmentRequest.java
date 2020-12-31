@@ -1,6 +1,7 @@
 package com.urna.urnacare.domain;
 
 import com.urna.urnacare.enumeration.AppointmentRequestStatus;
+import com.urna.urnacare.enumeration.PaymentStatus;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -47,6 +48,10 @@ public class AppointmentRequest {
 
     @Column
     private String rejectReason;
+
+    @Column
+    @Enumerated(EnumType.STRING)
+    private PaymentStatus paymentStatus;
 
 
     public Long getId() {
@@ -153,6 +158,14 @@ public class AppointmentRequest {
         this.rejectReason = rejectReason;
     }
 
+    public PaymentStatus getPaymentStatus() {
+        return paymentStatus;
+    }
+
+    public void setPaymentStatus(PaymentStatus paymentStatus) {
+        this.paymentStatus = paymentStatus;
+    }
+
     @Override
     public String toString() {
         return "AppointmentRequest{" +
@@ -169,6 +182,7 @@ public class AppointmentRequest {
                 ", requestStatus=" + requestStatus +
                 ", createdAt=" + createdAt +
                 ", rejectReason='" + rejectReason + '\'' +
+                ", paymentStatus=" + paymentStatus +
                 '}';
     }
 }

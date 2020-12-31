@@ -9,11 +9,13 @@ import { ActivatedRoute } from '@angular/router';
 export class PaymentResultComponent implements OnInit {
 
   status;
+  mode;
   constructor(private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.route.queryParamMap.subscribe(params => {
       this.status = params.get('status');
+      this.mode = params.get('mode');
     });
   }
 
