@@ -31,14 +31,16 @@ public class PaymentService {
     private final UserRepository userRepository;
     private final AppointmentRequestRepository appointmentRequestRepository;
     private final AppointmentPaymentRepository appointmentPaymentRepository;
+    private final OrderStatusHistoryRepository orderStatusHistoryRepository;
 
-    public PaymentService(PaymentRepository paymentRepository, ApplicationProperties applicationProperties, OrderRepository orderRepository, UserRepository userRepository, AppointmentRequestRepository appointmentRequestRepository, AppointmentPaymentRepository appointmentPaymentRepository) {
+    public PaymentService(PaymentRepository paymentRepository, ApplicationProperties applicationProperties, OrderRepository orderRepository, UserRepository userRepository, AppointmentRequestRepository appointmentRequestRepository, AppointmentPaymentRepository appointmentPaymentRepository, OrderStatusHistoryRepository orderStatusHistoryRepository) {
         this.paymentRepository = paymentRepository;
         this.applicationProperties = applicationProperties;
         this.orderRepository = orderRepository;
         this.userRepository = userRepository;
         this.appointmentRequestRepository = appointmentRequestRepository;
         this.appointmentPaymentRepository = appointmentPaymentRepository;
+        this.orderStatusHistoryRepository = orderStatusHistoryRepository;
     }
 
     public PaymentRequestDTO visitingFeesInit(Long appointmentRequestId) {
@@ -253,9 +255,28 @@ public class PaymentService {
         if("success".equals(paymentResponseDTO.getStatus())) {
             payment.setStatus(PaymentStatus.Success);
             order.setStatus(OrderStatus.PAID);
+            OrderStatusHistory orderStatusHistory = new OrderStatusHistory();
+            orderStatusHistory.setStatus(OrderStatus.PAID);
+            if(order.getStatusHistory() != null && order.getStatusHistory().size() > 0) {
+                order.getStatusHistory().add(orderStatusHistory);
+            } else {
+                List<OrderStatusHistory> orderStatusHistories = new ArrayList<>();
+                orderStatusHistories.add(orderStatusHistory);
+                order.setStatusHistory(orderStatusHistories);
+            }
             this.orderRepository.save(order);
         } else if("failed".equals(paymentResponseDTO.getStatus())) {
             payment.setStatus(PaymentStatus.Failed);
+            OrderStatusHistory orderStatusHistory = new OrderStatusHistory();
+            orderStatusHistory.setStatus(OrderStatus.PAYMENT_FAILED);
+            if(order.getStatusHistory() != null && order.getStatusHistory().size() > 0) {
+                order.getStatusHistory().add(orderStatusHistory);
+            } else {
+                List<OrderStatusHistory> orderStatusHistories = new ArrayList<>();
+                orderStatusHistories.add(orderStatusHistory);
+                order.setStatusHistory(orderStatusHistories);
+            }
+            this.orderRepository.save(order);
         } else {
             payment.setStatus(PaymentStatus.Other);
         }
