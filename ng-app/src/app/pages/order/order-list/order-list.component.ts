@@ -58,5 +58,7 @@ export class OrderListComponent implements OnInit {
     }
     return total;
   }
-
+  pageChange() {
+    this.loadAll();
+  }
 }
