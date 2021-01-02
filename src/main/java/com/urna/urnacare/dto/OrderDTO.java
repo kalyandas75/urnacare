@@ -14,6 +14,10 @@ import java.util.List;
 public class OrderDTO implements Serializable {
     private Long id ;
     private Long patientId;
+    private String patientFirstName;
+    private String patientLastName;
+    private String patientEmail;
+    private String patientPhoneNumber;
     private Long consultationId;
     private OrderAddress shippingAddress;
     private List<OrderItemDTO> items;

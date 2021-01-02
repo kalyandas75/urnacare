@@ -57,6 +57,13 @@ export const ROUTES: RouteInfo[] = [
     icon: "icon-notes",
     class: "",
     authorities: ['ROLE_ADMIN', 'ROLE_SUPPORT']
+  },
+  {
+    path: "/orders",
+    title: "Orders",
+    icon: "icon-notes",
+    class: "",
+    authorities: ['ROLE_ADMIN', 'ROLE_SUPPORT', 'ROLE_PATIENT']
   }
 ];
 

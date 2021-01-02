@@ -1,0 +1,80 @@
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h2>Orders</h2>
+                </div>
+                <div class="card-body">
+                    <ngb-accordion #a="ngbAccordion" *ngIf="orders && orders.length > 0">
+                        <ngb-panel *ngFor="let order of orders; let i=index;" id="order-panel-{{ i }}" >
+                            <ng-template ngbPanelHeader let-opened="opened">
+                                <hr>
+
+                                <div class="d-flex align-items-center justify-content-between">
+                                  <h5 class="m-0">Order# {{ order.id }} - {{ order.status }}</h5>
+                                  <button ngbPanelToggle class="btn btn-link p-0">
+                                      <i class="tim-icons icon-minimal-down" *ngIf="!opened"></i>
+                                      <i class="tim-icons icon-minimal-up" *ngIf="opened"></i>
+                                    </button>
+
+                                </div>
+                              </ng-template>
+                              <ng-template ngbPanelContent>
+                                  <ng-container *ngIf="accountService.hasAnyAuthority(['ROLE_ADMIN', 'ROLE_SUPPORT'])">
+                                    <h5>{{ order.patientFirstName }} {{ order.patientLastName }}</h5>
+                                  </ng-container>
+                                  <h5>Order Items</h5>
+                                  <div class="table-responsive">
+                                    <table class="table tablesorter">
+                                        <thead class="text-primary">
+                                            <tr>
+                                                <th>Medicine</th>
+                                                <th>Qty</th>
+                                                <th>Unit Price</th>
+                                                <th>Total</th>
+                                                <th>Discount</th>
+                                                <th>Taxes</th>
+                                                <th>Net</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let item of order.items">
+                                                <td>{{ item.drugBrand }} - {{ item.drugStrength }} {{ item.drugFormulation }}</td>
+                                                <td>{{ item.quantity }}</td>
+                                                <td>{{ item.pricePerUnit | currency:'INR' }}</td>
+                                                <td>{{ getTotal(item) | currency:'INR' }}</td>
+                                                <td>{{ getDiscount(item) | currency:'INR'  }}</td>
+                                                <td>{{ getTaxes(item) | currency:'INR'  }}</td>
+                                                <td>{{ getNet(item) | currency:'INR'  }}</td>
+                                            </tr>
+                                        </tbody>
+                                        <tfoot class="text-primary">
+                                            <tr>
+                                                <td colspan="6" style="color: rgba(34, 42, 66, 0.7);">Total</td>
+                                                <td style="color: rgba(34, 42, 66, 0.7);">{{ getTotalOfItems(order.items) | currency:'INR' }}</td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                  </div>
+                                  <h5>Shipping Address</h5>
+                                  <div class="d-flex align-items-center justify-content-between" *ngIf="order.shippingAddress">
+                                    <label>{{ order.shippingAddress.address }}, {{ order.shippingAddress.city }} - {{ order.shippingAddress.pin }}, {{ order.shippingAddress.state }}</label>
+                                  </div>
+                                  <div class="d-flex align-items-center justify-content-between" *ngIf="!order.shippingAddress">
+                                    <label>NONE PROVIDED</label>
+                                  </div>
+
+                              </ng-template>
+                        </ngb-panel>
+                    </ngb-accordion>
+                </div>
+                <div class="card-footer">
+                    <ngb-pagination [collectionSize]="totalSize" [(page)]="page" [pageSize]="size"
+                        (pageChange)="pageChange()" size="md" class="d-flex justify-content-end">
+                    </ngb-pagination>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -189,7 +189,7 @@ public class PaymentService {
         String formattedAmount = GenericUtil.formatAmount(orderAmount[0]);
         PaymentRequestDTO paymentRequestDTO = new PaymentRequestDTO();
         paymentRequestDTO.setAmount(formattedAmount);
-        User user = this.userRepository.getOne(order.getPatientId());
+        User user = order.getPatient();
         paymentRequestDTO.setEmail(user.getEmail());
         paymentRequestDTO.setItems(paymentRequestItemDTOS);
         paymentRequestDTO.setFirstName(user.getFirstName());
@@ -235,7 +235,7 @@ public class PaymentService {
             orderAmount[0] = orderAmount[0].add(netItemAmount);
         });
         String productInfo = "Medicine purchase against order id:" + order.getId();
-        User patient = this.userRepository.findById(order.getPatientId()).get();
+        User patient = order.getPatient();
         String receivedHash = paymentResponseDTO.getHash();
         String calculatedUnhashed = applicationProperties.getPayment().getMerchantSalt() + "|" +
                 paymentResponseDTO.getStatus() + "|" +

@@ -7,7 +7,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { AdminLayoutRoutes } from "./admin-layout.routing";
 import { DashboardComponent } from "../../pages/dashboard/dashboard.component";
 
-import { NgbModule, NgbModalModule } from "@ng-bootstrap/ng-bootstrap";
+import { NgbModule, NgbModalModule, NgbAccordionModule } from "@ng-bootstrap/ng-bootstrap";
 import { SharedModule } from "src/app/shared/shared.module";
 import { IngredientComponent } from "src/app/pages/ingredient/ingredient.component";
 import { PatientAppointmentRequestComponent } from "src/app/pages/appointment/patient-appointment-request/patient-appointment-request.component";
@@ -39,6 +39,7 @@ import { OrderFinishComponent } from 'src/app/pages/order/order-finish/order-fin
 import { OrderSummaryComponent } from 'src/app/pages/order/order-summary/order-summary.component';
 import { PaymentResultComponent } from 'src/app/pages/order/payment-result/payment-result.component';
 import { JChatComponent } from "src/app/pages/jchat/jchat.component";
+import { OrderListComponent } from "src/app/pages/order/order-list/order-list.component";
 
 @NgModule({
   imports: [
@@ -52,6 +53,7 @@ import { JChatComponent } from "src/app/pages/jchat/jchat.component";
     ReactiveFormsModule,
     NgbModalModule,
     FormlyModule,
+    NgbAccordionModule
   ],
   declarations: [
     DashboardComponent,
@@ -83,7 +85,8 @@ import { JChatComponent } from "src/app/pages/jchat/jchat.component";
     OrderFinishComponent, 
     OrderSummaryComponent, 
     PaymentResultComponent,
-    JChatComponent
+    JChatComponent,
+    OrderListComponent
   ],
   entryComponents: [
     AppointmentRequestEditComponent,

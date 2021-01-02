@@ -23,4 +23,8 @@ export class OrderService {
   updateShippingAddress(orderId, shippingAddress) {
     return this.http.put(SERVICE_API_URL + '/orders/shipping-address/' + orderId, shippingAddress, { observe: 'response'});
   }
+
+  getAll(pageable: { page: number, size: number, sort: string}) {
+    return this.http.get(SERVICE_API_URL + '/orders?page=' + pageable.page + '&size=' + pageable.size + '&sort=' + pageable.sort, { observe: 'response'});
+  }
 }

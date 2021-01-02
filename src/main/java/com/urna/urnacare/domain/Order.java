@@ -15,7 +15,9 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id ;
-    private Long patientId;
+    @ManyToOne
+    @JoinColumn(name="patient_id", nullable=false)
+    private User patient;
     private Long consultationId;
     @Embedded
     private OrderAddress shippingAddress;

@@ -10,6 +10,8 @@ import com.urna.urnacare.mapper.InventoryMapper;
 import com.urna.urnacare.mapper.OrderItemMapper;
 import com.urna.urnacare.mapper.OrderMapper;
 import com.urna.urnacare.repository.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -146,7 +148,7 @@ public class OrderService {
         order.setConsultationId(consultationId);
         order.setItems(orderItems);
         User patient = this.appointmentRepository.findByConsultationId(consultationId).getPatient();
-        order.setPatientId(patient.getId());
+        order.setPatient(patient);
         order.setItems(orderItems);
         OrderStatusHistory orderStatusHistory = new OrderStatusHistory();
         orderStatusHistory.setStatus(OrderStatus.CREATED);
@@ -202,6 +204,16 @@ public class OrderService {
             }
         }
         return price;
+    }
+
+    public Page<OrderDTO> getAll(Pageable pageable) {
+        return this.orderRepository.findAll(pageable)
+                .map(order -> this.orderMapper.toDto(order));
+    }
+
+    public Page<OrderDTO> getAllByPatient(Long patientId, Pageable pageable) {
+        return this.orderRepository.findByPatientId(patientId, pageable)
+                .map(order -> this.orderMapper.toDto(order));
     }
 
 

@@ -12,5 +12,6 @@ import java.util.List;
 
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
-    List<Order> findByConsultationIdAndStatus(Long consultationId, OrderStatus status);//Page<Order> findByOrderByCreationDateDesc(Pageable pageable);
+    List<Order> findByConsultationIdAndStatus(Long consultationId, OrderStatus status);
+    Page<Order> findByPatientId(Long patientId, Pageable pageable);
 }
