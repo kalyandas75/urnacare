@@ -4,6 +4,7 @@ import com.urna.urnacare.domain.OrderAddress;
 import com.urna.urnacare.domain.User;
 import com.urna.urnacare.dto.OrderDTO;
 import com.urna.urnacare.dto.OrderItemDTO;
+import com.urna.urnacare.dto.OrderStatusUpdateDTO;
 import com.urna.urnacare.dto.PrescriptionDrugQuantityDTO;
 import com.urna.urnacare.repository.UserRepository;
 import com.urna.urnacare.security.AuthoritiesConstants;
@@ -17,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -68,6 +70,13 @@ public class OrderController {
         }
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(results, "/api/orders");
         return new ResponseEntity<>(results != null ? results.getContent(): null, headers, HttpStatus.OK);
+    }
+
+    @PutMapping("/update-status/{id}")
+    @PreAuthorize("hasAnyRole(\"" + AuthoritiesConstants.ADMIN + "\",\"" + AuthoritiesConstants.SUPPORT + "\")")
+    public ResponseEntity<OrderDTO> updateStatusHistory(@PathVariable Long id, @RequestBody OrderStatusUpdateDTO statusUpdateDTO) {
+        OrderDTO orderDTO = this.orderService.updateOrderStatus(id, statusUpdateDTO);
+        return ResponseEntity.ok(orderDTO);
     }
 
 }

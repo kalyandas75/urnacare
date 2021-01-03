@@ -27,4 +27,8 @@ export class OrderService {
   getAll(pageable: { page: number, size: number, sort: string}) {
     return this.http.get(SERVICE_API_URL + '/orders?page=' + pageable.page + '&size=' + pageable.size + '&sort=' + pageable.sort, { observe: 'response'});
   }
+
+  updateStatus(orderId, statusAndComments) {
+    return this.http.put(SERVICE_API_URL + '/orders/update-status/' + orderId, statusAndComments, { observe: 'response'});
+  }
 }

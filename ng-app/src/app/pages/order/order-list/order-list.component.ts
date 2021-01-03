@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AccountService } from 'src/app/shared/service/account.service';
 import { OrderService } from 'src/app/shared/service/order.service';
+import { OrderStatusUpdateComponent } from '../order-status-update/order-status-update.component';
 
 @Component({
   selector: 'app-order-list',
@@ -13,7 +15,10 @@ export class OrderListComponent implements OnInit {
   size = 20;
   totalSize = 0;
   orders: any[];
-  constructor(private orderService: OrderService, private accountService: AccountService) { }
+  constructor(
+    private orderService: OrderService, 
+    private accountService: AccountService,
+    private modalService: NgbModal) { }
 
   ngOnInit(): void {
     this.loadAll();
@@ -60,5 +65,20 @@ export class OrderListComponent implements OnInit {
   }
   pageChange() {
     this.loadAll();
+  }
+
+  open(index: number, order: any) {
+    const modalRef = this.modalService.open(OrderStatusUpdateComponent, {
+      size: "md",
+      scrollable: true,
+      centered: false,
+      backdrop: "static",
+    });
+    modalRef.componentInstance.order = Object.assign({}, order);
+    modalRef.result.then(order => {
+      this.orders[index] = order;
+    }, reason => {
+      console.log(reason);
+    });
   }
 }

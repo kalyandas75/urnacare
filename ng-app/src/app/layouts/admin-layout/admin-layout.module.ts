@@ -40,6 +40,7 @@ import { OrderSummaryComponent } from 'src/app/pages/order/order-summary/order-s
 import { PaymentResultComponent } from 'src/app/pages/order/payment-result/payment-result.component';
 import { JChatComponent } from "src/app/pages/jchat/jchat.component";
 import { OrderListComponent } from "src/app/pages/order/order-list/order-list.component";
+import { OrderStatusUpdateComponent } from "src/app/pages/order/order-status-update/order-status-update.component";
 
 @NgModule({
   imports: [
@@ -86,7 +87,8 @@ import { OrderListComponent } from "src/app/pages/order/order-list/order-list.co
     OrderSummaryComponent, 
     PaymentResultComponent,
     JChatComponent,
-    OrderListComponent
+    OrderListComponent,
+    OrderStatusUpdateComponent
   ],
   entryComponents: [
     AppointmentRequestEditComponent,
@@ -97,7 +99,8 @@ import { OrderListComponent } from "src/app/pages/order/order-list/order-list.co
     ManufacturerEditComponent,
     InventoryEditComponent,
     CompositionEditComponent,
-    DrugEditComponent
+    DrugEditComponent,
+    OrderStatusUpdateComponent
   ],
 })
 export class AdminLayoutModule {}

@@ -1,0 +1,51 @@
+<div class="modal-header">
+    <h4 class="modal-title">Update Order Status</h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<!--
+        CREATED,
+    PAID,
+    PAYMENT_FAILED,
+    CARRIER_ASSIGNED, // at this stage carrier is assigned and waiting pickup
+    DISPATCHED, // at this stage carrier has picked item
+    DELIVERED,
+    RETURNED,
+    RETURN_RECEIVED,
+    LOST_IN_TRANSIT
+-->
+<div class="modal-body">
+    <form class="needs-validation" novalidate [formGroup]="statusForm" (ngSubmit)="onSubmit()">
+        <div class="form-row">
+            <div class="col-md-12">
+                <label>Status</label>
+                <select formControlName="status" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.status.errors }">
+                    <option value="CARRIER_ASSIGNED">Carrier Assigned</option>
+                    <option value="DISPATCHED">Dispatched</option>
+                    <option value="DELIVERED">Delivered</option>
+                    <option value="RETURNED">Returned</option>
+                    <option value="RETURN_RECEIVED">Return Recieved</option>
+                    <option value="LOST_IN_TRANSIT">Lost In Transit</option>
+                </select>
+                <div class="invalid-feedback" style="display: block" *ngIf="submitted && f.status.invalid">
+                    <div *ngIf="f.status.errors.required">Status is required</div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <label>Comments (write details like when dispatched, carrier name, waybill number etc.)</label>
+                <textarea formControlName="comments" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.comments.errors }"></textarea>
+                <div class="invalid-feedback" style="display: block" *ngIf="submitted && f.comments.invalid">
+                    <div *ngIf="f.comments.errors.required">Comments is required</div>
+                </div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-md-5 offset-md-7">
+              <button type="submit" class="btn btn-primary" [disabled]="loading">
+                Submit
+              </button>
+            </div>
+        </div>
+    </form>
+</div>

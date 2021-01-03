@@ -3,6 +3,7 @@ package com.urna.urnacare.service;
 import com.urna.urnacare.domain.*;
 import com.urna.urnacare.dto.OrderDTO;
 import com.urna.urnacare.dto.OrderItemDTO;
+import com.urna.urnacare.dto.OrderStatusUpdateDTO;
 import com.urna.urnacare.dto.PrescriptionDrugQuantityDTO;
 import com.urna.urnacare.enumeration.OrderStatus;
 import com.urna.urnacare.errors.BadRequestAlertException;
@@ -214,6 +215,24 @@ public class OrderService {
     public Page<OrderDTO> getAllByPatient(Long patientId, Pageable pageable) {
         return this.orderRepository.findByPatientId(patientId, pageable)
                 .map(order -> this.orderMapper.toDto(order));
+    }
+
+    public OrderDTO updateOrderStatus(Long orderId, OrderStatusUpdateDTO statusUpdateDTO) {
+        Optional<Order> optionalOrder = this.orderRepository.findById(orderId);
+        if(!optionalOrder.isPresent()) {
+            throw new BadRequestAlertException("Order not found", "order", "notFound");
+        }
+        Order order = optionalOrder.get();
+        if(order.getStatusHistory() == null) {
+            order.setStatusHistory(new ArrayList<>());
+        }
+        OrderStatusHistory statusHistory =  new OrderStatusHistory();
+        statusHistory.setStatus(statusUpdateDTO.getStatus());
+        statusHistory.setStatusDate(Instant.now());
+        statusHistory.setComments(statusUpdateDTO.getComments());
+        order.getStatusHistory().add(statusHistory);
+        order.setStatus(statusUpdateDTO.getStatus());
+        return this.orderMapper.toDto(this.orderRepository.save(order));
     }
 
 

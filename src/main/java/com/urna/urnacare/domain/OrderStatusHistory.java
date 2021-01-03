@@ -16,4 +16,5 @@ public class OrderStatusHistory {
     private OrderStatus status;
     @Column(columnDefinition = "TIMESTAMP")
     private Instant statusDate = Instant.now();
+    private String comments;
 }
