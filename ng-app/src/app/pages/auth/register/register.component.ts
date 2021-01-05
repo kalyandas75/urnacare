@@ -41,7 +41,7 @@ export class RegisterComponent implements OnInit {
   initPatientForm() {
     this.patientForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(16)]],
+      password: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(16)]],
       firstName: ['', [Validators.required]],
       lastName: ['', [Validators.required]],
       phoneNumber: ['', [Validators.required, Validators.pattern(PHONE_REGEX)]],
@@ -52,7 +52,7 @@ export class RegisterComponent implements OnInit {
   initDoctorForm() {
     this.doctorForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(16)]],
+      password: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(16)]],
       firstName: ['', [Validators.required]],
       lastName: ['', [Validators.required]],
       phoneNumber: ['', [Validators.required, Validators.pattern(PHONE_REGEX)]],

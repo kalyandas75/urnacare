@@ -70,8 +70,8 @@
                               [ngClass]="{ 'is-invalid': submitted && fP.password.errors }">
                               <div class= "invalid-feedback" style="display: block;" *ngIf="submitted && fP.password.invalid">
                                 <div *ngIf="fP.password.errors.required">Password is required</div>
-                                <div *ngIf="fP.password.errors.minLength">Password should be atleast 6 characters long</div>
-                                <div *ngIf="fP.password.errors.mmaxLength">Password should be atmost 16 characters long</div>
+                                <div *ngIf="fP.password.errors.minlength">Password should be atleast 6 characters long</div>
+                                <div *ngIf="fP.password.errors.maxlength">Password should be atmost 16 characters long</div>
                               </div>
                             </div>
                         </div>
@@ -137,8 +137,8 @@
                               [ngClass]="{ 'is-invalid': submitted && fD.password.errors }">
                               <div class= "invalid-feedback" style="display: block;" *ngIf="submitted && fD.password.invalid">
                                 <div *ngIf="fD.password.errors.required">Password is required</div>
-                                <div *ngIf="fD.password.errors.minLength">Password should be atleast 6 characters long</div>
-                                <div *ngIf="fD.password.errors.mmaxLength">Password should be atmost 16 characters long</div>
+                                <div *ngIf="fD.password.errors.minlength">Password should be atleast 6 characters long</div>
+                                <div *ngIf="fD.password.errors.maxlength">Password should be atmost 16 characters long</div>
                               </div>
                             </div>
                         </div>
