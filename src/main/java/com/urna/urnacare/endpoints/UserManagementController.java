@@ -4,6 +4,7 @@ import com.urna.urnacare.domain.User;
 import com.urna.urnacare.dto.UserDTO;
 import com.urna.urnacare.dto.UserRegistrationDTO;
 import com.urna.urnacare.errors.BadRequestAlertException;
+import com.urna.urnacare.errors.InternalServerErrorException;
 import com.urna.urnacare.mapper.UserMapper;
 import com.urna.urnacare.security.AuthoritiesConstants;
 import com.urna.urnacare.service.MailService;
@@ -24,6 +25,7 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
@@ -52,6 +54,24 @@ public class UserManagementController {
                     .headers(HeaderUtil.createAlert( "userManagement.created", String.valueOf(newUser.getId())))
                     .body(this.userMapper.toDto(newUser));
         }
+    }
+
+    @PutMapping("/users")
+    @PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\")")
+    public ResponseEntity<UserDTO> updateUser(@Valid @RequestBody UserRegistrationDTO userDTO) throws URISyntaxException {
+        log.debug("REST request to save User : {}", userDTO);
+        if (userDTO.getId() == null) {
+            throw new BadRequestAlertException("A user to be updated must have an id", "userManagement", "idNotExists");
+        } else {
+            Optional<UserDTO> optionalUserDTO = userService.update(userDTO);
+            if(optionalUserDTO.isPresent()) {
+                UserDTO result = optionalUserDTO.get();
+                return ResponseEntity.ok()
+                        .headers(HeaderUtil.createEntityUpdateAlert("user", result.getId().toString()))
+                        .body(result);
+            }
+        }
+        throw new InternalServerErrorException("Could not update user");
     }
 
     @GetMapping("/users")

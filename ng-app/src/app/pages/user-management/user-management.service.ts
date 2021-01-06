@@ -15,7 +15,12 @@ export class UserManagementService {
     return this.http.get(SERVICE_API_URL + '/users?page=' + pageable.page + '&size=' + pageable.size + '&sort=' + pageable.sort, { observe: 'response'});
   }
 
-  saveUser(user) {
-    return this.http.post(SERVICE_API_URL + '/users', user, { observe: 'response'});
+  saveUser(user, userId?) {
+    if(!userId) {
+      return this.http.post(SERVICE_API_URL + '/users', user, { observe: 'response'});
+    } else {
+      user.id = userId;
+      return this.http.put(SERVICE_API_URL + '/users', user, { observe: 'response'});
+    }
   }
 }

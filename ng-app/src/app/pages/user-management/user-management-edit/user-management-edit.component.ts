@@ -33,7 +33,7 @@ export class UserManagementEditComponent implements OnInit {
       lastName: [(!!this.user.email && !!this.user.lastName) ? this.user.lastName : '', [Validators.required]],
       phoneNumber: [(!!this.user.email && !!this.user.phoneNumber) ? this.user.phoneNumber : '' , [Validators.required, Validators.pattern(PHONE_REGEX)]],
       alternatePhoneNumber: [(!!this.user.email && !!this.user.alternatePhoneNumber) ? this.user.alternatePhoneNumber : '' , [Validators.pattern(PHONE_REGEX)]],
-      gender: [(!!this.user.email && !!this.user.gender) ? this.user.gender : ''],
+      gender: [(!!this.user.email && !!this.user.gender) ? this.user.gender : 'Other'],
       authority: [{ value: (!!this.user.email && !!this.user.authority) ? this.user.authority : '', disabled: !!this.user.email}, [Validators.required]],
       activated: [{value : !this.user.email ? true : this.user.activated, disabled: !this.user.email}]
     });
@@ -49,7 +49,7 @@ export class UserManagementEditComponent implements OnInit {
       return;
     }
     console.log('sending', this.form.value);
-    this.userManagementService.saveUser(this.form.value)
+    this.userManagementService.saveUser(this.form.value, this.user.id)
     .subscribe(res => {
       this.toastr.success('User saved successfully');
       this.userManagementService.reloadEmitter.emit();
