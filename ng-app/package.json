@@ -37,7 +37,8 @@
     "@ngx-formly/schematics": "5.10.1",
     "@ngx-formly/core": "5.10.1",
     "@ngx-formly/bootstrap": "5.10.1",
-    "rtcmulticonnection": "3.7.0"
+    "rtcmulticonnection": "3.7.0",
+    "ngx-spinner": "9.0.2"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "0.900.5",

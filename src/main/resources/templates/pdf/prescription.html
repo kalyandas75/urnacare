@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Prescription</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: small;
+            color: dimgray
+        }
+    </style>
+</head>
+
+<body>
+    <table style="border: 1px solid lightslategray; width: 100%;">
+        <tr>
+            <td style="background-color: gainsboro; padding: 50px; text-transform: uppercase;" colspan="2">
+                <b style="font-size: large;"
+                    th:text="${'Dr. ' + appointment.doctor.firstName + ' ' + appointment.doctor.lastName}">Registered
+                    Practioner's Name</b><br /><br />
+                <span th:each="qualification : ${appointment.doctor.qualifications}" th:object="${qualification}">
+                    <span th:text="${qualification}"></span>,
+                </span><br />
+                <span th:text="${appointment.doctor.registrationNumber}">Registration Number</span><br />
+                <div>
+                    <span th:each="address : ${appointment.doctor.addresses}" th:object="${address}"
+                        th:if="${address.type.name()} == 'PRACTICE'">
+                        <span th:text="*{address}"></span>,
+                        <span th:text="*{city}"></span>,
+                        <span th:text="*{state}"></span>
+                        <span th:text="*{pin}"></span>
+                    </span>
+                </div>
+                <span
+                    th:text="${'Phone:' + appointment.doctor.phoneNumber + ' Email:' + appointment.doctor.email}">Contact
+                    Details</span><br />
+            </td>
+        </tr>
+        <tr>
+            <td style="padding-left: 50px;" colspan="2">
+                <table style="width: 100%;">
+                    <tr>
+                        <td style="width: 25%;">Date of Consultation</td>
+                        <td style="width: 25%;">
+                            <span th:text="${#temporals.format(consultation.createdDate, 'dd/MM/yyyy HH:mm')}"></span><br/>
+                        </td>
+                        <td colspan="4"></td>
+                    </tr>
+                    <tr>
+                        <td style="width: 25%;">Name of Patient</td>
+                        <td style="width: 25%;">
+                            <span th:text="${ appointment.patient.firstName + ' ' + appointment.patient.lastName}"></span><br/>
+                        </td>
+                        <td>Age</td>
+                        <td></td>
+                        <td>Gender</td>
+                        <td><span th:text="${ appointment.patient.gender}"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width: 25%;">Address</td>
+                        <td style="width: 25%;" rowspan="3">
+                            <span th:each="address : ${appointment.patient.addresses}" th:object="${address}"
+                                  th:if="${address.type.name()} == 'MAILING'">
+                            <span th:text="*{address}"></span>,
+                            <span th:text="*{city}"></span>,
+                            <span th:text="*{state}"></span>
+                            <span th:text="*{pin}"></span>
+                            </span>
+                        </td>
+                        <td>Height</td>
+                        <td colspan="3"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"></td>
+                        <td>Weight</td>
+                        <td colspan="3"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="border-bottom: 1px solid lightslategray;"></td>
+                        <td style="border-bottom: 1px solid lightslategray;">LMP</td>
+                        <td colspan="3" style="border-bottom: 1px solid lightslategray;"></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td style="padding-left: 50px; vertical-align: top;">
+                <table style="width: 100%;">
+                    <tr>
+                        <td>
+                            <span style="text-transform: uppercase;"><b>Chief Complaints</b></span><br />
+                            <span th:text="${consultation.chiefComplaint}"></span><br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span style="text-transform: uppercase;"><b>Relevant points from history</b></span><br />
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span style="text-transform: uppercase;"><b>Examination/Lab Findings</b></span><br />
+                            <span th:text="${consultation.observation}"></span><br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td >
+                            <span style="text-transform: uppercase;"><b>Suggested Investigations</b></span><br />
+                            <span th:text="${consultation.suggestedInvestigation}"></span><br/>
+                        </td>
+                    </tr>
+                </table>
+
+            </td>
+            <td style="padding-left: 20px; vertical-align: top;">
+                <table style="width: 100%;">
+                    <tr>
+                        <td>
+                            <span style="text-transform: uppercase;"><b>Diagnosis and Provisional
+                                Diagnosis</b></span><br />
+                            <span th:text="${consultation.diagnosis}"></span><br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span><b>Rx</b></span><br />
+                            <span th:each="prescriptionDrug,iter : ${consultation.prescriptionDrugs}" th:object="${prescriptionDrug}">
+                                <span th:text="${iter.index + 1}"></span>
+                                <span th:text="*{drug.brand}"></span> - 
+                                <span th:text="*{drug.strength}"></span>
+                                <span th:text="*{ '(' + drug.composition.name + ')'}"></span>
+                                <span th:text="*{drug.formulation.name()}"></span> - 
+                                <span th:text="*{dose + ' ' + unit.name() }"></span> - 
+                                <span th:text="*{frequency.name() }"></span> x 
+                                <span th:text="*{duration + ' ' + durationUnit.name() }"></span>
+                                <br/>
+                            </span>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            
+            <td style="padding-left: 50px;" colspan="2">
+                <table style="width: 100%;">
+                    <tr>
+                        <td style="border-top: 1px solid lightslategray;">
+                            <span style="text-transform: uppercase;">Special Instructions</span><br />
+                            <span th:text="${consultation.specialInstructions}"></span><br/>
+                        </td>
+                    </tr>
+                </table>
+               
+            </td>
+        </tr>
+        <tr>
+            <td style="padding-left: 50px;" colspan="2">
+                <table style="width: 100%;">
+                    <tr>
+                        <td style="border-top: 1px solid lightslategray;">
+                            <span style="font-size: x-small;">Note: This prescription is generated on a teleconsultation</span><br />
+                            
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+
+</body>
+
+</html>

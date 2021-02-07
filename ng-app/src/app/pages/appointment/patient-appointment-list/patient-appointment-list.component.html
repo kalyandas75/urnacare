@@ -1,3 +1,4 @@
+<ngx-spinner></ngx-spinner>
 <div class="card">
     <div class=" card-header">
         <h4 class=" card-title">
@@ -25,6 +26,7 @@
                                 <button class="btn btn-sm btn-info" *ngIf="completed && !!a.consultationId" (click)="openConsultation(a)">View Consultation</button>
                                 <span *ngIf="completed && !a.consultationId">Missed</span>
                                 &nbsp;<button class="btn btn-sm btn-secondary" *ngIf="completed && !!a.consultationId" (click)="initOrder(a.consultationId)">Place Order</button>
+                                <button class="btn btn-sm btn-info" *ngIf="completed && !!a.consultationId" (click)="downloadPrescription(a.consultationId)">Download</button>
                             </td>
                         </tr>
                     </ng-container>

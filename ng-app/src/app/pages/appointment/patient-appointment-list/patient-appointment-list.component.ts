@@ -7,6 +7,8 @@ import { Subscription } from 'rxjs';
 import { ChatComponent } from '../../chat/chat.component';
 import { AppointmentService } from 'src/app/shared/service/appointment.service';
 import { Router } from '@angular/router';
+import { ConsultationService } from 'src/app/shared/service/consultation.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-patient-appointment-list',
@@ -23,7 +25,9 @@ export class PatientAppointmentListComponent implements OnInit, OnDestroy {
     private appointmentService: AppointmentService, 
     private toastr: ToastrService,
     private modalService: NgbModal,
-    private router: Router) { }
+    private router: Router,
+    private consultationService: ConsultationService,
+    private spinner: NgxSpinnerService) { }
 
 
   ngOnInit(): void {
@@ -105,5 +109,20 @@ export class PatientAppointmentListComponent implements OnInit, OnDestroy {
 
   initOrder(consultationId) {
     this.router.navigateByUrl('/order/init/' + consultationId);
+  }
+
+  downloadPrescription(consultationId: number) {
+    this.spinner.show();
+    this.consultationService.downloadPrescription(consultationId)
+    .subscribe(res => {
+      
+      var mediaType = 'application/pdf';
+      let blob = new Blob([res], { type: "application/pdf" });
+      let url = window.URL.createObjectURL(blob);
+      this.spinner.hide();
+      window.open(url);
+    }, err => {
+      this.spinner.hide();
+    });
   }
 }
